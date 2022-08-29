@@ -7,6 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "./Logo";
 import HeaderAction from "./HeaderAction";
 import HiddenScroll from "./HiddenScroll";
+import Search from "../Search";
 
 function HeaderMobile({ matches, props }) {
     const theme = useTheme();
@@ -35,7 +36,7 @@ function HeaderMobile({ matches, props }) {
                 <Toolbar
                     sx={{ alignItems: "center", justifyContent: "center" }}
                 >
-                    "search"
+                    <Search matches={matches} />
                 </Toolbar>
             </AppBar>
         </HiddenScroll>

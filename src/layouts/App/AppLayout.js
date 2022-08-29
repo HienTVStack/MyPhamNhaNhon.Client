@@ -26,7 +26,9 @@ function AppLayout() {
         <Box>
             <AppBarHeader />
             <Header />
-            <Outlet />
+            <Box mt={"160px"}>
+                <Outlet />
+            </Box>
         </Box>
     );
 }

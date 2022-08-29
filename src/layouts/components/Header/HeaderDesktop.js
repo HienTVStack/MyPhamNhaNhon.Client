@@ -1,4 +1,5 @@
 import { Container, Box, AppBar, Toolbar, Stack } from "@mui/material";
+import Search from "../Search";
 import HeaderAction from "./HeaderAction";
 import HiddenScroll from "./HiddenScroll";
 import Logo from "./Logo";
@@ -15,7 +16,7 @@ function HeaderDesktop({ matches, props }) {
                                 justifyContent={"space-between"}
                             >
                                 <Logo matches={matches} />
-                                "Search"
+                                <Search matches={matches} />
                                 <HeaderAction matches={matches} />
                             </Stack>
                         </Container>

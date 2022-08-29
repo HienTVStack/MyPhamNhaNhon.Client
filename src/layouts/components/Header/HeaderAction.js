@@ -15,12 +15,18 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // React router dom
 import { Link } from "react-router-dom";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 function HeaderAction({ matches }) {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        setUsername("");
+    }, []);
+
     const handleOpenMenu = (e) => {
         setAnchorEl(e.currentTarget);
     };
@@ -64,7 +70,7 @@ function HeaderAction({ matches }) {
                             },
                         }}
                     >
-                        ĐĂNG NHẬP
+                        {!!username ? username : "ĐĂNG NHẬP"}
                     </Button>
                 )}
             </Stack>

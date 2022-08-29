@@ -10,7 +10,7 @@ function HiddenScroll(props) {
             direction={"down"}
             in={!trigger}
             {...props}
-            sx={{ marginTop: "48px", minHeight: "100px" }}
+            sx={{ marginTop: "48px", minHeight: "100px", zIndex: 10 }}
         >
             {children}
         </Slide>
