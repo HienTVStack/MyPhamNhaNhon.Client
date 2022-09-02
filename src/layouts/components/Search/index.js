@@ -17,8 +17,8 @@ import {
     SearchWrapperIconSearch,
 } from "../../../styles/Search";
 import productApi from "../../../api/productApi";
-import { useDebounce } from "../../../hook";
-import SearchItem from "./SearchResulProduct";
+import { useDebounce } from "../../../hooks";
+import SearchItem from "./SearchResultProduct";
 import blogApi from "../../../api/blogApi";
 import SearchResultBlog from "./SearchResultBlog";
 

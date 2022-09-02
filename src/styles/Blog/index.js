@@ -1,0 +1,40 @@
+import { Card, CardMedia, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+export const BlogItemWrapper = styled(Card)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    // height: "150px",
+    flexDirection: "column",
+
+    [theme.breakpoints.up("md")]: {
+        flexDirection: "row",
+        height: "150px",
+    },
+}));
+
+export const BlogItemMedia = styled(CardMedia)(({ theme }) => ({
+    height: "150px",
+    minWidth: "200px",
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+        width: "200px",
+    },
+}));
+
+export const BlogItemName = styled(Typography)(({ theme }) => ({
+    fontWeight: 600,
+    fontSize: "18px",
+    lineHeight: "20px",
+    overflow: "hidden",
+    color: "#666666",
+}));
+
+export const BlogItemSub = styled(Typography)(({ theme }) => ({
+    fontWeight: 400,
+    fontSize: "14px",
+    lineHeight: "16px",
+    marginTop: "20px",
+    overflow: "hidden",
+}));

@@ -4,14 +4,19 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 // Material UI
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 // Components
 import Loading from "../../components/Loading";
 import AppBarHeader from "../components/AppBarHeader";
 import Header from "../components/Header";
+import NavbarButtonDesktop from "../components/NavbarButtonDesktop";
 
 // -----------------------------------------
 
 function AppLayout() {
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,7 +31,8 @@ function AppLayout() {
         <Box>
             <AppBarHeader />
             <Header />
-            <Box mt={"160px"}>
+            <NavbarButtonDesktop />
+            <Box mt={matches ? "120px" : "184px"}>
                 <Outlet />
             </Box>
         </Box>
