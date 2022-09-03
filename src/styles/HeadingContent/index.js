@@ -10,6 +10,7 @@ export const HeadingContentWrapper = styled(Box)(({ theme }) => ({
     width: "100%",
     padding: "8px",
     mb: 1,
+    borderRadius: "5px",
 }));
 
 export const HeadingContentTitle = styled(Typography)(({ theme }) => ({

@@ -1,4 +1,5 @@
 import { CardContent } from "@mui/material";
+import { Link } from "react-router-dom";
 import {
     BlogItemMedia,
     BlogItemName,
@@ -9,7 +10,7 @@ import Image from "../Image";
 
 function BlogItem({ blog }) {
     return (
-        <BlogItemWrapper>
+        <BlogItemWrapper component={Link} to={`/bai-viet/${blog.nameNoTones}`}>
             <BlogItemMedia>
                 <Image src={blog.thumbnail} alt={blog.name} />
             </BlogItemMedia>

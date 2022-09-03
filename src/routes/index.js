@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import AppLayout from "../layouts/App/AppLayout";
+import BlogDetail from "../pages/BlogDetail";
 import Home from "../pages/Home";
 import Product from "../pages/Product";
 
@@ -11,6 +12,7 @@ const Router = () => {
             children: [
                 { path: "/", element: <Home /> },
                 { path: "/san-pham/:slug", element: <Product /> },
+                { path: "/bai-viet/:slug", element: <BlogDetail /> },
             ],
         },
     ]);

@@ -7,6 +7,7 @@ export const BlogItemWrapper = styled(Card)(({ theme }) => ({
     width: "100%",
     // height: "150px",
     flexDirection: "column",
+    textDecoration: "none",
 
     [theme.breakpoints.up("md")]: {
         flexDirection: "row",
@@ -37,4 +38,12 @@ export const BlogItemSub = styled(Typography)(({ theme }) => ({
     lineHeight: "16px",
     marginTop: "20px",
     overflow: "hidden",
+}));
+
+export const BlogDetailName = styled(Typography)(({ theme }) => ({
+    fontSize: "25px",
+    lineHeight: "30px",
+    fontWeight: 700,
+    margin: "16px 0",
+    padding: "16px 0",
 }));

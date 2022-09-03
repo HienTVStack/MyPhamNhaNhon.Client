@@ -16,6 +16,10 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+// React slick
+// import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // React router dom
 import { useParams } from "react-router-dom";
 // API
@@ -23,7 +27,8 @@ import productApi from "../../api/productApi";
 // Components
 import Image from "../../components/Image";
 import Loading from "../../components/Loading";
-import HeadingContent from "../../components/HeadingContent";
+// import HeadingContent from "../../components/HeadingContent";
+// import ProductItem from "../../components/ProductItem";
 // Styles
 import {
     ProductDetailWrapper,
@@ -86,7 +91,6 @@ function Product() {
                 imageList.push(img);
             });
             setProductImage(imageList);
-            console.log(productImage);
             setProduct(res);
             setLoading(false);
         };
@@ -107,7 +111,7 @@ function Product() {
         <Container sx={{ marginTop: matches ? "180px" : "200px" }}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={5} lg={5}>
-                    <Card sx={{ height: matches ? "500px" : "auto" }}>
+                    <Card sx={{ height: matches ? "600px" : "auto" }}>
                         {!matches && (
                             <CardContent>
                                 <ProductNameMain variant="body2" component="h1">
@@ -115,7 +119,7 @@ function Product() {
                                 </ProductNameMain>
                             </CardContent>
                         )}
-                        <Box height={"400px"} p={2} mb={0}>
+                        <Box height={"500px"} p={2} mb={0}>
                             <Image
                                 src={productImage[indexImageShow]}
                                 alt={product.name}
@@ -151,7 +155,7 @@ function Product() {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={12} md={7} lg={7}>
-                    <Card sx={{ height: matches ? "500px" : "auto" }}>
+                    <Card sx={{ height: matches ? "600px" : "auto" }}>
                         <CardContent>
                             <Box>
                                 <Typography
@@ -236,12 +240,9 @@ function Product() {
                     </TabPanel>
                 </ProductDetailWrapper>
             </Grid>
-            <Grid container maxWidth={"lg"}>
+            {/* <Grid container maxWidth={"lg"}>
                 <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll />
-            </Grid>
-            <Grid container maxWidth={"lg"} mt={3} mb={3}>
-                {/* <Grid item sx={12} sm={12} md={} */}
-            </Grid>
+            </Grid> */}
         </Container>
     );
 }
