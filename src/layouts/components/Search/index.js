@@ -6,7 +6,7 @@ import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 // React router dom
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // Components
 // Styles
 import {
@@ -24,6 +24,7 @@ import SearchResultBlog from "./SearchResultBlog";
 
 function Search({ matches }) {
     const inputRef = useRef();
+    const location = useLocation();
     const [searchValue, setSearchValue] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [searchResultBlog, setSearchResultBlog] = useState([]);
@@ -55,6 +56,9 @@ function Search({ matches }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce]);
 
+    useEffect(() => {
+        setSearchValue("");
+    }, [location.pathname]);
     const handleSearch = (e) => {
         const value = e.target.value;
         if (!value.startsWith(" ")) {

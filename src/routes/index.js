@@ -3,6 +3,11 @@ import AppLayout from "../layouts/App/AppLayout";
 import BlogDetail from "../pages/BlogDetail";
 import Home from "../pages/Home";
 import Product from "../pages/Product";
+import ProductDetail from "../pages/ProductDetail";
+import Blog from "../pages/Blog";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
+import Category from "../pages/Category";
 
 const Router = () => {
     return useRoutes([
@@ -11,7 +16,12 @@ const Router = () => {
             element: <AppLayout />,
             children: [
                 { path: "/", element: <Home /> },
-                { path: "/san-pham/:slug", element: <Product /> },
+                { path: "/dang-nhap", element: <Login /> },
+                { path: "/dang-ky", element: <Signup /> },
+                { path: "/san-pham", element: <Product /> },
+                { path: "/san-pham/:slug", element: <ProductDetail /> },
+                { path: "/san-pham/the-loai/:slug", element: <Category /> },
+                { path: "/bai-viet", element: <Blog /> },
                 { path: "/bai-viet/:slug", element: <BlogDetail /> },
             ],
         },

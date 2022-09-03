@@ -49,13 +49,18 @@ export const ProductNameMain = styled(Typography)(({ theme }) => ({
     marginBottom: "18px",
 }));
 
-export const ProductImageItem = styled(Box)(() => ({
+export const ProductImageItem = styled(Box)(({ theme }) => ({
     border: "1px solid #ccc",
     padding: "6px",
     height: "80px",
     cursor: "pointer",
     "&:focus": {
         borderColor: "red",
+    },
+    "&:active": {
+        boxShadow: theme.shadows[1],
+        // backgroundColor: emphasize(backgroundColor, 0.12),
+        border: `3px solid ${theme.palette.primary.main}`,
     },
 }));
 

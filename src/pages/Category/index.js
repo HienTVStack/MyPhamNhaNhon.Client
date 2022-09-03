@@ -1,16 +1,18 @@
 import { Container, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import productApi from "../../api/productApi";
+import { useLocation, useParams } from "react-router-dom";
+import categoryApi from "../../api/categoryApi";
 import Loading from "../../components/Loading";
 import Pagination from "../../components/Pagination";
 import ProductItem from "../../components/ProductItem";
-function Product() {
+
+function Category() {
     const theme = useTheme();
     const location = useLocation();
+    const { slug } = useParams();
     const matches = useMediaQuery(theme.breakpoints.up("md"));
-    const [productList, setProductList] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pageCount, setPageCount] = useState(Number);
 
@@ -18,15 +20,14 @@ function Product() {
     const page = query.get("page");
 
     useEffect(() => {
-        const getProductList = async () => {
+        const getCategoryList = async () => {
             setLoading(true);
-            const res = await productApi.getHome(page);
-            setProductList(res.products);
-            setPageCount(res.pageCount);
+            const res = await categoryApi.getProducts(slug);
+            setCategories(res.products);
             setLoading(false);
         };
-        getProductList();
-    }, [page]);
+        getCategoryList();
+    }, [slug]);
 
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }}>
@@ -40,7 +41,7 @@ function Product() {
                     <Loading fullHeight />
                 ) : (
                     <Fragment>
-                        {productList.map((product) => (
+                        {categories.map((product) => (
                             <Grid
                                 key={product._id}
                                 item
@@ -69,4 +70,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default Category;

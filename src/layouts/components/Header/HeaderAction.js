@@ -14,18 +14,20 @@ import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // React router dom
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 
 function HeaderAction({ matches }) {
     const theme = useTheme();
+    const location = useLocation();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [username, setUsername] = useState("");
 
     useEffect(() => {
         setUsername("");
-    }, []);
+        setAnchorEl(null);
+    }, [location.pathname]);
 
     const handleOpenMenu = (e) => {
         setAnchorEl(e.currentTarget);
@@ -53,8 +55,12 @@ function HeaderAction({ matches }) {
                             TransitionComponent={Fade}
                             onClose={handleClose}
                         >
-                            <MenuItem>ĐĂNG NHẬP</MenuItem>
-                            <MenuItem>ĐĂNG KÝ</MenuItem>
+                            <MenuItem component={Link} to={"/dang-nhap"}>
+                                ĐĂNG NHẬP
+                            </MenuItem>
+                            <MenuItem component={Link} to={"/dang-ky"}>
+                                ĐĂNG KÝ
+                            </MenuItem>
                         </Menu>
                     </Fragment>
                 ) : (

@@ -6,7 +6,7 @@ import { SearchResultItem } from "../../../styles/Search";
 
 function SearchResultBlog({ blog }) {
     return (
-        <SearchResultItem component={Link} to={`/products/${blog.nameNoTones}`}>
+        <SearchResultItem component={Link} to={`/bai-viet/${blog.nameNoTones}`}>
             <Box width={"60px"} height={"60px"}>
                 <Image src={blog.thumbnail} alt={blog.name} />
             </Box>

@@ -8,7 +8,7 @@ function SearchItem({ product }) {
     return (
         <SearchResultItem
             component={Link}
-            to={`/products/${product.nameNoTones}`}
+            to={`/san-pham/${product.nameNoTones}`}
         >
             <Box width={"60px"} height={"60px"}>
                 <Image src={product.image} alt={product.name} />
