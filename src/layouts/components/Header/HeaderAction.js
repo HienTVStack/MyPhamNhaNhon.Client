@@ -82,6 +82,8 @@ function HeaderAction({ matches }) {
             </Stack>
             <Badge badgeContent={4} color={"error"}>
                 <IconButton
+                    component={Link}
+                    to={"/gio-hang"}
                     sx={{ color: theme.palette.primary.contrastText }}
                     children={<ShoppingCartIcon />}
                 />

@@ -8,6 +8,7 @@ import Blog from "../pages/Blog";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Category from "../pages/Category";
+import Cart from "../pages/Cart";
 
 const Router = () => {
     return useRoutes([
@@ -23,6 +24,7 @@ const Router = () => {
                 { path: "/san-pham/the-loai/:slug", element: <Category /> },
                 { path: "/bai-viet", element: <Blog /> },
                 { path: "/bai-viet/:slug", element: <BlogDetail /> },
+                { path: "/gio-hang", element: <Cart /> },
             ],
         },
     ]);
