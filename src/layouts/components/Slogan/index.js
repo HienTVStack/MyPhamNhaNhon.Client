@@ -1,6 +1,6 @@
 import { Container, Grid } from "@mui/material";
 // Component
-import Image from "../Image";
+import Image from "../../../components/Image";
 
 function Slogan() {
     return (

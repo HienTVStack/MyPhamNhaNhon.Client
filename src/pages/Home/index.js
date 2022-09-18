@@ -3,15 +3,15 @@ import { Fragment, useEffect, useState } from "react";
 import { Box, Container, Grid, Stack } from "@mui/material";
 // React router dom
 // Component
-import Banner from "../../components/Banner";
+import Banner from "../../layouts/components/Banner";
 import HeadingContent from "../../components/HeadingContent";
-import Slogan from "../../components/Slogan";
+import Slogan from "../../layouts/components/Slogan";
 import Loading from "../../components/Loading";
 // Api
 import categoryApi from "../../api/categoryApi";
 import productApi from "../../api/productApi";
 import blogApi from "../../api/blogApi";
-import Subscribe from "../../components/Subscribe";
+import Subscribe from "../../layouts/components/Subscribe";
 import Contact from "../../layouts/components/Contact";
 import Footer from "../../layouts/components/Footer";
 import BlogHome from "./BlogHome";

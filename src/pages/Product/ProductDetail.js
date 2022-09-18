@@ -39,7 +39,7 @@ import {
 } from "../../styles/Product";
 // Component children
 import ProductInfoOrder from "./ProductInfoOrder";
-import ProductDetail from "./ProductDetail";
+import ProductContent from "./ProductContent";
 import ProductReview from "./ProductReview";
 
 function TabPanel(props) {
@@ -69,7 +69,7 @@ function a11yProps(index) {
     };
 }
 
-function Product() {
+function ProductDetail() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(false);
@@ -234,7 +234,7 @@ function Product() {
                         />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                        <ProductDetail detail={product.detail} />
+                        <ProductContent detail={product.detail} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <ProductReview />
@@ -248,4 +248,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default ProductDetail;

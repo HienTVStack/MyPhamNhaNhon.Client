@@ -1,17 +1,24 @@
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import AppLayout from "../layouts/App/AppLayout";
-import BlogDetail from "../pages/BlogDetail";
+import Dashboard from "../layouts/dashboard";
+import BlogDetail from "../pages/Blog/BlogDetail";
 import Home from "../pages/Home";
 import Product from "../pages/Product";
-import ProductDetail from "../pages/ProductDetail";
+import ProductDetail from "../pages/Product/ProductDetail";
 import Blog from "../pages/Blog";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Category from "../pages/Category";
 import Cart from "../pages/Cart";
+import HomeDashboard from "../pages/@dashboard/Home";
 
 const Router = () => {
     return useRoutes([
+        {
+            path: "/dashboard",
+            element: <Dashboard />,
+            children: [{ path: "app", element: <HomeDashboard /> }],
+        },
         {
             path: "/",
             element: <AppLayout />,
@@ -27,6 +34,16 @@ const Router = () => {
                 { path: "/gio-hang", element: <Cart /> },
             ],
         },
+        {
+            path: "*",
+            element: <Navigate to="/404" />,
+        },
+
+        // {
+        //     path: "admin",
+        //     element: <Dashboard />,
+        //     children: [{ path: "/home", element: <HomeDashboard /> }],
+        // },
     ]);
 };
 

@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import blogApi from "../../api/blogApi";
 import Loading from "../../components/Loading";
-import BlogItem from "../../components/BlogItem";
+import BlogItem from "./BlogItem";
 import Pagination from "../../components/Pagination";
 
 function Blog() {

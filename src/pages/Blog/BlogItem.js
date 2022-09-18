@@ -6,7 +6,7 @@ import {
     BlogItemSub,
     BlogItemWrapper,
 } from "../../styles/Blog";
-import Image from "../Image";
+import Image from "../../components/Image";
 
 function BlogItem({ blog }) {
     return (

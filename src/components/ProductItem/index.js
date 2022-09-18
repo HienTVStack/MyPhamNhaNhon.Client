@@ -7,7 +7,7 @@ import {
     Typography,
 } from "@mui/material";
 // Format number
-import NumberFormat from "react-number-format";
+import FormatNumber from "../FormatNumber";
 // React-router-dom
 import { Link } from "react-router-dom";
 import { ProductName, ProductWrapper } from "../../styles/Product";
@@ -58,15 +58,7 @@ function ProductItem({ product }) {
                     fontWeight={700}
                     mt={2}
                 >
-                    <NumberFormat
-                        value={product.price}
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        suffix={" đ"}
-                        renderText={(value, props) => (
-                            <div {...props}>{value}</div>
-                        )}
-                    />
+                    <FormatNumber number={product.price} />
                 </Typography>
             </CardContent>
         </ProductWrapper>

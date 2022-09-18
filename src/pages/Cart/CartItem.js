@@ -1,64 +1,123 @@
-import {
-    Box,
-    Checkbox,
-    IconButton,
-    InputBase,
-    Stack,
-    Typography,
-} from "@mui/material";
-import {
-    CartActionsQuantity,
-    CartItemImageWrapper,
-    CartItemWrapper,
-} from "../../styles/Cart";
+// Material UI
+import { Box, Button, Checkbox, Stack, Typography } from "@mui/material";
+// Material icons
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { Link } from "react-router-dom";
+// Styled
+import {
+    CartActionsQuantity,
+    CartItemActionRemoveCart,
+    CartItemButtonAction,
+    CartItemCategoryWrapper,
+    CartItemContentWrapper,
+    CartItemImageWrapper,
+    CartItemName,
+    CartItemPrevPrice,
+    CartItemQuantity,
+    CartItemWrapper,
+} from "../../styles/Cart";
+// Components
 import Image from "../../components/Image";
+import FormatNumber from "../../components/FormatNumber";
 
-function CartItem({ itemCart }) {
+function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
+    const handleRemoveCartItem = (id) => {
+        removeCartItem(id);
+    };
+
+    const handleIncrement = (cart) => {
+        increment(cart);
+    };
+
+    const handleDecrement = (cart) => {
+        if (cart.quantity < 2) {
+            removeCartItem(cart.id);
+            return;
+        }
+        decrement(cart);
+    };
     return (
         <CartItemWrapper>
             <Checkbox />
             <Box display={"flex"} flex={1}>
                 <Stack justifyContent={"center"}>
                     <CartItemImageWrapper>
-                        <Image
-                            src="https://cf.shopee.vn/file/368df29b0aebe308a95c26509bd4248c_tn"
-                            alt="product"
-                        />
+                        <Image src={cart.img} alt={cart.name} />
                     </CartItemImageWrapper>
                 </Stack>
 
-                <Box ml={1} flex={1}>
-                    <Typography
-                        variant="body2"
-                        component="h2"
-                        fontSize={"13px"}
-                    >
-                        Name
-                    </Typography>
-                    <Box p={1} backgroundColor={"#ccc"}>
+                <CartItemContentWrapper>
+                    <CartItemName variant="body2" component="h2">
+                        {cart.name}
+                    </CartItemName>
+                    <CartItemCategoryWrapper>
                         <Typography variant="body2" fontSize={"12px"}>
-                            Category
+                            Phân loại hàng: {cart.category}
                         </Typography>
-                    </Box>
-                    <Typography variant={"body2"} fontSize={"14px"}>
-                        PRICE
-                    </Typography>
-                    <CartActionsQuantity>
-                        <IconButton children={<RemoveIcon />} />
-                        <InputBase
-                            value={1}
-                            sx={{
-                                width: "30px",
-                                padding: "0 13px",
-                            }}
-                            disabled
-                        />
-                        <IconButton children={<AddIcon />} />
+                    </CartItemCategoryWrapper>
+                    <CartActionsQuantity display={"flex"} alignItems={"center"}>
+                        {cart.prev_price && (
+                            <CartItemPrevPrice variant="body2" component="span">
+                                <FormatNumber number={cart.prev_price} />
+                            </CartItemPrevPrice>
+                        )}
+                        <Typography variant={"body2"} component="span">
+                            <FormatNumber number={cart.price} />
+                        </Typography>
                     </CartActionsQuantity>
-                </Box>
+
+                    <CartActionsQuantity>
+                        <CartItemButtonAction
+                            onClick={() => handleDecrement(cart)}
+                        >
+                            <RemoveIcon />
+                        </CartItemButtonAction>
+                        <CartItemQuantity value={cart.quantity} disabled />
+                        <CartItemButtonAction
+                            onClick={() => handleIncrement(cart)}
+                        >
+                            <AddIcon />
+                        </CartItemButtonAction>
+                    </CartActionsQuantity>
+
+                    {matches && (
+                        <Typography variant="body2" component={"span"}>
+                            <FormatNumber number={cart.quantity * cart.price} />
+                        </Typography>
+                    )}
+                    {matches && (
+                        <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            alignItems={"center"}
+                        >
+                            <Button
+                                variant="text"
+                                onClick={() => handleRemoveCartItem(cart.id)}
+                            >
+                                Xóa
+                            </Button>
+                            <Box
+                                display={"block"}
+                                width={"120px"}
+                                textAlign={"center"}
+                                component={Link}
+                                to={`/san-pham/${cart.category}`}
+                            >
+                                Tìm sản phẩm tương tự
+                            </Box>
+                        </Box>
+                    )}
+                </CartItemContentWrapper>
             </Box>
+            {!matches && (
+                <CartItemActionRemoveCart
+                    size="small"
+                    children={<HighlightOffIcon />}
+                ></CartItemActionRemoveCart>
+            )}
         </CartItemWrapper>
     );
 }

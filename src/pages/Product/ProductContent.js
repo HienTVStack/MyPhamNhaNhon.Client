@@ -1,4 +1,4 @@
-function ProductDetail({ detail, ...props }) {
+function ProductContent({ detail, ...props }) {
     return (
         <>
             <span
@@ -10,4 +10,4 @@ function ProductDetail({ detail, ...props }) {
     );
 }
 
-export default ProductDetail;
+export default ProductContent;

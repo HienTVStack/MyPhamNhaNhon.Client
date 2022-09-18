@@ -5,7 +5,7 @@ import {
     SubscribeChildren,
     SubscribeInput,
     SubscribeWrapper,
-} from "../../styles/Subscribe";
+} from "../../../styles/Subscribe";
 
 function Subscribe() {
     const theme = useTheme();

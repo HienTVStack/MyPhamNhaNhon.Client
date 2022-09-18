@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import BlogItem from "../../components/BlogItem";
+import BlogItem from "../Blog/BlogItem";
 import Slider from "../../components/SliderMUI";
 
 function BlogHome({ blogs, props }) {
