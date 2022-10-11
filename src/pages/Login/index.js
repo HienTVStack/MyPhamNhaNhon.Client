@@ -2,6 +2,7 @@ import {
     Button,
     Card,
     CardContent,
+    Divider,
     Stack,
     TextField,
     Typography,
@@ -9,17 +10,34 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTheme } from "@mui/material/styles";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+// image
+import images from "../../assets/images";
+import { useGoogleLogin } from "@react-oauth/google";
+import FacebookLogin from "@greatsumini/react-facebook-login";
+import { useSelector } from "react-redux";
+import authApi from "../../api/authApi";
 
 function Login() {
+    const user = useSelector((state) => state.user.user);
     const theme = useTheme();
+    const navigate = useNavigate();
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(false);
+
     const [usernameErr, setUsernameErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigate]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setUsernameErr("");
         setPasswordErr("");
@@ -38,9 +56,74 @@ function Login() {
             setPasswordErr(`Mật khẩu không được để trống`);
         }
 
-        console.log(username, password);
-
         if (err) return;
+
+        try {
+            setLoading(true);
+            const res = await authApi.login({ username, password });
+            localStorage.setItem("token", res.token);
+            setLoading(false);
+            navigate("/");
+        } catch (error) {
+            alert(`Login ${error}`);
+            setLoading(false);
+            const errors = error.data.errors;
+
+            errors.forEach((e) => {
+                if (e.param === "username") {
+                    setUsernameErr(e.msg);
+                }
+                if (e.param === "password") {
+                    setPasswordErr(e.msg);
+                }
+            });
+        }
+    };
+
+    //Handle login with google
+    const handleLoginWidthGoogle = useGoogleLogin({
+        onSuccess: async (res) => {
+            setLoading(true);
+            try {
+                const data = await axios.get(
+                    "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${res.access_token}`,
+                        },
+                    }
+                );
+                // setLoading(false);
+                console.log(data.data);
+                // localStorage.setItem('token', res.access_token.data)
+                try {
+                    const res = await authApi.loginGoogle(data.data);
+                    localStorage.setItem("token", res.token);
+                    setLoading(false);
+                    navigate("/");
+                } catch (error) {
+                    alert(`Login goole ${error}`);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    });
+
+    //Handle login facebook
+    const handleLoginWithFacebook = async (response) => {
+        try {
+            setLoading(true);
+
+            const res = await authApi.loginFacebook(response);
+            if (res) {
+                localStorage.setItem("token", res.token);
+                setLoading(false);
+                navigate("/");
+            }
+        } catch (error) {
+            alert(`Login facebook ${error}`);
+        }
     };
 
     return (
@@ -63,6 +146,50 @@ function Login() {
                     >
                         Đăng nhập
                     </Typography>
+                    <Stack
+                        flexDirection={"row"}
+                        alignItems={"center"}
+                        justifyContent={"space-between"}
+                        width={"100%"}
+                    >
+                        <Button
+                            onClick={handleLoginWidthGoogle}
+                            sx={{ maxWidth: "50%" }}
+                        >
+                            <img
+                                src={images.signWithGoogle}
+                                alt="Login-width-google"
+                                width={"100%"}
+                                height={"100%"}
+                                style={{
+                                    borderRadius: "5px",
+                                    overflow: "hidden",
+                                }}
+                            />
+                        </Button>
+                        <FacebookLogin
+                            appId="430008532603669"
+                            onSuccess={(response) => {
+                                console.log("Login Success!", response);
+                            }}
+                            onFail={(error) => {
+                                console.log("Login Failed!", error);
+                            }}
+                            onProfileSuccess={(response) => {
+                                // console.log("Get Profile Success!", response);
+                                handleLoginWithFacebook(response);
+                            }}
+                            style={{
+                                width: "50%",
+                                height: "40px",
+                                border: "none",
+                                borderRadius: "5px",
+                                backgroundColor: "#4267B2",
+                                color: "#fff",
+                            }}
+                        />
+                    </Stack>
+                    <Divider />
                     <TextField
                         margin={"normal"}
                         fullWidth

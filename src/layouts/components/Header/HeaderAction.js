@@ -16,16 +16,16 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // React router dom
 import { Link, useLocation } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function HeaderAction({ matches }) {
+    const user = useSelector((state) => state.user.user);
     const theme = useTheme();
     const location = useLocation();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const [username, setUsername] = useState("");
 
     useEffect(() => {
-        setUsername("");
         setAnchorEl(null);
     }, [location.pathname]);
 
@@ -55,19 +55,30 @@ function HeaderAction({ matches }) {
                             TransitionComponent={Fade}
                             onClose={handleClose}
                         >
-                            <MenuItem component={Link} to={"/dang-nhap"}>
-                                ĐĂNG NHẬP
-                            </MenuItem>
-                            <MenuItem component={Link} to={"/dang-ky"}>
-                                ĐĂNG KÝ
-                            </MenuItem>
+                            {user ? (
+                                <MenuItem component={Link} to={"/tai-khoan"}>
+                                    {user.fullName}
+                                </MenuItem>
+                            ) : (
+                                <>
+                                    <MenuItem
+                                        component={Link}
+                                        to={"/dang-nhap"}
+                                    >
+                                        ĐĂNG NHẬP
+                                    </MenuItem>
+                                    <MenuItem component={Link} to={"/dang-ky"}>
+                                        ĐĂNG KÝ
+                                    </MenuItem>
+                                </>
+                            )}
                         </Menu>
                     </Fragment>
                 ) : (
                     <Button
                         mr={2}
                         component={Link}
-                        to={"/dang-nhap"}
+                        to={user ? "/tai-khoan" : "/dang-nhap"}
                         sx={{
                             color: theme.palette.primary.contrastText,
                             fontWeight: "400",
@@ -76,7 +87,7 @@ function HeaderAction({ matches }) {
                             },
                         }}
                     >
-                        {!!username ? username : "ĐĂNG NHẬP"}
+                        {!!user ? `Hi, ${user.fullName}` : "ĐĂNG NHẬP"}
                     </Button>
                 )}
             </Stack>

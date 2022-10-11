@@ -4,6 +4,7 @@ import HeaderAction from "./HeaderAction";
 import HiddenScroll from "./HiddenScroll";
 import Logo from "./Logo";
 function HeaderDesktop({ matches, props }) {
+    // const user = useSelector(state => state.user.user);
     return (
         <Box>
             <HiddenScroll {...props}>

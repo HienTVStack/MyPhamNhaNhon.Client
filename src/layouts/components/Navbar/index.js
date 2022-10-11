@@ -15,10 +15,12 @@ import MenuItem from "./MenuItem";
 import categories from "../../../data/categories";
 // Api
 import categoryApi from "../../../api/categoryApi";
+import { useSelector } from "react-redux";
 
 const MENUS_LIST = categories;
 
 const NavbarHeader = () => {
+    const user = useSelector((state) => state.user.user);
     const theme = useTheme();
 
     return (
@@ -30,7 +32,7 @@ const NavbarHeader = () => {
         >
             <AccountCircleIcon sx={{ width: "70px", height: "70px" }} />
             <NavbarTextHeading component={Link} to={"/dang-nhap"}>
-                ĐĂNG NHẬP
+                {user ? user.username : "ĐĂNG NHẬP"}
             </NavbarTextHeading>
         </Stack>
     );

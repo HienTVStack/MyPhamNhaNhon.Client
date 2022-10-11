@@ -10,15 +10,10 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Category from "../pages/Category";
 import Cart from "../pages/Cart";
-import HomeDashboard from "../pages/@dashboard/Home";
+import ConfirmEmail from "../pages/Signup/ConfirmEmail";
 
 const Router = () => {
     return useRoutes([
-        {
-            path: "/dashboard",
-            element: <Dashboard />,
-            children: [{ path: "app", element: <HomeDashboard /> }],
-        },
         {
             path: "/",
             element: <AppLayout />,
@@ -26,6 +21,7 @@ const Router = () => {
                 { path: "/", element: <Home /> },
                 { path: "/dang-nhap", element: <Login /> },
                 { path: "/dang-ky", element: <Signup /> },
+                { path: "/confirm-email", element: <ConfirmEmail /> },
                 { path: "/san-pham", element: <Product /> },
                 { path: "/san-pham/:slug", element: <ProductDetail /> },
                 { path: "/san-pham/the-loai/:slug", element: <Category /> },
@@ -34,15 +30,9 @@ const Router = () => {
                 { path: "/gio-hang", element: <Cart /> },
             ],
         },
-        {
-            path: "*",
-            element: <Navigate to="/404" />,
-        },
-
         // {
-        //     path: "admin",
-        //     element: <Dashboard />,
-        //     children: [{ path: "/home", element: <HomeDashboard /> }],
+        //     path: "*",
+        //     element: <Navigate to="/404" />,
         // },
     ]);
 };
