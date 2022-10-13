@@ -32,7 +32,7 @@ const NavbarHeader = () => {
         >
             <AccountCircleIcon sx={{ width: "70px", height: "70px" }} />
             <NavbarTextHeading component={Link} to={"/dang-nhap"}>
-                {user ? user.username : "ĐĂNG NHẬP"}
+                {user ? user.fullName : "ĐĂNG NHẬP"}
             </NavbarTextHeading>
         </Stack>
     );

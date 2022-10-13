@@ -1,6 +1,5 @@
-import { Navigate, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import AppLayout from "../layouts/App/AppLayout";
-import Dashboard from "../layouts/dashboard";
 import BlogDetail from "../pages/Blog/BlogDetail";
 import Home from "../pages/Home";
 import Product from "../pages/Product";
@@ -21,7 +20,7 @@ const Router = () => {
                 { path: "/", element: <Home /> },
                 { path: "/dang-nhap", element: <Login /> },
                 { path: "/dang-ky", element: <Signup /> },
-                { path: "/confirm-email", element: <ConfirmEmail /> },
+                { path: "/xac-nhan-email", element: <ConfirmEmail /> },
                 { path: "/san-pham", element: <Product /> },
                 { path: "/san-pham/:slug", element: <ProductDetail /> },
                 { path: "/san-pham/the-loai/:slug", element: <Category /> },

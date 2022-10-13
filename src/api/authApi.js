@@ -4,6 +4,7 @@ const DEFAULT_URL = "auth";
 
 const authApi = {
     register: (params) => axiosClient.post(`${DEFAULT_URL}/register`, params),
+    isActive: (params) => axiosClient.post(`${DEFAULT_URL}/isActive`, params),
     login: (params) => axiosClient.post(`${DEFAULT_URL}/login`, params),
     loginGoogle: (params) =>
         axiosClient.post(`${DEFAULT_URL}/login-google`, params),

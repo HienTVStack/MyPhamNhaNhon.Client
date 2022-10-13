@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
 // Utils
 import authUtil from "../../utils/authUtil";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function Signup() {
     const theme = useTheme();
@@ -27,11 +28,11 @@ function Signup() {
     const [passwordErr, setPasswordErr] = useState("");
     const [confirmPasswordErr, setConfirmPPasswordErr] = useState("");
     const [showMsgNotify, setShowMsgNotify] = useState(false);
+    const [checkReCaptcha, setCheckReCaptcha] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
             const isAuth = await authUtil.isAuthenticated();
-
             if (isAuth) {
                 navigate("/");
             }
@@ -56,6 +57,7 @@ function Signup() {
         const confirmPassword = data.get("confirmPassword");
 
         let err = false;
+
         if (username === "") {
             err = true;
             setUsernameErr(`Tên đăng nhập không được để trống`);
@@ -86,10 +88,17 @@ function Signup() {
             setConfirmPPasswordErr(`Nhập lại mật khẩu không chính xác`);
         }
 
+        if (!checkReCaptcha) {
+            err = true;
+        }
+
         setLoading(false);
         if (err) return;
 
-        setLoading(true);
+        //Random code confirm
+        const codeConfirm =
+            Math.floor(Math.random() * (999999 - 100000)) + 100000;
+
         try {
             const res = await authApi.register({
                 username,
@@ -97,12 +106,12 @@ function Signup() {
                 email,
                 password,
                 confirmPassword,
+                codeConfirm,
             });
-            // localStorage.setItem("token", res.token);
-            console.log(res);
-            setShowMsgNotify(true);
-            // setLoading(false);
-            // navigate("/");
+            if (res) {
+                localStorage.setItem("userId", res.user.id);
+                navigate("/xac-nhan-email");
+            }
         } catch (error) {
             setLoading(false);
             const errors = error.data.errors;
@@ -213,6 +222,13 @@ function Signup() {
                         disabled={loading}
                         error={confirmPasswordErr !== ""}
                         helperText={confirmPasswordErr}
+                    />
+                    <ReCAPTCHA
+                        sitekey="6LfNj3AiAAAAAG0HoIcbz4VjzVgBa6lkRLKpCuF9"
+                        hl="vi"
+                        render="explicit"
+                        size="normal"
+                        onChange={() => setCheckReCaptcha(true)}
                     />
                     <LoadingButton
                         type="submit"

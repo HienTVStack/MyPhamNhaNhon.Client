@@ -2,7 +2,6 @@ import {
     Button,
     Card,
     CardContent,
-    Divider,
     Stack,
     TextField,
     Typography,
@@ -28,19 +27,30 @@ function ConfirmEmail() {
         setConfirmEmailErr("");
 
         const data = new FormData(e.target);
-        const confirmEmail = data.get("confirmEmail");
+        const codeConfirmEmail = data.get("codeConfirmEmail");
 
-        if (confirmEmail.length <= 0) {
+        if (codeConfirmEmail.length <= 0) {
             setConfirmEmailErr(`Vui lòng nhập mã xác thực`);
             return;
         }
 
         try {
-            const res = await authApi.confirmEmail(confirmEmail);
+            const userId = localStorage.getItem("userId");
+            const res = await authApi.isActive({ userId, codeConfirmEmail });
 
-            // if()
+            if (res) {
+                localStorage.setItem("token", res.token);
+                navigate("/");
+            }
         } catch (error) {
-            alert(`Lỗi xác thực email`);
+            const errors = error.data.errors;
+            if (errors) {
+                errors.forEach((e) => {
+                    if (e.param === "codeConfirmEmail") {
+                        setConfirmEmailErr(e.msg);
+                    }
+                });
+            }
         }
     };
     return (
@@ -68,8 +78,8 @@ function ConfirmEmail() {
                         fullWidth
                         placeholder={"Mã xác thực"}
                         label={"Mã xác thực"}
-                        name={"confirmEmail"}
-                        id={"confirmEmail"}
+                        name={"codeConfirmEmail"}
+                        id={"codeConfirmEmail"}
                         required
                         disabled={loading}
                         error={confirmEmailErr !== ""}
