@@ -1,7 +1,9 @@
 import axiosClient from "./axiosClient";
 
+const DEFAULT_URL = "category";
+
 const categoryApi = {
-    getAll: () => axiosClient.get("category"),
+    getAll: () => axiosClient.get(`${DEFAULT_URL}/get-all`),
     getProducts: (params) => axiosClient.get(`/products/category/${params}`),
 };
 

@@ -10,6 +10,8 @@ import Signup from "../pages/Signup";
 import Category from "../pages/Category";
 import Cart from "../pages/Cart";
 import ConfirmEmail from "../pages/Signup/ConfirmEmail";
+import CheckEmail from "../pages/ForgotPassword/CheckEmail";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const Router = () => {
     return useRoutes([
@@ -21,6 +23,8 @@ const Router = () => {
                 { path: "/dang-nhap", element: <Login /> },
                 { path: "/dang-ky", element: <Signup /> },
                 { path: "/xac-nhan-email", element: <ConfirmEmail /> },
+                { path: "/quen-mat-khau", element: <CheckEmail /> },
+                { path: "/thay-doi-mat-khau", element: <ForgotPassword /> },
                 { path: "/san-pham", element: <Product /> },
                 { path: "/san-pham/:slug", element: <ProductDetail /> },
                 { path: "/san-pham/the-loai/:slug", element: <Category /> },

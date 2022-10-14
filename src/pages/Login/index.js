@@ -65,7 +65,7 @@ function Login() {
             setLoading(false);
             navigate("/");
         } catch (error) {
-            alert(`Login ${error}`);
+            // alert(`Login ${error}`);
             setLoading(false);
             const errors = error.data.errors;
 
@@ -176,7 +176,6 @@ function Login() {
                                 console.log("Login Failed!", error);
                             }}
                             onProfileSuccess={(response) => {
-                                // console.log("Get Profile Success!", response);
                                 handleLoginWithFacebook(response);
                             }}
                             style={{
@@ -229,7 +228,13 @@ function Login() {
                 <Button fullWidth size="large" component={Link} to={"/dang-ky"}>
                     Tạo tài khoản mới
                 </Button>
-                <Button fullWidth size="large" sx={{ mb: "16px" }}>
+                <Button
+                    fullWidth
+                    size="large"
+                    component={Link}
+                    to={"/quen-mat-khau"}
+                    sx={{ mb: "16px" }}
+                >
                     Quên mật khẩu?
                 </Button>
             </Card>
