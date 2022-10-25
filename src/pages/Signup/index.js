@@ -27,7 +27,7 @@ function Signup() {
     const [emailErr, setEmailErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
     const [confirmPasswordErr, setConfirmPPasswordErr] = useState("");
-    const [showMsgNotify, setShowMsgNotify] = useState(false);
+    // const [showMsgNotify, setShowMsgNotify] = useState(false);
     const [checkReCaptcha, setCheckReCaptcha] = useState(false);
 
     useEffect(() => {
@@ -151,7 +151,7 @@ function Signup() {
                     >
                         Đăng ký
                     </Typography>
-                    {showMsgNotify && (
+                    {/* {showMsgNotify && (
                         <Typography
                             variant="h4"
                             color="error"
@@ -159,7 +159,7 @@ function Signup() {
                         >
                             *Vui lòng kiểm tra email xác thực
                         </Typography>
-                    )}
+                    )} */}
                     <TextField
                         margin={"normal"}
                         fullWidth

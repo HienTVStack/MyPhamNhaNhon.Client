@@ -14,13 +14,12 @@ import MenuItem from "./MenuItem";
 // Data
 import categories from "../../../data/categories";
 // Api
-import categoryApi from "../../../api/categoryApi";
 import { useSelector } from "react-redux";
 
 const MENUS_LIST = categories;
 
 const NavbarHeader = () => {
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.data.user);
     const theme = useTheme();
 
     return (
@@ -41,16 +40,7 @@ const NavbarHeader = () => {
 function Navbar({ ...props }) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
-
-    const [categoriesProducts, setCategoriesProducts] = useState([]);
-
-    useEffect(() => {
-        const getCategories = async () => {
-            const res = await categoryApi.getAll();
-            setCategoriesProducts(res.categories);
-        };
-        getCategories();
-    }, []);
+    const categoryList = useSelector((state) => state.data.categories);
 
     return (
         <Drawer anchor="left" {...props}>
@@ -69,7 +59,7 @@ function Navbar({ ...props }) {
                         icon={item.icon}
                         slug={item.slug}
                         title={item.title}
-                        categories={categoriesProducts}
+                        categories={categoryList}
                         children={item.children}
                     />
                 ))}

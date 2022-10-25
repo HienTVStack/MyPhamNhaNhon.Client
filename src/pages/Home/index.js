@@ -17,48 +17,43 @@ import Footer from "../../layouts/components/Footer";
 import BlogHome from "./BlogHome";
 import ProductHome from "./ProductHome";
 import ViewMore from "../../components/ButtonViewMore";
+import { useSelector } from "react-redux";
 
 function Home() {
+    const categories = useSelector((state) => state.data.categories);
     const [loadingBlog, setLoadingBlog] = useState(false);
     const [loadingProduct, setLoadingProduct] = useState(false);
-    const [categories, setCategories] = useState([]);
     const [productList, setProductsList] = useState([]);
     const [blogList, setBlogList] = useState([]);
 
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const res = await categoryApi.getAll();
-
-                setCategories(res.categories);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        const getProducts = async () => {
-            try {
-                setLoadingProduct(true);
-                const res = await productApi.getHome(0);
+    const handleProductLoaded = async () => {
+        try {
+            setLoadingProduct(true);
+            const res = await productApi.getAll();
+            if (res.message === "OK") {
                 setProductsList(res.products);
-                setLoadingProduct(false);
-            } catch (error) {
-                console.log(error);
             }
-        };
-        const getBlogs = async () => {
-            try {
-                setLoadingBlog(true);
-                const res = await blogApi.getHome("new");
-                setBlogList(res.blog);
-                setLoadingBlog(false);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+            setLoadingProduct(false);
+        } catch (error) {
+            console.log(error);
+            setLoadingProduct(false);
+        }
+    };
 
-        getCategories();
-        getProducts();
-        getBlogs();
+    useEffect(() => {
+        handleProductLoaded();
+        // const getBlogs = async () => {
+        //     try {
+        //         setLoadingBlog(true);
+        //         const res = await blogApi.getHome("new");
+        //         setBlogList(res.blog);
+        //         setLoadingBlog(false);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
+
+        // getBlogs();
     }, []);
 
     return (
@@ -69,7 +64,6 @@ function Home() {
             <Container sx={{ mt: 2, mb: 2 }}>
                 <Grid container maxWidth={"lg"} spacing={2}>
                     <HeadingContent title={"Sản phẩm"} viewList={categories} />
-
                     {loadingProduct ? (
                         <Stack width={"100%"} alignItems={"center"} mt={2}>
                             <Loading />

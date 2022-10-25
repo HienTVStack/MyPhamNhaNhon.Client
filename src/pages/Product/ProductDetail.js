@@ -83,15 +83,15 @@ function ProductDetail() {
         const getProduct = async () => {
             let imageList = [];
             setLoading(true);
-            const res = await productApi.getOne(slug);
+            const res = await productApi.getBySlug(slug);
 
-            imageList.push(res.image);
+            imageList.push(res.product.image);
             // eslint-disable-next-line array-callback-return
-            res.imageList.map((img) => {
+            res.product.imageList.map((img) => {
                 imageList.push(img);
             });
             setProductImage(imageList);
-            setProduct(res);
+            setProduct(res.product);
             setLoading(false);
         };
 
@@ -183,14 +183,14 @@ function ProductDetail() {
                             <Box height={"200px"} overflow={"hidden"} mt={3}>
                                 <span
                                     dangerouslySetInnerHTML={{
-                                        __html: `${product.description}`,
+                                        __html: `${product.descriptionContent}`,
                                     }}
                                 ></span>
                             </Box>
 
                             <ProductInfoOrder
                                 price={product.price}
-                                countInStock={product.countInStock}
+                                countInStock={product.quantityStock}
                             />
 
                             <ProductInfoWrapper sx={{ border: "none" }}>
@@ -234,7 +234,7 @@ function ProductDetail() {
                         />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                        <ProductContent detail={product.detail} />
+                        <ProductContent detail={product.detailContent} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <ProductReview />

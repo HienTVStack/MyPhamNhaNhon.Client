@@ -1,5 +1,6 @@
 const initialState = {
     user: {},
+    categories: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -8,6 +9,12 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
+            };
+        }
+        case "LOAD_CATEGORY": {
+            return {
+                ...state,
+                categories: action.payload,
             };
         }
         default:

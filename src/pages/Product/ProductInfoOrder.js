@@ -7,7 +7,7 @@ import {
     ProductInfoWrapper,
 } from "../../styles/Product";
 
-function ProductInfoOrder({ price, countInStock }) {
+function ProductInfoOrder({ price, quantityStock }) {
     const [numberBuy, setNumberBuy] = useState(1);
     return (
         <Fragment>
@@ -34,7 +34,9 @@ function ProductInfoOrder({ price, countInStock }) {
                         Trạng thái
                     </ProductInfoItemTitle>
                     <ProductInfoItemTitle component="h4">
-                        {countInStock > 0 ? "Còn hàng" : "Hết hàng"}
+                        {quantityStock > 0
+                            ? `Còn hàng ${quantityStock}`
+                            : "Hết hàng"}
                     </ProductInfoItemTitle>
                 </ProductInfoItem>
                 <Divider />

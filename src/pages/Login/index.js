@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import authApi from "../../api/authApi";
 
 function Login() {
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.data.user);
     const theme = useTheme();
     const navigate = useNavigate();
     const matches = useMediaQuery(theme.breakpoints.up("md"));

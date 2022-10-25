@@ -14,9 +14,10 @@ import AppBarHeader from "../components/AppBarHeader";
 import Header from "../components/Header";
 import NavbarButtonDesktop from "../components/NavbarButtonDesktop";
 //
-import { setUser } from "../../redux/actions";
+import { getCategories, setUser } from "../../redux/actions";
 // Utils
 import authUtil from "../../utils/authUtil";
+import categoryApi from "../../api/categoryApi";
 // -----------------------------------------
 
 function AppLayout() {
@@ -29,6 +30,7 @@ function AppLayout() {
     const token = query.get("login");
 
     useEffect(() => {
+        // Check login
         const checkAuth = async () => {
             if (token) {
                 localStorage.setItem("token", token);
@@ -37,7 +39,22 @@ function AppLayout() {
 
             dispatch(setUser(user));
         };
+        // Handle set category
+        const getAllCategory = async () => {
+            try {
+                const res = await categoryApi.getAll();
+                if (res.message === "OK") {
+                    dispatch(getCategories(res.categories));
+                }
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        };
+
         checkAuth();
+        getAllCategory();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
 

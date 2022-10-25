@@ -19,7 +19,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function HeaderAction({ matches }) {
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.data.user);
     const theme = useTheme();
     const location = useLocation();
     const [anchorEl, setAnchorEl] = useState(null);

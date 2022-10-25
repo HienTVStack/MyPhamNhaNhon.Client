@@ -18,14 +18,14 @@ function ProductItem({ product }) {
         <ProductWrapper>
             <CardMedia
                 component={Link}
-                to={`/san-pham/${product.nameNoTones}`}
+                to={`/san-pham/${product.slug}/detail`}
                 sx={{ height: "320px" }}
             >
                 <Image src={product.image} alt={product.name} />
             </CardMedia>
             <CardContent
                 component={Link}
-                to={`/san-pham/${product.nameNoTones}`}
+                to={`/san-pham/${product.slug}/detail`}
                 sx={{
                     padding: "16px",
                     display: "block",
@@ -47,7 +47,7 @@ function ProductItem({ product }) {
                         color={"#666"}
                         ml={2}
                     >
-                        {product.numReviews} đánh giá
+                        {product.numberViews} đánh giá
                     </Typography>
                 </Stack>
                 <Typography

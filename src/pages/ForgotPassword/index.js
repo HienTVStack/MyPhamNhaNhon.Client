@@ -25,8 +25,24 @@ function ForgotPassword() {
     const [open, setOpen] = useState(false);
 
     const query = new URLSearchParams(document.location.search);
+    const preDate = new Date(query.get("date"));
+
+    const today = new Date();
+    const date =
+        today.getMonth() +
+        1 +
+        "-" +
+        today.getDate() +
+        "-" +
+        today.getFullYear();
+
+    console.log(preDate.getTime() === new Date(date).getTime());
 
     useEffect(() => {
+        if (preDate.getTime() !== new Date(date).getTime()) {
+            //Handle show toast message
+            setLoading(true);
+        }
         setEmail(query.get("email"));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
