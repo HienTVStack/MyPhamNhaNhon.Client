@@ -1,8 +1,8 @@
 import axios from "axios";
 import queryString from "query-string";
 
-// const baseUrl = "https://server.tiemmyphamtanthoi.vn/api/";
-const baseUrl = "http://localhost:3001/api/";
+const baseUrl = "https://myphamnhanhon-server.vercel.app/api/";
+// const baseUrl = "http://localhost:3001/api/";
 const getToken = () => localStorage.getItem("token");
 
 const axiosClient = axios.create({

@@ -21,6 +21,8 @@ import { useSelector } from "react-redux";
 import authApi from "../../api/authApi";
 
 function Login() {
+    console.log(process.env.REACT_APP_API);
+
     const user = useSelector((state) => state.data.user);
     const theme = useTheme();
     const navigate = useNavigate();
@@ -93,9 +95,7 @@ function Login() {
                         },
                     }
                 );
-                // setLoading(false);
                 console.log(data.data);
-                // localStorage.setItem('token', res.access_token.data)
                 try {
                     const res = await authApi.loginGoogle(data.data);
                     localStorage.setItem("token", res.token);
