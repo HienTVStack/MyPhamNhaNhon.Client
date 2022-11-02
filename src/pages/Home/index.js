@@ -8,9 +8,7 @@ import HeadingContent from "../../components/HeadingContent";
 import Slogan from "../../layouts/components/Slogan";
 import Loading from "../../components/Loading";
 // Api
-import categoryApi from "../../api/categoryApi";
 import productApi from "../../api/productApi";
-import blogApi from "../../api/blogApi";
 import Subscribe from "../../layouts/components/Subscribe";
 import Contact from "../../layouts/components/Contact";
 import Footer from "../../layouts/components/Footer";
@@ -78,10 +76,7 @@ function Home() {
             </Container>
             {/* Blog */}
             <Container sx={{ mt: 4, mb: 6 }}>
-                <HeadingContent
-                    title={"Bài viết mới nhất"}
-                    urlViewAll={"bai-viet"}
-                />
+                <HeadingContent title={"Bài viết mới nhất"} urlViewAll={"bai-viet"} />
                 {loadingBlog ? (
                     <Stack width={"100%"} alignItems={"center"} mt={2}>
                         <Loading />

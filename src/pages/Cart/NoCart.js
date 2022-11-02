@@ -8,14 +8,7 @@ function NoCart({ matches }) {
             <Typography variant="body2" fontSize={"18px"}>
                 Giỏ hàng của bạn đang trống
             </Typography>
-            <Button
-                size="large"
-                variant="contained"
-                fullWidth
-                sx={{ mt: 2 }}
-                component={Link}
-                to={"/"}
-            >
+            <Button size="large" variant="contained" fullWidth sx={{ mt: 2 }} component={Link} to={"/"}>
                 Mua sắm ngay
             </Button>
         </CartNoCartWrapper>

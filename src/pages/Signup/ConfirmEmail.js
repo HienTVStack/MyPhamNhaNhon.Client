@@ -1,12 +1,4 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
+import { Button, Card, CardContent, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
@@ -54,23 +46,10 @@ function ConfirmEmail() {
         }
     };
     return (
-        <Stack
-            alignItems={"center"}
-            justifyContent={"center"}
-            sx={{ marginTop: matches ? "180px" : "200px" }}
-        >
-            <Card
-                sx={{ width: "400px" }}
-                component={"form"}
-                noValidate
-                onSubmit={handleSubmit}
-            >
+        <Stack alignItems={"center"} justifyContent={"center"} sx={{ marginTop: matches ? "180px" : "200px" }}>
+            <Card sx={{ width: "400px" }} component={"form"} noValidate onSubmit={handleSubmit}>
                 <CardContent>
-                    <Typography
-                        variant="h3"
-                        color="primary"
-                        textAlign={"center"}
-                    >
+                    <Typography variant="h3" color="primary" textAlign={"center"}>
                         Xác thực email
                     </Typography>
                     <TextField
@@ -86,14 +65,7 @@ function ConfirmEmail() {
                         helperText={confirmEmailErr}
                     />
 
-                    <LoadingButton
-                        type="submit"
-                        fullWidth
-                        loading={loading}
-                        variant="outlined"
-                        size="large"
-                        sx={{ marginTop: "20px" }}
-                    >
+                    <LoadingButton type="submit" fullWidth loading={loading} variant="outlined" size="large" sx={{ marginTop: "20px" }}>
                         Xác thực
                     </LoadingButton>
                 </CardContent>

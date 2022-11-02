@@ -1,11 +1,4 @@
-import {
-    Box,
-    CardContent,
-    CardMedia,
-    Rating,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Box, CardContent, CardMedia, Rating, Stack, Typography } from "@mui/material";
 // Format number
 import FormatNumber from "../FormatNumber";
 // React-router-dom
@@ -16,11 +9,7 @@ import Image from "../Image";
 function ProductItem({ product }) {
     return (
         <ProductWrapper>
-            <CardMedia
-                component={Link}
-                to={`/san-pham/${product.slug}/detail`}
-                sx={{ height: "320px" }}
-            >
+            <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "320px" }}>
                 <Image src={product.image} alt={product.name} />
             </CardMedia>
             <CardContent
@@ -35,29 +24,13 @@ function ProductItem({ product }) {
                 <ProductName variant={"body2"}>{product.name}</ProductName>
                 <Stack direction={"row"} alignItems={"center"} mt={4}>
                     <Box>
-                        <Rating
-                            name="read-only"
-                            value={product.rating}
-                            readOnly
-                        />
+                        <Rating name="read-only" value={product.rating} readOnly />
                     </Box>
-                    <Typography
-                        variant={"body2"}
-                        fontSize={"16px"}
-                        color={"#666"}
-                        ml={2}
-                    >
+                    <Typography variant={"body2"} fontSize={"16px"} color={"#666"} ml={2}>
                         {product.numberViews} đánh giá
                     </Typography>
                 </Stack>
-                <Typography
-                    variant={"body2"}
-                    component={"h2"}
-                    fontSize={"18px"}
-                    color={"#252525"}
-                    fontWeight={700}
-                    mt={2}
-                >
+                <Typography variant={"body2"} component={"h2"} fontSize={"18px"} color={"#252525"} fontWeight={700} mt={2}>
                     <FormatNumber number={product.price} />
                 </Typography>
             </CardContent>

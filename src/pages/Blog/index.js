@@ -38,29 +38,13 @@ function Blog() {
                 <Fragment>
                     <Grid container maxWidth={"lg"}>
                         {blogs.map((blog) => (
-                            <Grid
-                                key={blog._id}
-                                item
-                                xs={12}
-                                sm={12}
-                                md={12}
-                                lg={12}
-                            >
+                            <Grid key={blog._id} item xs={12} sm={12} md={12} lg={12}>
                                 <BlogItem blog={blog} />
                             </Grid>
                         ))}
                     </Grid>
-                    <Grid
-                        container
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        mt={3}
-                        mb={3}
-                    >
-                        <Pagination
-                            pageCount={parseInt(pageCount)}
-                            url={"bai-viet"}
-                        />
+                    <Grid container alignItems={"center"} justifyContent={"center"} mt={3} mb={3}>
+                        <Pagination pageCount={parseInt(pageCount)} url={"bai-viet"} />
                     </Grid>
                 </Fragment>
             )}

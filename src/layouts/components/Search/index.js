@@ -9,13 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link, useLocation } from "react-router-dom";
 // Components
 // Styles
-import {
-    SearchInput,
-    SearchResultHeadingWrapper,
-    SearchTooltip,
-    SearchWrapper,
-    SearchWrapperIconSearch,
-} from "../../../styles/Search";
+import { SearchInput, SearchResultHeadingWrapper, SearchTooltip, SearchWrapper, SearchWrapperIconSearch } from "../../../styles/Search";
 import productApi from "../../../api/productApi";
 import { useDebounce } from "../../../hooks";
 import SearchItem from "./SearchResultProduct";
@@ -80,67 +74,29 @@ function Search({ matches }) {
                 title={
                     <Fragment>
                         <SearchResultHeadingWrapper>
-                            {!!searchValue && loading && (
-                                <CircularProgress size={20} />
-                            )}
+                            {!!searchValue && loading && <CircularProgress size={20} />}
                             {!loading && <SearchIcon />}
 
-                            <Typography
-                                variant="body2"
-                                component={"span"}
-                                fontSize={"18px"}
-                                ml={1}
-                            >
-                                {!!searchResult &&
-                                    `Kết quả tìm kiếm cho "${searchValue}"`}
+                            <Typography variant="body2" component={"span"} fontSize={"18px"} ml={1}>
+                                {!!searchResult && `Kết quả tìm kiếm cho "${searchValue}"`}
                             </Typography>
                         </SearchResultHeadingWrapper>
-                        <Box
-                            display={"flex"}
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                            padding={"6px 0 10px 0"}
-                        >
-                            <Typography
-                                variant={"body1"}
-                                component={"h2"}
-                                fontSize={"18px"}
-                                sx={{ color: "rgba(22, 24, 35, 0.5)" }}
-                            >
+                        <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={"6px 0 10px 0"}>
+                            <Typography variant={"body1"} component={"h2"} fontSize={"18px"} sx={{ color: "rgba(22, 24, 35, 0.5)" }}>
                                 Sản phẩm
                             </Typography>
-                            <Typography
-                                variant={"body1"}
-                                component={Link}
-                                color={"primary"}
-                                to={"/"}
-                            >
+                            <Typography variant={"body1"} component={Link} color={"primary"} to={"/"}>
                                 Xem tất cả
                             </Typography>
                         </Box>
                         {searchResult.map((product) => (
                             <SearchItem key={product._id} product={product} />
                         ))}
-                        <Box
-                            display={"flex"}
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                            padding={"6px 0 10px 0"}
-                        >
-                            <Typography
-                                variant={"body1"}
-                                component={"h2"}
-                                fontSize={"18px"}
-                                sx={{ color: "rgba(22, 24, 35, 0.5)" }}
-                            >
+                        <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} padding={"6px 0 10px 0"}>
+                            <Typography variant={"body1"} component={"h2"} fontSize={"18px"} sx={{ color: "rgba(22, 24, 35, 0.5)" }}>
                                 Bài viết
                             </Typography>
-                            <Typography
-                                variant={"body1"}
-                                component={Link}
-                                color={"primary"}
-                                to={"/"}
-                            >
+                            <Typography variant={"body1"} component={Link} color={"primary"} to={"/"}>
                                 Xem tất cả
                             </Typography>
                         </Box>
@@ -160,12 +116,7 @@ function Search({ matches }) {
                         value={searchValue}
                         onChange={handleSearch}
                     />
-                    {searchValue && (
-                        <IconButton
-                            children={<ClearIcon />}
-                            onClick={handleClear}
-                        />
-                    )}
+                    {searchValue && <IconButton children={<ClearIcon />} onClick={handleClear} />}
                     <SearchWrapperIconSearch>
                         <SearchIcon />
                     </SearchWrapperIconSearch>

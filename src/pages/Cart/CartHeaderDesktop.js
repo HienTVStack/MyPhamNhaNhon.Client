@@ -6,12 +6,7 @@ function CartHeaderDesktop() {
             <Checkbox />
             <Typography width={"600px"}>Sản phẩm</Typography>
 
-            <Box
-                flex={1}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-around"}
-            >
+            <Box flex={1} display={"flex"} alignItems={"center"} justifyContent={"space-around"}>
                 <Typography>Đơn giá</Typography>
                 <Typography>Số lượng</Typography>
                 <Typography>Số tiền</Typography>

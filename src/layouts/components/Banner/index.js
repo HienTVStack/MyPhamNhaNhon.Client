@@ -29,17 +29,8 @@ function Banner() {
         <Container sx={{ overflow: "hidden" }}>
             <Grid container maxWidth={"lg"}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Slide
-                        ref={containerRef}
-                        in={show}
-                        direction={show ? "left" : "right"}
-                        timeout={{ enter: 500, exit: 100 }}
-                    >
-                        <img
-                            src={BANNER_LIST[showIndex]}
-                            alt="banner"
-                            style={{ width: "100%", maxHeight: "500px" }}
-                        />
+                    <Slide ref={containerRef} in={show} direction={show ? "left" : "right"} timeout={{ enter: 500, exit: 100 }}>
+                        <img src={BANNER_LIST[showIndex]} alt="banner" style={{ width: "100%", maxHeight: "500px" }} />
                     </Slide>
                 </Grid>
             </Grid>

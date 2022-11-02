@@ -65,10 +65,7 @@ function Cart() {
     };
 
     return (
-        <Container
-            sx={{ marginTop: matches ? "180px" : "200px" }}
-            maxWidth={"lg"}
-        >
+        <Container sx={{ marginTop: matches ? "180px" : "200px" }} maxWidth={"lg"}>
             {carts.length <= 0 ? (
                 <NoCart />
             ) : (
@@ -95,11 +92,7 @@ function Cart() {
                             decrement={handleDecrement}
                         />
                     </Box>
-                    <CartFooter
-                        matches={matches}
-                        totalPrice={totalPrice()}
-                        totalAmount={totalAmount()}
-                    />
+                    <CartFooter matches={matches} totalPrice={totalPrice()} totalAmount={totalAmount()} />
                 </Fragment>
             )}
         </Container>

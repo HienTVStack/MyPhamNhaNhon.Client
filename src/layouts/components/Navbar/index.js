@@ -1,5 +1,4 @@
 // React
-import { useEffect, useState } from "react";
 // Material UI
 import { Drawer, List, Stack, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -23,12 +22,7 @@ const NavbarHeader = () => {
     const theme = useTheme();
 
     return (
-        <Stack
-            alignItems={"center"}
-            backgroundColor={"#fff"}
-            color={theme.palette.primary.main}
-            p={3}
-        >
+        <Stack alignItems={"center"} backgroundColor={"#fff"} color={theme.palette.primary.main} p={3}>
             <AccountCircleIcon sx={{ width: "70px", height: "70px" }} />
             <NavbarTextHeading component={Link} to={"/dang-nhap"}>
                 {user ? user.fullName : "ĐĂNG NHẬP"}
@@ -54,14 +48,7 @@ function Navbar({ ...props }) {
                 subheader={<NavbarHeader />}
             >
                 {MENUS_LIST.map((item, index) => (
-                    <MenuItem
-                        key={index}
-                        icon={item.icon}
-                        slug={item.slug}
-                        title={item.title}
-                        categories={categoryList}
-                        children={item.children}
-                    />
+                    <MenuItem key={index} icon={item.icon} slug={item.slug} title={item.title} categories={categoryList} children={item.children} />
                 ))}
             </List>
         </Drawer>

@@ -1,12 +1,4 @@
-import {
-    Avatar,
-    Box,
-    Container,
-    Grid,
-    Stack,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
+import { Avatar, Box, Container, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -48,30 +40,15 @@ function BlogDetail() {
             ) : (
                 <Fragment>
                     <Grid container spacing={2}>
-                        <Grid
-                            item
-                            xs={12}
-                            sm={12}
-                            md={12}
-                            lg={12}
-                            height={"500px"}
-                        >
+                        <Grid item xs={12} sm={12} md={12} lg={12} height={"500px"}>
                             <Image src={blog.thumbnail} alt={blog.name} />
                             <BlogDetailName variant="body2" component="h1">
                                 {blog.name}
                             </BlogDetailName>
                             <Box display={"flex"} alignItems={"center"}>
-                                <Avatar
-                                    src={blog.thumbnail}
-                                    sx={{ height: "40px", width: "40px" }}
-                                    alt={blog.name}
-                                />
+                                <Avatar src={blog.thumbnail} sx={{ height: "40px", width: "40px" }} alt={blog.name} />
                                 <Stack justifyContent={"space-between"} ml={2}>
-                                    <Typography variant="body2">
-                                        {blog.author
-                                            ? `${blog.author}`
-                                            : "Bài viết được đăng bởi Admin"}
-                                    </Typography>
+                                    <Typography variant="body2">{blog.author ? `${blog.author}` : "Bài viết được đăng bởi Admin"}</Typography>
                                     <Typography variant="body2" mt={1}>
                                         {blog.updatedAt}
                                     </Typography>

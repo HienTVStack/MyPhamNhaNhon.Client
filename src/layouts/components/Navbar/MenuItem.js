@@ -1,13 +1,6 @@
 import { Fragment, useState } from "react";
 // Material UI
-import {
-    Collapse,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Typography,
-} from "@mui/material";
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 // Material icons
@@ -44,11 +37,7 @@ function MenuItem({ icon, title, slug, categories, children }) {
             {children && (
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List sx={{ backgroundColor: theme.palette.primary.main }}>
-                        <ListItemButton
-                            component={Link}
-                            to={`/san-pham`}
-                            sx={{ pl: 4, borderBottom: "1px solid #fff" }}
-                        >
+                        <ListItemButton component={Link} to={`/san-pham`} sx={{ pl: 4, borderBottom: "1px solid #fff" }}>
                             <ListItemText primary={"Tất cả"} />
                         </ListItemButton>
                         {categories.map((item, index) => (

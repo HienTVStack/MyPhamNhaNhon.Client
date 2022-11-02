@@ -3,11 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-    HeadingContentTitle,
-    HeadingContentViewAll,
-    HeadingContentWrapper,
-} from "../../styles/HeadingContent";
+import { HeadingContentTitle, HeadingContentViewAll, HeadingContentWrapper } from "../../styles/HeadingContent";
 
 function HeadingContent({ title, viewList, urlViewAll }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -23,10 +19,7 @@ function HeadingContent({ title, viewList, urlViewAll }) {
                     {title}
                 </HeadingContentTitle>
                 {!!urlViewAll && (
-                    <HeadingContentViewAll
-                        component={Link}
-                        to={`${urlViewAll}`}
-                    >
+                    <HeadingContentViewAll component={Link} to={`${urlViewAll}`}>
                         Xem tất cả
                     </HeadingContentViewAll>
                 )}
@@ -37,28 +30,17 @@ function HeadingContent({ title, viewList, urlViewAll }) {
                                 backgroundColor: "#fff",
                                 "&:hover": { backgroundColor: "#fff" },
                             }}
-                            endIcon={
-                                open ? <ExpandLessIcon /> : <ExpandMoreIcon />
-                            }
+                            endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                             onClick={handleShow}
                         >
                             Tất cả
                         </Button>
-                        <Menu
-                            open={open}
-                            anchorEl={anchorEl}
-                            TransitionComponent={Fade}
-                            onClose={() => setAnchorEl(null)}
-                        >
+                        <Menu open={open} anchorEl={anchorEl} TransitionComponent={Fade} onClose={() => setAnchorEl(null)}>
                             <MenuItem component={Link} to="/">
                                 Tất cả
                             </MenuItem>
                             {viewList.map((item, index) => (
-                                <MenuItem
-                                    key={index}
-                                    component={Link}
-                                    to={`/san-pham/${item.namUrl}`}
-                                >
+                                <MenuItem key={index} component={Link} to={`/san-pham/${item.namUrl}`}>
                                     {item.name}
                                 </MenuItem>
                             ))}

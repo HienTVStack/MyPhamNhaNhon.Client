@@ -21,14 +21,7 @@ function Footer() {
             }}
         >
             {IMGS.map((img, index) => (
-                <img
-                    src={img}
-                    key={index}
-                    alt={index}
-                    heigh="40px"
-                    width="60px"
-                    style={{ padding: "8px" }}
-                />
+                <img src={img} key={index} alt={index} heigh="40px" width="60px" style={{ padding: "8px" }} />
             ))}
         </Box>
     );

@@ -23,13 +23,7 @@ function AppBarHeaderMobile() {
                 }}
             >
                 {ICONS.map((icon, index) => (
-                    <IconButton
-                        key={index}
-                        href={icon.to}
-                        children={icon.icon}
-                        sx={{ color: "#fff" }}
-                        size={"large"}
-                    />
+                    <IconButton key={index} href={icon.to} children={icon.icon} sx={{ color: "#fff" }} size={"large"} />
                 ))}
             </Toolbar>
         </AppBar>

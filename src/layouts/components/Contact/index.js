@@ -34,98 +34,41 @@ function Contact() {
                 <Container>
                     <Grid container maxWidth={"lg"} spacing={6}>
                         <Grid item xs={12} sm={12} md={6} lg={4}>
-                            <ContactContentWrapper
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                            >
+                            <ContactContentWrapper justifyContent={"center"} alignItems={"center"}>
                                 <ContactIconWrapper>
-                                    <CallIcon
-                                        fontSize="large"
-                                        color="primary"
-                                    />
+                                    <CallIcon fontSize="large" color="primary" />
                                 </ContactIconWrapper>
-                                <Typography
-                                    variant="h3"
-                                    fontSize="20px"
-                                    color={"#000"}
-                                    fontWeight={"700"}
-                                    p={1}
-                                    mt={1}
-                                >
+                                <Typography variant="h3" fontSize="20px" color={"#000"} fontWeight={"700"} p={1} mt={1}>
                                     Tổng đài hổ trợ
                                 </Typography>
-                                <Typography
-                                    variant="body2"
-                                    fontSize="16px"
-                                    color="#666666"
-                                    fontWeight={"400"}
-                                    p={1}
-                                >
+                                <Typography variant="body2" fontSize="16px" color="#666666" fontWeight={"400"} p={1}>
                                     Tư vấn 24/7
                                 </Typography>
                             </ContactContentWrapper>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={6} lg={4}>
-                            <ContactContentWrapper
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                            >
+                            <ContactContentWrapper justifyContent={"center"} alignItems={"center"}>
                                 <ContactIconWrapper>
-                                    <LocationOnIcon
-                                        fontSize="large"
-                                        color="primary"
-                                    />
+                                    <LocationOnIcon fontSize="large" color="primary" />
                                 </ContactIconWrapper>
-                                <Typography
-                                    variant="h3"
-                                    fontSize="20px"
-                                    color={"#000"}
-                                    fontWeight={"700"}
-                                    p={1}
-                                    mt={1}
-                                >
+                                <Typography variant="h3" fontSize="20px" color={"#000"} fontWeight={"700"} p={1} mt={1}>
                                     Địa chỉ
                                 </Typography>
-                                <Typography
-                                    variant="body2"
-                                    fontSize="16px"
-                                    color="#666666"
-                                    fontWeight={"400"}
-                                    p={1}
-                                >
+                                <Typography variant="body2" fontSize="16px" color="#666666" fontWeight={"400"} p={1}>
                                     Núi Thành, QUảng Nam
                                 </Typography>
                             </ContactContentWrapper>
                         </Grid>
                         <Grid item xs={12} sm={12} md={6} lg={4}>
-                            <ContactContentWrapper
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                            >
+                            <ContactContentWrapper justifyContent={"center"} alignItems={"center"}>
                                 <ContactIconWrapper>
-                                    <FacebookOutlinedIcon
-                                        fontSize="large"
-                                        color="primary"
-                                    />
+                                    <FacebookOutlinedIcon fontSize="large" color="primary" />
                                 </ContactIconWrapper>
-                                <Typography
-                                    variant="h3"
-                                    fontSize="20px"
-                                    color={"#000"}
-                                    fontWeight={"700"}
-                                    p={1}
-                                    mt={1}
-                                >
+                                <Typography variant="h3" fontSize="20px" color={"#000"} fontWeight={"700"} p={1} mt={1}>
                                     Liên hệ Facebook
                                 </Typography>
-                                <Typography
-                                    variant="body2"
-                                    fontSize="16px"
-                                    color="#666666"
-                                    fontWeight={"400"}
-                                    p={1}
-                                >
+                                <Typography variant="body2" fontSize="16px" color="#666666" fontWeight={"400"} p={1}>
                                     /tiemmyphamtanthoi
                                 </Typography>
                             </ContactContentWrapper>

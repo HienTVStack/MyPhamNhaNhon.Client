@@ -31,25 +31,13 @@ function Category() {
 
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }}>
-            <Grid
-                container
-                maxWidth={"lg"}
-                spacing={1}
-                justifyContent={"center"}
-            >
+            <Grid container maxWidth={"lg"} spacing={1} justifyContent={"center"}>
                 {loading ? (
                     <Loading fullHeight />
                 ) : (
                     <Fragment>
                         {categories.map((product) => (
-                            <Grid
-                                key={product._id}
-                                item
-                                xs={6}
-                                sm={6}
-                                md={4}
-                                lg={4}
-                            >
+                            <Grid key={product._id} item xs={6} sm={6} md={4} lg={4}>
                                 <ProductItem product={product} />
                             </Grid>
                         ))}
@@ -57,13 +45,7 @@ function Category() {
                 )}
             </Grid>
 
-            <Grid
-                container
-                alignItems={"center"}
-                justifyContent={"center"}
-                mt={3}
-                mb={3}
-            >
+            <Grid container alignItems={"center"} justifyContent={"center"} mt={3} mb={3}>
                 <Pagination pageCount={parseInt(pageCount)} url={"san-pham"} />
             </Grid>
         </Container>

@@ -69,15 +69,11 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
                     </CartActionsQuantity>
 
                     <CartActionsQuantity>
-                        <CartItemButtonAction
-                            onClick={() => handleDecrement(cart)}
-                        >
+                        <CartItemButtonAction onClick={() => handleDecrement(cart)}>
                             <RemoveIcon />
                         </CartItemButtonAction>
                         <CartItemQuantity value={cart.quantity} disabled />
-                        <CartItemButtonAction
-                            onClick={() => handleIncrement(cart)}
-                        >
+                        <CartItemButtonAction onClick={() => handleIncrement(cart)}>
                             <AddIcon />
                         </CartItemButtonAction>
                     </CartActionsQuantity>
@@ -88,36 +84,18 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
                         </Typography>
                     )}
                     {matches && (
-                        <Box
-                            display={"flex"}
-                            flexDirection={"column"}
-                            alignItems={"center"}
-                        >
-                            <Button
-                                variant="text"
-                                onClick={() => handleRemoveCartItem(cart.id)}
-                            >
+                        <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+                            <Button variant="text" onClick={() => handleRemoveCartItem(cart.id)}>
                                 Xóa
                             </Button>
-                            <Box
-                                display={"block"}
-                                width={"120px"}
-                                textAlign={"center"}
-                                component={Link}
-                                to={`/san-pham/${cart.category}`}
-                            >
+                            <Box display={"block"} width={"120px"} textAlign={"center"} component={Link} to={`/san-pham/${cart.category}`}>
                                 Tìm sản phẩm tương tự
                             </Box>
                         </Box>
                     )}
                 </CartItemContentWrapper>
             </Box>
-            {!matches && (
-                <CartItemActionRemoveCart
-                    size="small"
-                    children={<HighlightOffIcon />}
-                ></CartItemActionRemoveCart>
-            )}
+            {!matches && <CartItemActionRemoveCart size="small" children={<HighlightOffIcon />}></CartItemActionRemoveCart>}
         </CartItemWrapper>
     );
 }

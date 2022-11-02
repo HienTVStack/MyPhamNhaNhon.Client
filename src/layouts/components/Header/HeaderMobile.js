@@ -32,14 +32,7 @@ function HeaderMobile({ matches, props }) {
             <HiddenScroll {...props}>
                 <AppBar>
                     <Toolbar>
-                        <Stack
-                            width={"100%"}
-                            direction={"row"}
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                            pt={1}
-                            pb={1}
-                        >
+                        <Stack width={"100%"} direction={"row"} alignItems={"center"} justifyContent={"space-between"} pt={1} pb={1}>
                             <IconButton
                                 sx={{
                                     color: theme.palette.primary.contrastText,
@@ -52,9 +45,7 @@ function HeaderMobile({ matches, props }) {
                             <HeaderAction matches={matches} />
                         </Stack>
                     </Toolbar>
-                    <Toolbar
-                        sx={{ alignItems: "center", justifyContent: "center" }}
-                    >
+                    <Toolbar sx={{ alignItems: "center", justifyContent: "center" }}>
                         <Search matches={matches} />
                     </Toolbar>
                 </AppBar>

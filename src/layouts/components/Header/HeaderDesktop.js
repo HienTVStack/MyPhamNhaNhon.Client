@@ -11,11 +11,7 @@ function HeaderDesktop({ matches, props }) {
                 <AppBar enableColorOnDark={true}>
                     <Toolbar sx={{ padding: "10px" }}>
                         <Container>
-                            <Stack
-                                direction={"row"}
-                                alignItems={"center"}
-                                justifyContent={"space-between"}
-                            >
+                            <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
                                 <Logo matches={matches} />
                                 <Search matches={matches} />
                                 <HeaderAction matches={matches} />

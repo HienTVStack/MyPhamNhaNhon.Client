@@ -8,11 +8,7 @@ function Header() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
 
-    return matches ? (
-        <HeaderMobile matches={matches} />
-    ) : (
-        <HeaderDesktop matches={matches} />
-    );
+    return matches ? <HeaderMobile matches={matches} /> : <HeaderDesktop matches={matches} />;
 }
 
 export default Header;

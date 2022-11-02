@@ -1,13 +1,5 @@
 // Material UI
-import {
-    AppBar,
-    Toolbar,
-    Stack,
-    Container,
-    Grid,
-    Typography,
-    IconButton,
-} from "@mui/material";
+import { AppBar, Toolbar, Stack, Container, Grid, Typography, IconButton } from "@mui/material";
 // Material icons
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -27,12 +19,7 @@ function AppBarHeaderDesktop() {
             <Toolbar variant="dense" sx={{ backgroundColor: "#382F2B" }}>
                 <Container>
                     <Grid container maxWidth={"lg"}>
-                        <Stack
-                            direction={"row"}
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                            width={"100%"}
-                        >
+                        <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} width={"100%"}>
                             <Typography
                                 component={Link}
                                 to={"/"}
@@ -46,13 +33,7 @@ function AppBarHeaderDesktop() {
                             </Typography>
                             <Stack direction={"row"} alignItems={"center"}>
                                 {ICONS.map((icon, index) => (
-                                    <IconButton
-                                        key={index}
-                                        href={icon.to}
-                                        children={icon.icon}
-                                        sx={{ color: "#fff" }}
-                                        size={"large"}
-                                    />
+                                    <IconButton key={index} href={icon.to} children={icon.icon} sx={{ color: "#fff" }} size={"large"} />
                                 ))}
                             </Stack>
                         </Stack>

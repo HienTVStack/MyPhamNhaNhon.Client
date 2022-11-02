@@ -1,14 +1,5 @@
 // Material UI
-import {
-    Stack,
-    IconButton,
-    Badge,
-    useTheme,
-    Button,
-    Menu,
-    MenuItem,
-    Fade,
-} from "@mui/material";
+import { Stack, IconButton, Badge, useTheme, Button, Menu, MenuItem, Fade } from "@mui/material";
 // Material icons
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -41,30 +32,18 @@ function HeaderAction({ matches }) {
             <Stack>
                 {matches ? (
                     <Fragment>
-                        <IconButton
-                            mr={2}
-                            sx={{ color: theme.palette.primary.contrastText }}
-                            onClick={handleOpenMenu}
-                        >
+                        <IconButton mr={2} sx={{ color: theme.palette.primary.contrastText }} onClick={handleOpenMenu}>
                             <PersonIcon />
                             <ArrowDropDownIcon />
                         </IconButton>
-                        <Menu
-                            open={open}
-                            anchorEl={anchorEl}
-                            TransitionComponent={Fade}
-                            onClose={handleClose}
-                        >
+                        <Menu open={open} anchorEl={anchorEl} TransitionComponent={Fade} onClose={handleClose}>
                             {user ? (
                                 <MenuItem component={Link} to={"/tai-khoan"}>
                                     {user.fullName}
                                 </MenuItem>
                             ) : (
                                 <>
-                                    <MenuItem
-                                        component={Link}
-                                        to={"/dang-nhap"}
-                                    >
+                                    <MenuItem component={Link} to={"/dang-nhap"}>
                                         ĐĂNG NHẬP
                                     </MenuItem>
                                     <MenuItem component={Link} to={"/dang-ky"}>
@@ -92,12 +71,7 @@ function HeaderAction({ matches }) {
                 )}
             </Stack>
             <Badge badgeContent={4} color={"error"}>
-                <IconButton
-                    component={Link}
-                    to={"/gio-hang"}
-                    sx={{ color: theme.palette.primary.contrastText }}
-                    children={<ShoppingCartIcon />}
-                />
+                <IconButton component={Link} to={"/gio-hang"} sx={{ color: theme.palette.primary.contrastText }} children={<ShoppingCartIcon />} />
             </Badge>
         </Stack>
     );

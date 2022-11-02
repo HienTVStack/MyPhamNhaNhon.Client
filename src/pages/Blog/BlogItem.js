@@ -1,11 +1,6 @@
 import { CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
-import {
-    BlogItemMedia,
-    BlogItemName,
-    BlogItemSub,
-    BlogItemWrapper,
-} from "../../styles/Blog";
+import { BlogItemMedia, BlogItemName, BlogItemSub, BlogItemWrapper } from "../../styles/Blog";
 import Image from "../../components/Image";
 
 function BlogItem({ blog }) {
@@ -19,9 +14,7 @@ function BlogItem({ blog }) {
                     {blog.name}
                 </BlogItemName>
                 <BlogItemSub variant="body2">{blog.description}</BlogItemSub>
-                <BlogItemSub variant="body2">
-                    Cập nhật lúc {blog.updatedAt}
-                </BlogItemSub>
+                <BlogItemSub variant="body2">Cập nhật lúc {blog.updatedAt}</BlogItemSub>
             </CardContent>
         </BlogItemWrapper>
     );

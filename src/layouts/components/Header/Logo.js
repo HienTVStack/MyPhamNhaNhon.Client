@@ -5,12 +5,7 @@ import { Link } from "react-router-dom";
 
 function Logo({ matches, ...props }) {
     return (
-        <Box
-            component={Link}
-            to="/"
-            width={matches ? "190px" : "317px"}
-            height={matches ? "54px" : "90px"}
-        >
+        <Box component={Link} to="/" width={matches ? "190px" : "317px"} height={matches ? "54px" : "90px"}>
             <Image src={images.logo} alt={"Tiệm mỹ phẩm tân thời (logo)"} />
         </Box>
     );

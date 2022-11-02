@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-    Alert,
-    Card,
-    CardContent,
-    Snackbar,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
+import { Alert, Card, CardContent, Snackbar, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import LoadingButton from "@mui/lab/LoadingButton";
 import authApi from "../../api/authApi";
@@ -28,13 +19,7 @@ function ForgotPassword() {
     const preDate = new Date(query.get("date"));
 
     const today = new Date();
-    const date =
-        today.getMonth() +
-        1 +
-        "-" +
-        today.getDate() +
-        "-" +
-        today.getFullYear();
+    const date = today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
 
     console.log(preDate.getTime() === new Date(date).getTime());
 
@@ -86,23 +71,10 @@ function ForgotPassword() {
 
     return (
         <>
-            <Stack
-                alignItems={"center"}
-                justifyContent={"center"}
-                sx={{ marginTop: matches ? "180px" : "200px" }}
-            >
-                <Card
-                    sx={{ width: "400px" }}
-                    component={"form"}
-                    noValidate
-                    onSubmit={handleSubmit}
-                >
+            <Stack alignItems={"center"} justifyContent={"center"} sx={{ marginTop: matches ? "180px" : "200px" }}>
+                <Card sx={{ width: "400px" }} component={"form"} noValidate onSubmit={handleSubmit}>
                     <CardContent>
-                        <Typography
-                            variant="h3"
-                            color="primary"
-                            textAlign={"center"}
-                        >
+                        <Typography variant="h3" color="primary" textAlign={"center"}>
                             Thay đổi mật khẩu
                         </Typography>
                         <Typography variant="body2" textAlign={"center"}>
@@ -136,24 +108,13 @@ function ForgotPassword() {
                             helperText={confirmPasswordErr}
                         />
 
-                        <LoadingButton
-                            type="submit"
-                            fullWidth
-                            loading={loading}
-                            variant="outlined"
-                            size="large"
-                            sx={{ marginTop: "20px" }}
-                        >
+                        <LoadingButton type="submit" fullWidth loading={loading} variant="outlined" size="large" sx={{ marginTop: "20px" }}>
                             Xác nhận
                         </LoadingButton>
                     </CardContent>
                 </Card>
             </Stack>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            >
+            <Snackbar open={open} autoHideDuration={6000} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
                 <Alert severity="success" sx={{ width: "100%" }}>
                     Bạn thay đổi mật khẩu thành công!
                 </Alert>

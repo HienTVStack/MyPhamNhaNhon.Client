@@ -1,12 +1,4 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
+import { Button, Card, CardContent, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
@@ -96,8 +88,7 @@ function Signup() {
         if (err) return;
 
         //Random code confirm
-        const codeConfirm =
-            Math.floor(Math.random() * (999999 - 100000)) + 100000;
+        const codeConfirm = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
         try {
             const res = await authApi.register({
@@ -132,23 +123,10 @@ function Signup() {
     };
 
     return (
-        <Stack
-            alignItems={"center"}
-            justifyContent={"center"}
-            sx={{ marginTop: matches ? "180px" : "200px" }}
-        >
-            <Card
-                sx={{ width: "400px" }}
-                component={"form"}
-                noValidate
-                onSubmit={handleSubmit}
-            >
+        <Stack alignItems={"center"} justifyContent={"center"} sx={{ marginTop: matches ? "180px" : "200px" }}>
+            <Card sx={{ width: "400px" }} component={"form"} noValidate onSubmit={handleSubmit}>
                 <CardContent>
-                    <Typography
-                        variant="h3"
-                        color="primary"
-                        textAlign={"center"}
-                    >
+                    <Typography variant="h3" color="primary" textAlign={"center"}>
                         Đăng ký
                     </Typography>
                     {/* {showMsgNotify && (
@@ -230,24 +208,11 @@ function Signup() {
                         size="normal"
                         onChange={() => setCheckReCaptcha(true)}
                     />
-                    <LoadingButton
-                        type="submit"
-                        fullWidth
-                        loading={loading}
-                        variant="outlined"
-                        size="large"
-                        sx={{ marginTop: "20px" }}
-                    >
+                    <LoadingButton type="submit" fullWidth loading={loading} variant="outlined" size="large" sx={{ marginTop: "20px" }}>
                         Đăng ký
                     </LoadingButton>
                 </CardContent>
-                <Button
-                    fullWidth
-                    size="small"
-                    component={Link}
-                    to={"/dang-nhap"}
-                    sx={{ mb: "16px" }}
-                >
+                <Button fullWidth size="small" component={Link} to={"/dang-nhap"} sx={{ mb: "16px" }}>
                     Bạn đã có tài khoản? Đăng nhập
                 </Button>
             </Card>

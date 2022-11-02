@@ -11,13 +11,7 @@ function SearchResultBlog({ blog }) {
                 <Image src={blog.thumbnail} alt={blog.name} />
             </Box>
             <Stack justifyContent={"center"} flex={1} ml={1}>
-                <Typography
-                    variant={"body1"}
-                    component="h4"
-                    fontSize={"16px"}
-                    color={"rgba(22,24,35,.8)"}
-                    lineHeight={1.5}
-                >
+                <Typography variant={"body1"} component="h4" fontSize={"16px"} color={"rgba(22,24,35,.8)"} lineHeight={1.5}>
                     {blog.name}
                 </Typography>
             </Stack>

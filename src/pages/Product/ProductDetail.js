@@ -1,20 +1,7 @@
 // React
 import { useEffect, useState } from "react";
 // Material UI
-import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Divider,
-    Grid,
-    Rating,
-    Tab,
-    Tabs,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
+import { Box, Button, Card, CardContent, Container, Divider, Grid, Rating, Tab, Tabs, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 // React slick
 // import Slider from "react-slick";
@@ -30,13 +17,7 @@ import Loading from "../../components/Loading";
 // import HeadingContent from "../../components/HeadingContent";
 // import ProductItem from "../../components/ProductItem";
 // Styles
-import {
-    ProductDetailWrapper,
-    ProductImageItem,
-    ProductInfoItem,
-    ProductInfoWrapper,
-    ProductNameMain,
-} from "../../styles/Product";
+import { ProductDetailWrapper, ProductImageItem, ProductInfoItem, ProductInfoWrapper, ProductNameMain } from "../../styles/Product";
 // Component children
 import ProductInfoOrder from "./ProductInfoOrder";
 import ProductContent from "./ProductContent";
@@ -46,13 +27,7 @@ function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
+        <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
             {value === index && (
                 <Box sx={{ p: 3 }}>
                     <Typography>{children}</Typography>
@@ -120,34 +95,13 @@ function ProductDetail() {
                             </CardContent>
                         )}
                         <Box height={"500px"} p={2} mb={0}>
-                            <Image
-                                src={productImage[indexImageShow]}
-                                alt={product.name}
-                            />
+                            <Image src={productImage[indexImageShow]} alt={product.name} />
                         </Box>
-                        <Grid
-                            container
-                            spacing={2}
-                            sx={{ overflowX: "auto" }}
-                            padding={"0 16px"}
-                        >
+                        <Grid container spacing={2} sx={{ overflowX: "auto" }} padding={"0 16px"}>
                             {productImage.map((img, index) => (
-                                <Grid
-                                    key={index}
-                                    item
-                                    xs={3}
-                                    sm={3}
-                                    md={3}
-                                    lg={3}
-                                >
-                                    <ProductImageItem
-                                        onClick={() => setIndexImageShow(index)}
-                                    >
-                                        <Image
-                                            src={img}
-                                            key={index}
-                                            alt={`${product.name} ${index}`}
-                                        />
+                                <Grid key={index} item xs={3} sm={3} md={3} lg={3}>
+                                    <ProductImageItem onClick={() => setIndexImageShow(index)}>
+                                        <Image src={img} key={index} alt={`${product.name} ${index}`} />
                                     </ProductImageItem>
                                 </Grid>
                             ))}
@@ -158,22 +112,12 @@ function ProductDetail() {
                     <Card sx={{ height: matches ? "600px" : "auto" }}>
                         <CardContent>
                             <Box>
-                                <Typography
-                                    variant="body2"
-                                    component="h1"
-                                    fontWeight={700}
-                                    fontSize={"20px"}
-                                    lineHeight={"20px"}
-                                >
+                                <Typography variant="body2" component="h1" fontWeight={700} fontSize={"20px"} lineHeight={"20px"}>
                                     {product.name}
                                 </Typography>
                                 <Box display={"flex"} alignItems={"center"}>
                                     <Rating disabled value={product.rating} />
-                                    <Divider
-                                        orientation="vertical"
-                                        flexItem
-                                        sx={{ margin: "0 8px" }}
-                                    />
+                                    <Divider orientation="vertical" flexItem sx={{ margin: "0 8px" }} />
                                     <Typography variant="body2" mt={"5px"}>
                                         {product.numReviews} đánh giá
                                     </Typography>
@@ -188,23 +132,14 @@ function ProductDetail() {
                                 ></span>
                             </Box>
 
-                            <ProductInfoOrder
-                                price={product.price}
-                                countInStock={product.quantityStock}
-                            />
+                            <ProductInfoOrder price={product.price} countInStock={product.quantityStock} />
 
                             <ProductInfoWrapper sx={{ border: "none" }}>
                                 <ProductInfoItem>
-                                    <Button
-                                        variant="outlined"
-                                        size={matches ? "large" : "medium"}
-                                    >
+                                    <Button variant="outlined" size={matches ? "large" : "medium"}>
                                         Thêm vào giỏ hàng
                                     </Button>
-                                    <Button
-                                        variant="contained"
-                                        size={matches ? "large" : "medium"}
-                                    >
+                                    <Button variant="contained" size={matches ? "large" : "medium"}>
                                         Mua ngay
                                     </Button>
                                 </ProductInfoItem>
@@ -216,22 +151,9 @@ function ProductDetail() {
 
             <Grid container maxWidth={"lg"} mt={3} mb={3}>
                 <ProductDetailWrapper>
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="basic tabs example"
-                        sx={{ width: "100%" }}
-                    >
-                        <Tab
-                            label="Mô tả"
-                            sx={{ width: "50%", minWidth: "50%" }}
-                            {...a11yProps(0)}
-                        />
-                        <Tab
-                            label="Đánh giá"
-                            sx={{ width: "50%", minWidth: "50%" }}
-                            {...a11yProps(1)}
-                        />
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ width: "100%" }}>
+                        <Tab label="Mô tả" sx={{ width: "50%", minWidth: "50%" }} {...a11yProps(0)} />
+                        <Tab label="Đánh giá" sx={{ width: "50%", minWidth: "50%" }} {...a11yProps(1)} />
                     </Tabs>
                     <TabPanel value={value} index={0}>
                         <ProductContent detail={product.detailContent} />

@@ -15,14 +15,7 @@ function Pagination({ pageCount, url, props }) {
                 shape="rounded"
                 color="primary"
                 renderItem={(item, index) => (
-                    <PaginationItem
-                        key={index}
-                        component={Link}
-                        to={`/${url}${
-                            item.page === 1 ? "" : `?page=${item.page}`
-                        }`}
-                        {...item}
-                    />
+                    <PaginationItem key={index} component={Link} to={`/${url}${item.page === 1 ? "" : `?page=${item.page}`}`} {...item} />
                 )}
                 {...props}
             />

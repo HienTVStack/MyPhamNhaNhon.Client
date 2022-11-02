@@ -1,13 +1,4 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    Divider,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
+import { Button, Card, CardContent, Divider, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
@@ -67,7 +58,6 @@ function Login() {
             setLoading(false);
             navigate("/");
         } catch (error) {
-            // alert(`Login ${error}`);
             setLoading(false);
             const errors = error.data.errors;
 
@@ -87,14 +77,11 @@ function Login() {
         onSuccess: async (res) => {
             setLoading(true);
             try {
-                const data = await axios.get(
-                    "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${res.access_token}`,
-                        },
-                    }
-                );
+                const data = await axios.get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
+                    headers: {
+                        Authorization: `Bearer ${res.access_token}`,
+                    },
+                });
                 console.log(data.data);
                 try {
                     const res = await authApi.loginGoogle(data.data);
@@ -127,35 +114,14 @@ function Login() {
     };
 
     return (
-        <Stack
-            alignItems={"center"}
-            justifyContent={"center"}
-            sx={{ marginTop: matches ? "180px" : "200px" }}
-        >
-            <Card
-                sx={{ width: "400px" }}
-                component={"form"}
-                noValidate
-                onSubmit={handleSubmit}
-            >
+        <Stack alignItems={"center"} justifyContent={"center"} sx={{ marginTop: matches ? "180px" : "200px" }}>
+            <Card sx={{ width: "400px" }} component={"form"} noValidate onSubmit={handleSubmit}>
                 <CardContent>
-                    <Typography
-                        variant="h3"
-                        color="primary"
-                        textAlign={"center"}
-                    >
+                    <Typography variant="h3" color="primary" textAlign={"center"}>
                         Đăng nhập
                     </Typography>
-                    <Stack
-                        flexDirection={"row"}
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                        width={"100%"}
-                    >
-                        <Button
-                            onClick={handleLoginWidthGoogle}
-                            sx={{ maxWidth: "50%" }}
-                        >
+                    <Stack flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"} width={"100%"}>
+                        <Button onClick={handleLoginWidthGoogle} sx={{ maxWidth: "50%" }}>
                             <img
                                 src={images.signWithGoogle}
                                 alt="Login-width-google"
@@ -214,27 +180,14 @@ function Login() {
                         error={passwordErr !== ""}
                         helperText={passwordErr}
                     />
-                    <LoadingButton
-                        type="submit"
-                        fullWidth
-                        loading={loading}
-                        variant="outlined"
-                        size="large"
-                        sx={{ marginTop: "20px" }}
-                    >
+                    <LoadingButton type="submit" fullWidth loading={loading} variant="outlined" size="large" sx={{ marginTop: "20px" }}>
                         Đăng nhập
                     </LoadingButton>
                 </CardContent>
                 <Button fullWidth size="large" component={Link} to={"/dang-ky"}>
                     Tạo tài khoản mới
                 </Button>
-                <Button
-                    fullWidth
-                    size="large"
-                    component={Link}
-                    to={"/quen-mat-khau"}
-                    sx={{ mb: "16px" }}
-                >
+                <Button fullWidth size="large" component={Link} to={"/quen-mat-khau"} sx={{ mb: "16px" }}>
                     Quên mật khẩu?
                 </Button>
             </Card>

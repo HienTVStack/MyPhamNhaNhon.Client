@@ -1,11 +1,7 @@
 import { Divider, MenuItem, Select } from "@mui/material";
 import { Fragment, useState } from "react";
 import NumberFormat from "react-number-format";
-import {
-    ProductInfoItem,
-    ProductInfoItemTitle,
-    ProductInfoWrapper,
-} from "../../styles/Product";
+import { ProductInfoItem, ProductInfoItemTitle, ProductInfoWrapper } from "../../styles/Product";
 
 function ProductInfoOrder({ price, quantityStock }) {
     const [numberBuy, setNumberBuy] = useState(1);
@@ -13,37 +9,25 @@ function ProductInfoOrder({ price, quantityStock }) {
         <Fragment>
             <ProductInfoWrapper>
                 <ProductInfoItem>
-                    <ProductInfoItemTitle component="h4">
-                        Giá
-                    </ProductInfoItemTitle>
+                    <ProductInfoItemTitle component="h4">Giá</ProductInfoItemTitle>
                     <ProductInfoItemTitle component="h4">
                         <NumberFormat
                             value={price}
                             displayType={"text"}
                             thousandSeparator={true}
                             suffix={" đ"}
-                            renderText={(value, props) => (
-                                <div {...props}>{value}</div>
-                            )}
+                            renderText={(value, props) => <div {...props}>{value}</div>}
                         />
                     </ProductInfoItemTitle>
                 </ProductInfoItem>
                 <Divider />
                 <ProductInfoItem>
-                    <ProductInfoItemTitle component="h4">
-                        Trạng thái
-                    </ProductInfoItemTitle>
-                    <ProductInfoItemTitle component="h4">
-                        {quantityStock > 0
-                            ? `Còn hàng ${quantityStock}`
-                            : "Hết hàng"}
-                    </ProductInfoItemTitle>
+                    <ProductInfoItemTitle component="h4">Trạng thái</ProductInfoItemTitle>
+                    <ProductInfoItemTitle component="h4">{quantityStock > 0 ? `Còn hàng ${quantityStock}` : "Hết hàng"}</ProductInfoItemTitle>
                 </ProductInfoItem>
                 <Divider />
                 <ProductInfoItem>
-                    <ProductInfoItemTitle component="h4">
-                        Số lượng
-                    </ProductInfoItemTitle>
+                    <ProductInfoItemTitle component="h4">Số lượng</ProductInfoItemTitle>
                     <Select
                         value={numberBuy}
                         displayEmpty
