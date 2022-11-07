@@ -5,15 +5,20 @@ import Image from "../../components/Image";
 
 function BlogItem({ blog }) {
     return (
-        <BlogItemWrapper component={Link} to={`/bai-viet/${blog.nameNoTones}`}>
+        <BlogItemWrapper component={Link} to={`/bai-viet/${blog.slug}`}>
             <BlogItemMedia>
-                <Image src={blog.thumbnail} alt={blog.name} />
+                <Image src={blog.image} alt={blog.title} />
             </BlogItemMedia>
             <CardContent>
                 <BlogItemName variant="body2" component={"h1"}>
-                    {blog.name}
+                    {blog.title}
                 </BlogItemName>
-                <BlogItemSub variant="body2">{blog.description}</BlogItemSub>
+                <BlogItemSub
+                    variant="body2"
+                    dangerouslySetInnerHTML={{
+                        __html: `${blog.description}`,
+                    }}
+                ></BlogItemSub>
                 <BlogItemSub variant="body2">Cập nhật lúc {blog.updatedAt}</BlogItemSub>
             </CardContent>
         </BlogItemWrapper>

@@ -16,6 +16,7 @@ import BlogHome from "./BlogHome";
 import ProductHome from "./ProductHome";
 import ViewMore from "../../components/ButtonViewMore";
 import { useSelector } from "react-redux";
+import blogApi from "../../api/blogApi";
 
 function Home() {
     const categories = useSelector((state) => state.data.categories);
@@ -38,8 +39,22 @@ function Home() {
         }
     };
 
+    const blogLoaded = async () => {
+        setLoadingBlog(true);
+        try {
+            const res = await blogApi.getAll();
+            if (res.message === "OK") {
+                setBlogList(res.blogs);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoadingBlog(false);
+    };
+
     useEffect(() => {
         handleProductLoaded();
+        blogLoaded();
         // const getBlogs = async () => {
         //     try {
         //         setLoadingBlog(true);

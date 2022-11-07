@@ -1,9 +1,10 @@
 import axiosClient from "./axiosClient";
 
+const DEFAULT_URL = "blog";
+
 const blogApi = {
-    search: (params) => axiosClient.get(`/blog/searchBox?q=${params}`),
-    getHome: (params) => axiosClient.get(`/blog?pageNumber=${params}`),
-    getOne: (params) => axiosClient.get(`/blog/${params}`),
+    getAll: () => axiosClient.get(`${DEFAULT_URL}/getAll`),
+    // create: (params) => axiosClient.post(`${DEFAULT_URL}/create`, params),
 };
 
 export default blogApi;
