@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Divider, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
+import { Button, Card, CardContent, Divider, Icon, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import { useSelector } from "react-redux";
 import authApi from "../../api/authApi";
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 
 function Login() {
     console.log(process.env.REACT_APP_API);
@@ -109,7 +111,8 @@ function Login() {
                 navigate("/");
             }
         } catch (error) {
-            alert(`Login facebook ${error}`);
+            // alert(`Login facebook ${error}`);
+            console.log(error);
         }
     };
 
@@ -117,22 +120,18 @@ function Login() {
         <Stack alignItems={"center"} justifyContent={"center"} sx={{ marginTop: matches ? "180px" : "200px" }}>
             <Card sx={{ width: "400px" }} component={"form"} noValidate onSubmit={handleSubmit}>
                 <CardContent>
-                    <Typography variant="h3" color="primary" textAlign={"center"}>
-                        Đăng nhập
-                    </Typography>
-                    <Stack flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"} width={"100%"}>
-                        <Button onClick={handleLoginWidthGoogle} sx={{ maxWidth: "50%" }}>
-                            <img
-                                src={images.signWithGoogle}
-                                alt="Login-width-google"
-                                width={"100%"}
-                                height={"100%"}
-                                style={{
-                                    borderRadius: "5px",
-                                    overflow: "hidden",
-                                }}
-                            />
-                        </Button>
+                    <img src={images.logo} alt="" style={{ objectFit: "contain", height: "100%", width: "100%" }} />
+
+                    <Stack direction="row" spacing={2}>
+                        <Button
+                            fullWidth
+                            size="large"
+                            color="inherit"
+                            variant="outlined"
+                            startIcon={<GoogleIcon />}
+                            onClick={handleLoginWidthGoogle}
+                            sx={{ color: "#DF3E30", width: "50%" }}
+                        ></Button>
                         <FacebookLogin
                             appId="430008532603669"
                             onSuccess={(response) => {
@@ -147,14 +146,20 @@ function Login() {
                             style={{
                                 width: "50%",
                                 height: "40px",
-                                border: "none",
                                 borderRadius: "5px",
-                                backgroundColor: "#4267B2",
-                                color: "#fff",
+                                border: "1px solid #1C9CEA",
+                                backgroundColor: "transparent",
+                                color: "#1C9CEA",
                             }}
+                            children={<FacebookOutlinedIcon />}
                         />
                     </Stack>
-                    <Divider />
+                    <Divider sx={{ my: 3 }}>
+                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                            OR
+                        </Typography>
+                    </Divider>
+                    {/* <Divider /> */}
                     <TextField
                         margin={"normal"}
                         fullWidth

@@ -2,6 +2,7 @@ import { CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
 import { BlogItemMedia, BlogItemName, BlogItemSub, BlogItemWrapper } from "../../styles/Blog";
 import Image from "../../components/Image";
+import { fDateTimeSuffix } from "../../utils/formatTime";
 
 function BlogItem({ blog }) {
     return (
@@ -19,7 +20,7 @@ function BlogItem({ blog }) {
                         __html: `${blog.description}`,
                     }}
                 ></BlogItemSub>
-                <BlogItemSub variant="body2">Cập nhật lúc {blog.updatedAt}</BlogItemSub>
+                <BlogItemSub variant="body2">Cập nhật lúc {fDateTimeSuffix(blog.updatedAt)}</BlogItemSub>
             </CardContent>
         </BlogItemWrapper>
     );

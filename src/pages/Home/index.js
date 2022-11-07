@@ -55,18 +55,6 @@ function Home() {
     useEffect(() => {
         handleProductLoaded();
         blogLoaded();
-        // const getBlogs = async () => {
-        //     try {
-        //         setLoadingBlog(true);
-        //         const res = await blogApi.getHome("new");
-        //         setBlogList(res.blog);
-        //         setLoadingBlog(false);
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // };
-
-        // getBlogs();
     }, []);
 
     return (

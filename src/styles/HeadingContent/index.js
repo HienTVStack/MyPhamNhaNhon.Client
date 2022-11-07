@@ -14,11 +14,11 @@ export const HeadingContentWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const HeadingContentTitle = styled(Typography)(({ theme }) => ({
-    fontSize: "25px",
+    fontSize: "20px",
     // fontFamily: "iCielBCDDCHardwareRough-Compressed",
     fontStyle: "italic",
     fontWeight: 700,
-    lineHeight: "25px",
+    lineHeight: "37px",
     textTransform: "uppercase",
     color: "#34496D",
     mt: 1,

@@ -14,7 +14,7 @@ import productApi from "../../api/productApi";
 // Components
 import Image from "../../components/Image";
 import Loading from "../../components/Loading";
-// import HeadingContent from "../../components/HeadingContent";
+import HeadingContent from "../../components/HeadingContent";
 // import ProductItem from "../../components/ProductItem";
 // Styles
 import { ProductDetailWrapper, ProductImageItem, ProductInfoItem, ProductInfoWrapper, ProductNameMain } from "../../styles/Product";
@@ -56,16 +56,10 @@ function ProductDetail() {
 
     useEffect(() => {
         const getProduct = async () => {
-            let imageList = [];
             setLoading(true);
             const res = await productApi.getBySlug(slug);
 
-            imageList.push(res.product.image);
-            // eslint-disable-next-line array-callback-return
-            res.product.imageList.map((img) => {
-                imageList.push(img);
-            });
-            setProductImage(imageList);
+            setProductImage(res.product.imageList);
             setProduct(res.product);
             setLoading(false);
         };
@@ -159,13 +153,18 @@ function ProductDetail() {
                         <ProductContent detail={product.detailContent} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ProductReview />
+                        <ProductReview review={product.reviews || []} />
                     </TabPanel>
                 </ProductDetailWrapper>
             </Grid>
-            {/* <Grid container maxWidth={"lg"}>
+            <Grid container maxWidth={"lg"}>
                 <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll />
-            </Grid> */}
+                {/* <Box>
+                    <Grid item lg={3}>
+                                    <ProductIte
+                    </Grid>
+                </Box> */}
+            </Grid>
         </Container>
     );
 }

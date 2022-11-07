@@ -40,7 +40,7 @@ function BlogDetail() {
             ) : (
                 <Fragment>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={12} lg={12} height={"500px"}>
+                        <Grid item xs={12} sm={12} md={12} lg={9} height={"500px"}>
                             <Image src={blog.thumbnail} alt={blog.name} />
                             <BlogDetailName variant="body2" component="h1">
                                 {blog.name}
@@ -63,11 +63,11 @@ function BlogDetail() {
                                 ></span>
                             </Box>
                         </Grid>
-                        {/* <Grid item xs={12} sm={12} md={3} lg={3}>
+                        <Grid item xs={12} sm={12} md={3} lg={3}>
                             <Typography variant="body2" fontSize={"20px"}>
                                 Bài viết đề xuất
                             </Typography>
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </Fragment>
             )}
