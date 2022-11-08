@@ -3,8 +3,13 @@ import { Fragment, useState } from "react";
 import NumberFormat from "react-number-format";
 import { ProductInfoItem, ProductInfoItemTitle, ProductInfoWrapper } from "../../styles/Product";
 
-function ProductInfoOrder({ price, quantityStock }) {
+function ProductInfoOrder({ price, quantityStock, setQuantityBuy }) {
     const [numberBuy, setNumberBuy] = useState(1);
+
+    const handleSetQuantityBuy = (value) => {
+        setQuantityBuy(value);
+        setNumberBuy(value);
+    };
     return (
         <Fragment>
             <ProductInfoWrapper>
@@ -31,7 +36,7 @@ function ProductInfoOrder({ price, quantityStock }) {
                     <Select
                         value={numberBuy}
                         displayEmpty
-                        onChange={(e) => setNumberBuy(e.target.value)}
+                        onChange={(e) => handleSetQuantityBuy(e.target.value)}
                         autoWidth
                         sx={{
                             maxHeight: "100%",

@@ -44,7 +44,7 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
             <Box display={"flex"} flex={1}>
                 <Stack justifyContent={"center"}>
                     <CartItemImageWrapper>
-                        <Image src={cart.img} alt={cart.name} />
+                        <Image src={cart.image} alt={cart.name} />
                     </CartItemImageWrapper>
                 </Stack>
 

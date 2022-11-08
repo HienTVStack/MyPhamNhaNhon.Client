@@ -1,14 +1,29 @@
 // React
 import { useEffect, useState } from "react";
 // Material UI
-import { Box, Button, Card, CardContent, Container, Divider, Grid, Rating, Tab, Tabs, Typography, useMediaQuery } from "@mui/material";
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Container,
+    Divider,
+    Grid,
+    Rating,
+    Snackbar,
+    Tab,
+    Tabs,
+    Typography,
+    useMediaQuery,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 // React slick
 // import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // React router dom
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // API
 import productApi from "../../api/productApi";
 // Components
@@ -24,6 +39,8 @@ import ProductContent from "./ProductContent";
 import ProductReview from "./ProductReview";
 import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
+import { useSelector } from "react-redux";
+import cartApi from "../../api/cartApi";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,12 +61,21 @@ function a11yProps(index) {
 
 function ProductDetail() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const matches = useMediaQuery(theme.breakpoints.up("md"));
+    const user = useSelector((state) => state.data.user);
     const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState({});
     const [productIntroduce, setProductIntroduce] = useState([]);
     const [productImage, setProductImage] = useState([]);
     const [indexImageShow, setIndexImageShow] = useState(0);
+    const [value, setValue] = useState(0);
+    const [quantity, setQuantity] = useState(1);
+    const [toastMessage, setToastMessage] = useState({
+        open: false,
+        type: "error",
+        message: "ERR_001",
+    });
 
     let { slug } = useParams();
 
@@ -89,10 +115,35 @@ function ProductDetail() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
-    const [value, setValue] = useState(0);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const handleAddProductToCart = async (product) => {
+        if (!user) {
+            setToastMessage({ open: true, type: "warning", message: "Vui lòng đăng nhập để tiếp tục" });
+        } else {
+            const _product = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: quantity,
+                slug: product.slug,
+                image: product.image,
+            };
+            const res = await cartApi.addProductToCart({ user, product: _product });
+
+            if (res.message === "OK") {
+                setToastMessage({ open: true, type: "success", message: "Thêm vào giỏ hàng thành công" });
+                setTimeout(() => {
+                    navigate("/gio-hang");
+                }, 1000);
+            }
+        }
+    };
+
+    const handleSetQuantityBuy = (value) => {
+        setQuantity(value);
     };
 
     return loading ? (
@@ -147,11 +198,11 @@ function ProductDetail() {
                                 ></span>
                             </Box>
 
-                            <ProductInfoOrder price={product.price} countInStock={product.quantityStock} />
+                            <ProductInfoOrder price={product.price} countInStock={product.quantityStock} setQuantityBuy={handleSetQuantityBuy} />
 
                             <ProductInfoWrapper sx={{ border: "none" }}>
                                 <ProductInfoItem>
-                                    <Button variant="outlined" size={matches ? "large" : "medium"}>
+                                    <Button variant="outlined" onClick={() => handleAddProductToCart(product)} size={matches ? "large" : "medium"}>
                                         Thêm vào giỏ hàng
                                     </Button>
                                     <Button variant="contained" size={matches ? "large" : "medium"}>
@@ -185,6 +236,19 @@ function ProductDetail() {
                     <ProductItem key={product._id} product={product} />
                 ))}
             </Slider>
+            <Snackbar
+                open={toastMessage.open}
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                }}
+                autoHideDuration={3000}
+                onClose={() => setToastMessage({ open: false })}
+            >
+                <Alert variant="filled" hidden={3000} severity={toastMessage.type} x={{ minWidth: "200px" }}>
+                    {toastMessage.message}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 }

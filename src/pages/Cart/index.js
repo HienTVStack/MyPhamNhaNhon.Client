@@ -1,17 +1,45 @@
 import { Box, useMediaQuery, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import CartHeaderDesktop from "./CartHeaderDesktop";
 import CartFooter from "./CartFooter";
-import CART_PRODUCT from "../../data/carts";
+// import CART_PRODUCT from "../../data/carts";
 import CartList from "./CartList";
 import NoCart from "./NoCart";
+import cartApi from "../../api/cartApi";
+import { useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 function Cart() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up("lg"));
-    const [carts, setCarts] = useState(CART_PRODUCT);
+    const user = useSelector((state) => state.data.user);
+    const [loading, setLoading] = useState(false);
+    // const []
+    const [carts, setCarts] = useState([]);
+
+    const cartLoaded = async () => {
+        setLoading(true);
+        try {
+            const res = await cartApi.getByIdAuth(user._id);
+            console.log(res);
+            if (res.message === "OK") {
+                setCarts(res.cart.products || []);
+            }
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+        // setLoading(false);
+    };
+
+    useEffect(() => {
+        if (user) {
+            cartLoaded();
+        }
+        // console.log(user._id);
+    }, []);
 
     const totalAmount = () => {
         let initTotal = 0;
@@ -81,17 +109,23 @@ function Cart() {
                     >
                         Giỏ hàng của bạn tại Tiệm mỹ phẩm nhà Nhơn
                     </Typography>
-                    {matches && <CartHeaderDesktop />}
+                    {loading ? (
+                        <Loading />
+                    ) : (
+                        <>
+                            {matches && <CartHeaderDesktop />}
+                            <Box marginBottom={"70px"}>
+                                <CartList
+                                    matches={matches}
+                                    carts={carts}
+                                    removeCartItem={handleRemoveCartItem}
+                                    increment={handleIncrement}
+                                    decrement={handleDecrement}
+                                />
+                            </Box>
+                        </>
+                    )}
 
-                    <Box marginBottom={"70px"}>
-                        <CartList
-                            matches={matches}
-                            carts={carts}
-                            removeCartItem={handleRemoveCartItem}
-                            increment={handleIncrement}
-                            decrement={handleDecrement}
-                        />
-                    </Box>
                     <CartFooter matches={matches} totalPrice={totalPrice()} totalAmount={totalAmount()} />
                 </Fragment>
             )}
