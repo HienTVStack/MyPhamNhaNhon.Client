@@ -22,17 +22,15 @@ import { ProductDetailWrapper, ProductImageItem, ProductInfoItem, ProductInfoWra
 import ProductInfoOrder from "./ProductInfoOrder";
 import ProductContent from "./ProductContent";
 import ProductReview from "./ProductReview";
+import ProductItem from "../../components/ProductItem";
+import Slider from "react-slick";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return (
         <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
         </div>
     );
 }
@@ -49,22 +47,45 @@ function ProductDetail() {
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState({});
+    const [productIntroduce, setProductIntroduce] = useState([]);
     const [productImage, setProductImage] = useState([]);
     const [indexImageShow, setIndexImageShow] = useState(0);
 
     let { slug } = useParams();
 
-    useEffect(() => {
-        const getProduct = async () => {
-            setLoading(true);
+    const productItemLoaded = async () => {
+        setLoading(true);
+        try {
             const res = await productApi.getBySlug(slug);
 
             setProductImage(res.product.imageList);
             setProduct(res.product);
             setLoading(false);
-        };
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false);
+    };
 
-        getProduct();
+    const productIntroduceLoader = async () => {
+        setLoading(true);
+        try {
+            const res = await productApi.getProductIntroduce();
+            console.log(res);
+            if (res.message === "OK") {
+                setProductIntroduce(res.products);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        productItemLoaded();
+        productIntroduceLoader();
+
+        // productByCategory();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
@@ -153,18 +174,17 @@ function ProductDetail() {
                         <ProductContent detail={product.detailContent} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ProductReview review={product.reviews || []} />
+                        <ProductReview id={product.id} reviews={product.reviews || []} />
                     </TabPanel>
                 </ProductDetailWrapper>
             </Grid>
-            <Grid container maxWidth={"lg"}>
-                <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll />
-                {/* <Box>
-                    <Grid item lg={3}>
-                                    <ProductIte
-                    </Grid>
-                </Box> */}
-            </Grid>
+
+            <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll />
+            <Slider dots={true} infinite={true} speed={500} slidesToShow={3} slidesToScroll={1}>
+                {productIntroduce.map((product) => (
+                    <ProductItem key={product._id} product={product} />
+                ))}
+            </Slider>
         </Container>
     );
 }

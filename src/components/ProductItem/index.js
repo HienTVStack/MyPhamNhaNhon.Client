@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { ProductName, ProductWrapper } from "../../styles/Product";
 import Image from "../Image";
 
-function ProductItem({ product }) {
+function ProductItem({ product, ...other }) {
     return (
-        <ProductWrapper>
+        <ProductWrapper {...other}>
             <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "320px" }}>
                 <Image src={product.image} alt={product.name} />
             </CardMedia>
