@@ -97,7 +97,6 @@ function ProductDetail() {
         setLoading(true);
         try {
             const res = await productApi.getProductIntroduce();
-            console.log(res);
             if (res.message === "OK") {
                 setProductIntroduce(res.products);
             }
@@ -110,8 +109,6 @@ function ProductDetail() {
     useEffect(() => {
         productItemLoaded();
         productIntroduceLoader();
-
-        // productByCategory();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
@@ -122,15 +119,22 @@ function ProductDetail() {
     const handleAddProductToCart = async (product) => {
         if (!user) {
             setToastMessage({ open: true, type: "warning", message: "Vui lòng đăng nhập để tiếp tục" });
-        } else {
-            const _product = {
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: quantity,
-                slug: product.slug,
-                image: product.image,
-            };
+            return;
+        }
+        if (product.quantityStock <= 0) {
+            setToastMessage({ open: true, type: "warning", message: "Sản phẩm đã hết hàng" });
+            return;
+        }
+
+        const _product = {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: quantity,
+            slug: product.slug,
+            image: product.image,
+        };
+        try {
             const res = await cartApi.addProductToCart({ user, product: _product });
 
             if (res.message === "OK") {
@@ -139,6 +143,8 @@ function ProductDetail() {
                     navigate("/gio-hang");
                 }, 1000);
             }
+        } catch (error) {
+            setToastMessage({ open: true, type: "error", message: "Có lỗi khi thêm sản phẩm vào giỏ hàng" });
         }
     };
 
@@ -231,7 +237,7 @@ function ProductDetail() {
             </Grid>
 
             <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll />
-            <Slider dots={true} infinite={true} speed={500} slidesToShow={3} slidesToScroll={1}>
+            <Slider dots={true} infinite={true} autoplaySpeed={1000} slidesToShow={3} slidesToScroll={3}>
                 {productIntroduce.map((product) => (
                     <ProductItem key={product._id} product={product} />
                 ))}

@@ -22,23 +22,21 @@ function Cart() {
     const cartLoaded = async () => {
         setLoading(true);
         try {
-            const res = await cartApi.getByIdAuth(user._id);
-            console.log(res);
-            if (res.message === "OK") {
-                setCarts(res.cart.products || []);
+            if (user) {
+                const res = await cartApi.getByIdAuth(user._id);
+                if (res.message === "OK") {
+                    setCarts(res.cart.products || []);
+                }
             }
-            setLoading(false);
         } catch (error) {
             console.log(error);
         }
-        // setLoading(false);
+        setLoading(false);
     };
 
     useEffect(() => {
-        if (user) {
-            cartLoaded();
-        }
-        // console.log(user._id);
+        cartLoaded();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const totalAmount = () => {
@@ -94,7 +92,9 @@ function Cart() {
 
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }} maxWidth={"lg"}>
-            {carts.length <= 0 ? (
+            {loading ? (
+                <Loading />
+            ) : carts.length <= 0 ? (
                 <NoCart />
             ) : (
                 <Fragment>
@@ -109,22 +109,16 @@ function Cart() {
                     >
                         Giỏ hàng của bạn tại Tiệm mỹ phẩm nhà Nhơn
                     </Typography>
-                    {loading ? (
-                        <Loading />
-                    ) : (
-                        <>
-                            {matches && <CartHeaderDesktop />}
-                            <Box marginBottom={"70px"}>
-                                <CartList
-                                    matches={matches}
-                                    carts={carts}
-                                    removeCartItem={handleRemoveCartItem}
-                                    increment={handleIncrement}
-                                    decrement={handleDecrement}
-                                />
-                            </Box>
-                        </>
-                    )}
+                    {matches && <CartHeaderDesktop />}
+                    <Box marginBottom={"70px"}>
+                        <CartList
+                            matches={matches}
+                            carts={carts}
+                            removeCartItem={handleRemoveCartItem}
+                            increment={handleIncrement}
+                            decrement={handleDecrement}
+                        />
+                    </Box>
 
                     <CartFooter matches={matches} totalPrice={totalPrice()} totalAmount={totalAmount()} />
                 </Fragment>

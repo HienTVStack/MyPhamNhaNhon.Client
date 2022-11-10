@@ -8,6 +8,7 @@ function ProductReview({ id, reviews }) {
     const user = useSelector((state) => state.data.user);
     const [reviewErr, setReviewErr] = useState("");
     const [reviewList, setReviewList] = useState([]);
+    const [reviewText, setReviewText] = useState("");
 
     useEffect(() => {
         if (!user) {
@@ -19,9 +20,7 @@ function ProductReview({ id, reviews }) {
 
     const handleSubmitReview = async (e) => {
         e.preventDefault();
-        const data = new FormData(e.target);
 
-        const reviewText = data.get("reviewText");
         if (reviewText === "") {
             setReviewErr("Comment is required");
             return;
@@ -34,7 +33,6 @@ function ProductReview({ id, reviews }) {
 
         try {
             const res = await productApi.addReview({ id: id, user, reviews: _reviews });
-            console.log(res);
             if (res.message === "OK") {
                 setReviewList(res.product.reviews);
             }
@@ -44,7 +42,7 @@ function ProductReview({ id, reviews }) {
     };
     return (
         <Fragment>
-            <Box component="form" sx={{ width: "100%" }} noValidate onSubmit={handleSubmitReview} py={2}>
+            <Box sx={{ width: "100%" }} noValidate py={2}>
                 <Typography variant="body2" sx={{ fontSize: "24px", lineHeight: "37px", fontWeight: "700" }}>
                     Bình luận
                 </Typography>
@@ -59,6 +57,8 @@ function ProductReview({ id, reviews }) {
                     name={"reviewText"}
                     placeholder="Viết đánh giá của bạn"
                     size="large"
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
                     style={{
                         borderRadius: "8px",
                         lineHeight: "1.4375em",
@@ -75,7 +75,7 @@ function ProductReview({ id, reviews }) {
                     </Typography>
                 )}
                 <Stack justifyContent={"end"} flexDirection={"row"}>
-                    <Button size="large" type="submit" variant="contained">
+                    <Button size="large" type="submit" variant="contained" onClick={handleSubmitReview}>
                         Đăng bình luận
                     </Button>
                 </Stack>

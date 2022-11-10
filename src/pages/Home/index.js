@@ -26,17 +26,16 @@ function Home() {
     const [blogList, setBlogList] = useState([]);
 
     const handleProductLoaded = async () => {
+        setLoadingProduct(true);
         try {
-            setLoadingProduct(true);
             const res = await productApi.getAll();
             if (res.message === "OK") {
                 setProductsList(res.products);
             }
-            setLoadingProduct(false);
         } catch (error) {
             console.log(error);
-            setLoadingProduct(false);
         }
+        setLoadingProduct(false);
     };
 
     const blogLoaded = async () => {

@@ -15,7 +15,7 @@ function Image({ src, alt, fallback: customFallback = images.noImage, props, ref
             onError={handleError}
             width={"100%"}
             height={"100%"}
-            style={{ objectFit: "cover", verticalAlign: "middle" }}
+            style={{ objectFit: "contain", verticalAlign: "middle" }}
         />
     );
 }

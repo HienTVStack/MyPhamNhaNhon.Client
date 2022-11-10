@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 // React-redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // Components
 import Loading from "../../components/Loading";
 import AppBarHeader from "../components/AppBarHeader";
@@ -24,37 +24,39 @@ function AppLayout() {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.data.user);
+    const categories = useSelector((state) => state.data.categories || []);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(true);
     const query = new URLSearchParams(useLocation().search);
     const token = query.get("login");
 
+    const checkAuth = async () => {
+        if (token) {
+            localStorage.setItem("token", token);
+        }
+        const user = await authUtil.isAuthenticated();
+        dispatch(setUser(user));
+    };
+
+    const categoryLoaded = async () => {
+        try {
+            const res = await categoryApi.getAll();
+            if (res.message === "OK") {
+                dispatch(getCategories(res.categories));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
-        // Check login
-        const checkAuth = async () => {
-            if (token) {
-                localStorage.setItem("token", token);
-            }
-            const user = await authUtil.isAuthenticated();
-
-            dispatch(setUser(user));
-        };
-        // Handle set category
-        const getAllCategory = async () => {
-            try {
-                const res = await categoryApi.getAll();
-                if (res.message === "OK") {
-                    dispatch(getCategories(res.categories));
-                }
-            } catch (error) {
-                alert(error);
-                console.log(error);
-            }
-        };
-
-        checkAuth();
-        getAllCategory();
-
+        if (Object.entries(user).length === 0) {
+            checkAuth();
+        }
+        if (categories.length === 0) {
+            categoryLoaded();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
 

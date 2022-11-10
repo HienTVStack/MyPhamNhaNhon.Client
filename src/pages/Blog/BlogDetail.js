@@ -22,7 +22,6 @@ function BlogDetail() {
                 const res = await blogApi.getOne(slug);
 
                 setBlog(res);
-                console.log(blog);
                 setLoading(false);
             } catch (error) {
                 console.log(error);
