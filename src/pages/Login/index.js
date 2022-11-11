@@ -91,7 +91,8 @@ function Login() {
                     setLoading(false);
                     navigate("/");
                 } catch (error) {
-                    alert(`Login goole ${error}`);
+                    console.log(error);
+                    setLoading(false);
                 }
             } catch (error) {
                 console.log(error);
@@ -111,8 +112,8 @@ function Login() {
                 navigate("/");
             }
         } catch (error) {
-            // alert(`Login facebook ${error}`);
             console.log(error);
+            setLoading(false);
         }
     };
 

@@ -9,7 +9,7 @@ import Image from "../Image";
 function ProductItem({ product, ...other }) {
     return (
         <ProductWrapper {...other}>
-            <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "320px" }}>
+            <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "300px" }}>
                 <Image src={product.image} alt={product.name} />
             </CardMedia>
             <CardContent
@@ -22,7 +22,8 @@ function ProductItem({ product, ...other }) {
                 }}
             >
                 <ProductName variant={"body2"}>{product.name}</ProductName>
-                <Stack direction={"row"} alignItems={"center"} mt={4}>
+
+                <Stack direction={"row"} alignItems={"center"} mt={2}>
                     <Box>
                         <Rating name="read-only" value={product.rating} readOnly />
                     </Box>
@@ -30,9 +31,24 @@ function ProductItem({ product, ...other }) {
                         {product.numberViews} đánh giá
                     </Typography>
                 </Stack>
-                <Typography variant={"body2"} component={"h2"} fontSize={"18px"} color={"#252525"} fontWeight={700} mt={2}>
-                    <FormatNumber number={product.price} />
-                </Typography>
+                <Stack direction={"row"} justifyContent={"space-between"} alignItems="center" mt={2}>
+                    <Stack direction={"row"} alignItems="center">
+                        {product.type.length - 1 !== 0 && (
+                            <>
+                                <Typography variant={"body2"} component={"h2"} fontSize={"18px"} color={"#252525"} fontWeight={700}>
+                                    <FormatNumber number={product.type[0].price} />
+                                </Typography>
+                                <Typography sx={{ margin: "0 12px" }}> - </Typography>
+                            </>
+                        )}
+                        <Typography variant={"body2"} component={"h2"} fontSize={"18px"} color={"#252525"} fontWeight={700}>
+                            <FormatNumber number={product.type[product.type.length - 1].price} />
+                        </Typography>
+                    </Stack>
+                    <Typography variant="body2" color="gray">
+                        Đã bán {product.numSold || 0}
+                    </Typography>
+                </Stack>
             </CardContent>
         </ProductWrapper>
     );

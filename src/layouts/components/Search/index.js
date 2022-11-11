@@ -43,7 +43,8 @@ function Search({ matches }) {
                 setSearchResult(res);
                 setLoading(false);
             } catch (error) {
-                alert(error);
+                console.log(error);
+                setLoading(false);
             }
         };
         handleSearch();

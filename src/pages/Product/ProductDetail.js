@@ -12,6 +12,7 @@ import {
     Grid,
     Rating,
     Snackbar,
+    Stack,
     Tab,
     Tabs,
     Typography,
@@ -71,6 +72,8 @@ function ProductDetail() {
     const [indexImageShow, setIndexImageShow] = useState(0);
     const [value, setValue] = useState(0);
     const [quantity, setQuantity] = useState(1);
+    const [typeProduct, setTypeProduct] = useState([]);
+    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", price: 0 });
     const [toastMessage, setToastMessage] = useState({
         open: false,
         type: "error",
@@ -83,8 +86,11 @@ function ProductDetail() {
         setLoading(true);
         try {
             const res = await productApi.getBySlug(slug);
+            console.log(res);
 
             setProductImage(res.product.imageList);
+            setTypeProduct(res.product.type);
+            setTypeProductSelected(res.product.type[0]);
             setProduct(res.product);
             setLoading(false);
         } catch (error) {
@@ -121,7 +127,7 @@ function ProductDetail() {
             setToastMessage({ open: true, type: "warning", message: "Vui lòng đăng nhập để tiếp tục" });
             return;
         }
-        if (product.quantityStock <= 0) {
+        if (typeProductSelected.quantityStock <= 0) {
             setToastMessage({ open: true, type: "warning", message: "Sản phẩm đã hết hàng" });
             return;
         }
@@ -129,10 +135,11 @@ function ProductDetail() {
         const _product = {
             id: product.id,
             name: product.name,
-            price: product.price,
+            price: typeProductSelected.price,
             quantity: quantity,
             slug: product.slug,
             image: product.image,
+            type: typeProductSelected.nameType,
         };
         try {
             const res = await cartApi.addProductToCart({ user, product: _product });
@@ -150,6 +157,11 @@ function ProductDetail() {
 
     const handleSetQuantityBuy = (value) => {
         setQuantity(value);
+    };
+
+    const handleSelectTypeProduct = (index) => {
+        // setPrice(typeProduct[index].price);
+        setTypeProductSelected(typeProduct[index]);
     };
 
     return loading ? (
@@ -196,15 +208,29 @@ function ProductDetail() {
                                 </Box>
                             </Box>
 
-                            <Box height={"200px"} overflow={"hidden"} mt={3}>
+                            <Box overflow={"hidden"} mt={3}>
                                 <span
                                     dangerouslySetInnerHTML={{
                                         __html: `${product.descriptionContent}`,
                                     }}
                                 ></span>
                             </Box>
+                            <Stack direction={"row"} alignItems="center">
+                                <Typography variant="body1" color="gray">
+                                    Loại hàng:
+                                </Typography>
+                                {typeProduct.map((item, index) => (
+                                    <Button key={index} variant="outlined" onClick={() => handleSelectTypeProduct(index)} sx={{ margin: "0 8px" }}>
+                                        {item.nameType}
+                                    </Button>
+                                ))}
+                            </Stack>
 
-                            <ProductInfoOrder price={product.price} countInStock={product.quantityStock} setQuantityBuy={handleSetQuantityBuy} />
+                            <ProductInfoOrder
+                                price={Number(typeProductSelected.price)}
+                                countInStock={product.quantityStock}
+                                setQuantityBuy={handleSetQuantityBuy}
+                            />
 
                             <ProductInfoWrapper sx={{ border: "none" }}>
                                 <ProductInfoItem>

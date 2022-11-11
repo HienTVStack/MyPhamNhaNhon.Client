@@ -54,7 +54,7 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
                     </CartItemName>
                     <CartItemCategoryWrapper>
                         <Typography variant="body2" fontSize={"12px"}>
-                            Phân loại hàng: {cart.category}
+                            Phân loại hàng: {cart.type}
                         </Typography>
                     </CartItemCategoryWrapper>
                     <CartActionsQuantity display={"flex"} alignItems={"center"}>
