@@ -3,7 +3,7 @@ import { Fragment, useState } from "react";
 import NumberFormat from "react-number-format";
 import { ProductInfoItem, ProductInfoItemTitle, ProductInfoWrapper } from "../../styles/Product";
 
-function ProductInfoOrder({ price, quantityStock, setQuantityBuy }) {
+function ProductInfoOrder({ price, countInStock, setQuantityBuy }) {
     const [numberBuy, setNumberBuy] = useState(1);
 
     const handleSetQuantityBuy = (value) => {
@@ -28,7 +28,7 @@ function ProductInfoOrder({ price, quantityStock, setQuantityBuy }) {
                 <Divider />
                 <ProductInfoItem>
                     <ProductInfoItemTitle component="h4">Trạng thái</ProductInfoItemTitle>
-                    <ProductInfoItemTitle component="h4">{quantityStock > 0 ? `Còn hàng ${quantityStock}` : "Hết hàng"}</ProductInfoItemTitle>
+                    <ProductInfoItemTitle component="h4">{countInStock > 0 ? `Còn ${countInStock} sản phẩm` : "Hết hàng"}</ProductInfoItemTitle>
                 </ProductInfoItem>
                 <Divider />
                 <ProductInfoItem>

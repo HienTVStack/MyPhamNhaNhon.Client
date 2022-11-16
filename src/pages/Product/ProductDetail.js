@@ -73,7 +73,8 @@ function ProductDetail() {
     const [value, setValue] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [typeProduct, setTypeProduct] = useState([]);
-    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", price: 0 });
+    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", price: 0, quantityStock: 0 });
+    const [isSelected, setIsSelected] = useState(false);
     const [toastMessage, setToastMessage] = useState({
         open: false,
         type: "error",
@@ -86,7 +87,6 @@ function ProductDetail() {
         setLoading(true);
         try {
             const res = await productApi.getBySlug(slug);
-            console.log(res);
 
             setProductImage(res.product.imageList);
             setTypeProduct(res.product.type);
@@ -127,6 +127,10 @@ function ProductDetail() {
             setToastMessage({ open: true, type: "warning", message: "Vui lòng đăng nhập để tiếp tục" });
             return;
         }
+        if (!isSelected) {
+            setToastMessage({ open: true, type: "warning", message: "Chọn loại sản phẩm" });
+            return;
+        }
         if (typeProductSelected.quantityStock <= 0) {
             setToastMessage({ open: true, type: "warning", message: "Sản phẩm đã hết hàng" });
             return;
@@ -161,6 +165,7 @@ function ProductDetail() {
 
     const handleSelectTypeProduct = (index) => {
         // setPrice(typeProduct[index].price);
+        setIsSelected(true);
         setTypeProductSelected(typeProduct[index]);
     };
 
@@ -220,7 +225,12 @@ function ProductDetail() {
                                     Loại hàng:
                                 </Typography>
                                 {typeProduct.map((item, index) => (
-                                    <Button key={index} variant="outlined" onClick={() => handleSelectTypeProduct(index)} sx={{ margin: "0 8px" }}>
+                                    <Button
+                                        key={index}
+                                        variant="outlined"
+                                        onClick={() => handleSelectTypeProduct(index)}
+                                        sx={{ margin: "0 8px", "&:focus": { backgroundColor: "#229A16" } }}
+                                    >
                                         {item.nameType}
                                     </Button>
                                 ))}
@@ -228,16 +238,20 @@ function ProductDetail() {
 
                             <ProductInfoOrder
                                 price={Number(typeProductSelected.price)}
-                                countInStock={product.quantityStock}
+                                countInStock={typeProductSelected.quantityStock}
                                 setQuantityBuy={handleSetQuantityBuy}
                             />
-
                             <ProductInfoWrapper sx={{ border: "none" }}>
                                 <ProductInfoItem>
-                                    <Button variant="outlined" onClick={() => handleAddProductToCart(product)} size={matches ? "large" : "medium"}>
+                                    <Button
+                                        variant="outlined"
+                                        disabled={typeProductSelected.quantityStock <= 0}
+                                        onClick={() => handleAddProductToCart(product)}
+                                        size={matches ? "large" : "medium"}
+                                    >
                                         Thêm vào giỏ hàng
                                     </Button>
-                                    <Button variant="contained" size={matches ? "large" : "medium"}>
+                                    <Button variant="contained" disabled={typeProductSelected.quantityStock <= 0} size={matches ? "large" : "medium"}>
                                         Mua ngay
                                     </Button>
                                 </ProductInfoItem>
