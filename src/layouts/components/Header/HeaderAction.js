@@ -16,8 +16,6 @@ function HeaderAction({ matches }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
-    console.log(user.carts.length);
-
     useEffect(() => {
         setAnchorEl(null);
     }, [location.pathname]);
@@ -72,7 +70,7 @@ function HeaderAction({ matches }) {
                     </Button>
                 )}
             </Stack>
-            <Badge badgeContent={user?.carts.length} color={"error"}>
+            <Badge badgeContent={user?.carts?.length || 0} color={"error"}>
                 <IconButton component={Link} to={"/gio-hang"} sx={{ color: theme.palette.primary.contrastText }} children={<ShoppingCartIcon />} />
             </Badge>
         </Stack>

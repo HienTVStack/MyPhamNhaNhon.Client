@@ -43,66 +43,84 @@ function AppLayout() {
         dispatch(setUser(user));
     };
 
-    const categoryLoaded = async () => {
+    const WebsiteLoaded = async () => {
         setLoading(true);
         try {
-            const res = await categoryApi.getAll();
-            if (res.message === "OK") {
-                dispatch(getCategories(res.categories));
+            const productLoaded = await productApi.getAll();
+            const categoryLoaded = await categoryApi.getAll();
+            const blogLoaded = await blogApi.getAll();
+            if (productLoaded.success) {
+                dispatch(productListLoaded(productLoaded.products));
             }
+            if (categoryLoaded.message === "OK") {
+                dispatch(getCategories(categoryLoaded.categories));
+            }
+            if (blogLoaded.success) {
+                dispatch(blogListLoaded(blogLoaded.blogs));
+            }
+            setLoading(false);
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
-        setLoading(false);
     };
 
-    const productLoaded = async () => {
-        setLoading(true);
-        try {
-            const res = await productApi.getAll();
-            if (res.success) {
-                dispatch(productListLoaded(res.products));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    };
+    // const categoryLoaded = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const res = await categoryApi.getAll();
+    //         if (res.message === "OK") {
+    //             dispatch(getCategories(res.categories));
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoading(false);
+    // };
 
-    const blogLoaded = async () => {
-        setLoading(true);
-        try {
-            const res = await blogApi.getAll();
-            if (res.success) {
-                dispatch(blogListLoaded(res.blogs));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    };
+    // const productLoaded = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const res = await productApi.getAll();
+    //         if (res const res = await blogApi.getAll();
+    // if (res.success) {
+    //     dispatch(blogListLoaded(res.blogs));
+    // }.success) {
+    //             dispatch(productListLoaded(res.products));
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoading(false);
+    // };
+
+    // const blogLoaded = async () => {
+    //     setLoading(true);
+    //     try {
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoading(false);
+    // };
 
     useEffect(() => {
         // if (Object.entries(user).length === 0) {
         checkAuth();
+        if (categories?.length === 0 || productList?.length === 0 || blogList?.length === 0) {
+            WebsiteLoaded();
+        }
         // }
-        if (categories.length === 0) {
-            categoryLoaded();
-        }
-        if (productList.length === 0) {
-            productLoaded();
-        }
-        if (blogList.length === 0) {
-            blogLoaded();
-        }
+        // if (categories.length === 0) {
+        //     categoryLoaded();
+        // }
+        // if (productList.length === 0) {
+        //     productLoaded();
+        // }
+        // if (blogList.length === 0) {
+        //     blogLoaded();
+        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 500);
-    }, []);
 
     return loading ? (
         <Loading fullHeight />

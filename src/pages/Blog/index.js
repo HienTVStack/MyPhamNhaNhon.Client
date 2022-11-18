@@ -6,10 +6,11 @@ import blogApi from "../../api/blogApi";
 import Loading from "../../components/Loading";
 import BlogItem from "./BlogItem";
 import Pagination from "../../components/Pagination";
+import { useSelector } from "react-redux";
 
 function Blog() {
     const theme = useTheme();
-
+    const blogList = useSelector((state) => state.data.blogList);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const location = useLocation();
     const [loading, setLoading] = useState(false);
@@ -20,15 +21,14 @@ function Blog() {
     const page = parseInt(query.get("page"));
 
     useEffect(() => {
-        const getBlogs = async () => {
-            setLoading(true);
-            const res = await blogApi.getHome(page);
-
-            setBlogs(res.blog);
-            setPageCount(res.pageCount);
-            setLoading(false);
-        };
-        getBlogs();
+        // const getBlogs = async () => {
+        //     setLoading(true);
+        //     const res = await blogApi.getHome(page);
+        //     setBlogs(res.blog);
+        //     setPageCount(res.pageCount);
+        //     setLoading(false);
+        // };
+        // getBlogs();
     }, [page]);
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }}>
@@ -37,7 +37,7 @@ function Blog() {
             ) : (
                 <Fragment>
                     <Grid container maxWidth={"lg"}>
-                        {blogs.map((blog) => (
+                        {blogList?.map((blog) => (
                             <Grid key={blog._id} item xs={12} sm={12} md={12} lg={12}>
                                 <BlogItem blog={blog} />
                             </Grid>
