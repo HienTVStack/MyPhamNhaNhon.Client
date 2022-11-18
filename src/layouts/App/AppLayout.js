@@ -14,10 +14,12 @@ import AppBarHeader from "../components/AppBarHeader";
 import Header from "../components/Header";
 import NavbarButtonDesktop from "../components/NavbarButtonDesktop";
 //
-import { getCategories, setUser } from "../../redux/actions";
+import { blogListLoaded, getCategories, productListLoaded, setUser } from "../../redux/actions";
 // Utils
 import authUtil from "../../utils/authUtil";
 import categoryApi from "../../api/categoryApi";
+import productApi from "../../api/productApi";
+import blogApi from "../../api/blogApi";
 // -----------------------------------------
 
 function AppLayout() {
@@ -26,6 +28,8 @@ function AppLayout() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.data.user);
     const categories = useSelector((state) => state.data.categories || []);
+    const productList = useSelector((state) => state.data.productList || []);
+    const blogList = useSelector((state) => state.data.blogList || []);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(true);
     const query = new URLSearchParams(useLocation().search);
@@ -40,6 +44,7 @@ function AppLayout() {
     };
 
     const categoryLoaded = async () => {
+        setLoading(true);
         try {
             const res = await categoryApi.getAll();
             if (res.message === "OK") {
@@ -48,14 +53,47 @@ function AppLayout() {
         } catch (error) {
             console.log(error);
         }
+        setLoading(false);
+    };
+
+    const productLoaded = async () => {
+        setLoading(true);
+        try {
+            const res = await productApi.getAll();
+            if (res.success) {
+                dispatch(productListLoaded(res.products));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false);
+    };
+
+    const blogLoaded = async () => {
+        setLoading(true);
+        try {
+            const res = await blogApi.getAll();
+            if (res.success) {
+                dispatch(blogListLoaded(res.blogs));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false);
     };
 
     useEffect(() => {
-        if (Object.entries(user).length === 0) {
-            checkAuth();
-        }
+        // if (Object.entries(user).length === 0) {
+        checkAuth();
+        // }
         if (categories.length === 0) {
             categoryLoaded();
+        }
+        if (productList.length === 0) {
+            productLoaded();
+        }
+        if (blogList.length === 0) {
+            blogLoaded();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);

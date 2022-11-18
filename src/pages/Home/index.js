@@ -20,40 +20,27 @@ import blogApi from "../../api/blogApi";
 
 function Home() {
     const categories = useSelector((state) => state.data.categories);
+    const productList = useSelector((state) => state.data.productList || []);
+    const blogList = useSelector((state) => state.data.blogList);
     const [loadingBlog, setLoadingBlog] = useState(false);
     const [loadingProduct, setLoadingProduct] = useState(false);
-    const [productList, setProductsList] = useState([]);
-    const [blogList, setBlogList] = useState([]);
+    // const [blogList, setBlogList] = useState([]);
 
-    const handleProductLoaded = async () => {
-        setLoadingProduct(true);
-        try {
-            const res = await productApi.getAll();
-            if (res.message === "OK") {
-                setProductsList(res.products);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoadingProduct(false);
-    };
-
-    const blogLoaded = async () => {
-        setLoadingBlog(true);
-        try {
-            const res = await blogApi.getAll();
-            if (res.message === "OK") {
-                setBlogList(res.blogs);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoadingBlog(false);
-    };
+    // const blogLoaded = async () => {
+    //     setLoadingBlog(true);
+    //     try {
+    //         const res = await blogApi.getAll();
+    //         if (res.message === "OK") {
+    //             setBlogList(res.blogs);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoadingBlog(false);
+    // };
 
     useEffect(() => {
-        handleProductLoaded();
-        blogLoaded();
+        // blogLoaded();
     }, []);
 
     return (
@@ -70,7 +57,7 @@ function Home() {
                         </Stack>
                     ) : (
                         <>
-                            <ProductHome products={productList} />
+                            <ProductHome products={productList || []} />
                             <ViewMore title="Xem thêm" url="/san-pham" />
                         </>
                     )}
@@ -85,7 +72,7 @@ function Home() {
                     </Stack>
                 ) : (
                     <Box mt={2}>
-                        <BlogHome blogs={blogList} />
+                        <BlogHome blogs={blogList || []} />
                         <ViewMore title="Xem thêm" url="/bai-viet" />
                     </Box>
                 )}

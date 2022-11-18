@@ -1,6 +1,8 @@
 const initialState = {
     user: {},
     categories: [],
+    productList: [],
+    blogList: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -15,6 +17,18 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories: action.payload,
+            };
+        }
+        case "PRODUCT_LOADED": {
+            return {
+                ...state,
+                productList: action.payload,
+            };
+        }
+        case "BLOG_LOADED": {
+            return {
+                ...state,
+                blogList: action.payload,
             };
         }
         default:

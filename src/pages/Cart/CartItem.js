@@ -85,7 +85,7 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
                     )}
                     {matches && (
                         <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
-                            <Button variant="text" onClick={() => handleRemoveCartItem(cart.id)}>
+                            <Button variant="text" onClick={() => handleRemoveCartItem(cart._id)}>
                                 Xóa
                             </Button>
                             <Box display={"block"} width={"120px"} textAlign={"center"} component={Link} to={`/san-pham/${cart.category}`}>

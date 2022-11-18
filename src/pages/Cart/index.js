@@ -1,43 +1,41 @@
 import { Box, useMediaQuery, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import CartHeaderDesktop from "./CartHeaderDesktop";
 import CartFooter from "./CartFooter";
-// import CART_PRODUCT from "../../data/carts";
 import CartList from "./CartList";
 import NoCart from "./NoCart";
-import cartApi from "../../api/cartApi";
-import { useSelector } from "react-redux";
 import Loading from "../../components/Loading";
+import authApi from "../../api/authApi";
 
 function Cart() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const matches = useMediaQuery(theme.breakpoints.up("lg"));
     const user = useSelector((state) => state.data.user);
     const [loading, setLoading] = useState(false);
-    // const []
     const [carts, setCarts] = useState([]);
 
-    const cartLoaded = async () => {
+    const userReLoaded = async () => {
         setLoading(true);
         try {
-            if (user) {
-                const res = await cartApi.getByIdAuth(user._id);
-                if (res.message === "OK") {
-                    setCarts(res.cart.products || []);
-                }
-            }
+            const res = await authApi.verifyToken();
+            setCarts(res.user.carts);
+            setLoading(false);
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
-        cartLoaded();
+        if (user) {
+            userReLoaded();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [navigate]);
 
     const totalAmount = () => {
         let initTotal = 0;
@@ -55,15 +53,23 @@ function Cart() {
         return initTotal;
     };
 
-    const handleRemoveCartItem = (id) => {
+    const handleRemoveCartItem = async (id) => {
         // eslint-disable-next-line array-callback-return
-        const newCarts = carts.filter((cartItem) => {
-            if (cartItem.id !== id) {
-                return true;
-            }
-        });
 
-        setCarts(newCarts);
+        try {
+            const res = await authApi.removedCart(user._id, { id });
+            if (res?.success) {
+                const newCarts = carts.filter((cartItem) => {
+                    if (cartItem._id !== id) {
+                        return true;
+                    }
+                });
+                setCarts(newCarts);
+                console.log(res);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleIncrement = (cartItem) => {
@@ -113,7 +119,7 @@ function Cart() {
                     <Box marginBottom={"70px"}>
                         <CartList
                             matches={matches}
-                            carts={carts}
+                            carts={carts || []}
                             removeCartItem={handleRemoveCartItem}
                             increment={handleIncrement}
                             decrement={handleDecrement}

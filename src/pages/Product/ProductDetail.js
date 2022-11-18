@@ -42,6 +42,7 @@ import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
 import { useSelector } from "react-redux";
 import cartApi from "../../api/cartApi";
+import authApi from "../../api/authApi";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -63,6 +64,7 @@ function a11yProps(index) {
 function ProductDetail() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const productList = useSelector((state) => state.data.productList || []);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const user = useSelector((state) => state.data.user);
     const [loading, setLoading] = useState(false);
@@ -83,38 +85,49 @@ function ProductDetail() {
 
     let { slug } = useParams();
 
-    const productItemLoaded = async () => {
-        setLoading(true);
-        try {
-            const res = await productApi.getBySlug(slug);
+    // const productItemLoaded = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const res = await productApi.getBySlug(slug);
 
-            setProductImage(res.product.imageList);
-            setTypeProduct(res.product.type);
-            setTypeProductSelected(res.product.type[0]);
-            setProduct(res.product);
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    };
+    //         setProductImage(res.product.imageList);
+    //         setTypeProduct(res.product.type);
+    //         setTypeProductSelected(res.product.type[0]);
+    //         setProduct(res.product);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoading(false);
+    // };
 
-    const productIntroduceLoader = async () => {
-        setLoading(true);
-        try {
-            const res = await productApi.getProductIntroduce();
-            if (res.message === "OK") {
-                setProductIntroduce(res.products);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    };
+    // const productIntroduceLoader = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const res = await productApi.getProductIntroduce();
+    //         if (res.message === "OK") {
+    //             setProductIntroduce(res.products);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    //     setLoading(false);
+    // };
 
     useEffect(() => {
-        productItemLoaded();
-        productIntroduceLoader();
+        // productItemLoaded();
+        // productIntroduceLoader();
+        const item = productList.filter((item) => item.slug === slug);
+        setProductImage(item[0].imageList);
+        setTypeProduct(item[0].type);
+        setTypeProductSelected(item[0].type[0]);
+        setProduct(item[0]);
+
+        setProductIntroduce(productList.slice(0, 6));
+        // console.log(item);
+        // if (item && item[0]) {
+
+        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
@@ -135,7 +148,6 @@ function ProductDetail() {
             setToastMessage({ open: true, type: "warning", message: "Sản phẩm đã hết hàng" });
             return;
         }
-
         const _product = {
             id: product.id,
             name: product.name,
@@ -145,16 +157,17 @@ function ProductDetail() {
             image: product.image,
             type: typeProductSelected.nameType,
         };
-        try {
-            const res = await cartApi.addProductToCart({ user, product: _product });
 
-            if (res.message === "OK") {
-                setToastMessage({ open: true, type: "success", message: "Thêm vào giỏ hàng thành công" });
-                setTimeout(() => {
-                    navigate("/gio-hang");
-                }, 1000);
+        console.log(_product);
+        try {
+            const res = await authApi.addCart(user.id, _product);
+
+            if (res.success) {
+                setToastMessage({ open: true, type: "success", message: "Thêm thành công" });
+                console.log(res);
             }
         } catch (error) {
+            console.log(error);
             setToastMessage({ open: true, type: "error", message: "Có lỗi khi thêm sản phẩm vào giỏ hàng" });
         }
     };
