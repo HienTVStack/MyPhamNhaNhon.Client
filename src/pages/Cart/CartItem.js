@@ -21,8 +21,11 @@ import {
 // Components
 import Image from "../../components/Image";
 import FormatNumber from "../../components/FormatNumber";
+import { useDispatch } from "react-redux";
+import { setProductPayment } from "../../redux/actions";
 
-function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
+function CartItem({ matches, cart, removeCartItem, increment, decrement, productSelected }) {
+    const dispatch = useDispatch();
     const handleRemoveCartItem = (id) => {
         removeCartItem(id);
     };
@@ -38,9 +41,18 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement }) {
         }
         decrement(cart);
     };
+
+    const handleSelected = (isChecked, product) => {
+        productSelected(isChecked, product);
+    };
     return (
         <CartItemWrapper>
-            <Checkbox />
+            <Checkbox
+                onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    handleSelected(isChecked, cart);
+                }}
+            />
             <Box display={"flex"} flex={1}>
                 <Stack justifyContent={"center"}>
                     <CartItemImageWrapper>

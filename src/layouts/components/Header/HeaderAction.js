@@ -18,6 +18,7 @@ function HeaderAction({ matches }) {
 
     useEffect(() => {
         setAnchorEl(null);
+        // console.log(Object.entries(user).length === 0);
     }, [location.pathname]);
 
     const handleOpenMenu = (e) => {
@@ -37,9 +38,9 @@ function HeaderAction({ matches }) {
                             <ArrowDropDownIcon />
                         </IconButton>
                         <Menu open={open} anchorEl={anchorEl} TransitionComponent={Fade} onClose={handleClose}>
-                            {user ? (
+                            {Object.entries(user).length !== 0 ? (
                                 <MenuItem component={Link} to={"/tai-khoan"}>
-                                    {user.fullName}
+                                    {user?.fullName}
                                 </MenuItem>
                             ) : (
                                 <>
@@ -57,7 +58,7 @@ function HeaderAction({ matches }) {
                     <Button
                         mr={2}
                         component={Link}
-                        to={user ? "/tai-khoan" : "/dang-nhap"}
+                        to={Object.entries(user).length !== 0 ? "/tai-khoan" : "/dang-nhap"}
                         sx={{
                             color: theme.palette.primary.contrastText,
                             fontWeight: "400",
@@ -66,7 +67,7 @@ function HeaderAction({ matches }) {
                             },
                         }}
                     >
-                        {!!user ? `Hi, ${user.fullName}` : "ĐĂNG NHẬP"}
+                        {Object.entries(user).length !== 0 ? `Hi, ${user.fullName}` : "ĐĂNG NHẬP"}
                     </Button>
                 )}
             </Stack>

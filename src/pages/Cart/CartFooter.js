@@ -2,9 +2,20 @@ import { useTheme } from "@mui/material/styles";
 import { Box, Button, Checkbox, Container, FormControlLabel } from "@mui/material";
 import FormatNumber from "../../components/FormatNumber";
 import { CartBottomWrapper, CartFooterWrapper } from "../../styles/Cart";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setProductPayment } from "../../redux/actions";
 
-function CartFooter({ matches, totalPrice, totalAmount }) {
+function CartFooter({ matches, totalPrice, totalAmount, listProductPayment }) {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const onPayment = () => {
+        console.log(listProductPayment);
+        dispatch(setProductPayment(listProductPayment));
+        navigate("/thanh-toan");
+    };
 
     return (
         <CartFooterWrapper>
@@ -33,7 +44,9 @@ function CartFooter({ matches, totalPrice, totalAmount }) {
                                 </Box>
                             </Box>
                         </Box>
-                        <Button variant="contained">Thanh toán</Button>
+                        <Button variant="contained" onClick={onPayment}>
+                            Thanh toán
+                        </Button>
                     </Box>
                 </CartBottomWrapper>
             </Container>

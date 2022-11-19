@@ -2,37 +2,53 @@ import { Box, useMediaQuery, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartHeaderDesktop from "./CartHeaderDesktop";
 import CartFooter from "./CartFooter";
 import CartList from "./CartList";
 import NoCart from "./NoCart";
 import Loading from "../../components/Loading";
 import authApi from "../../api/authApi";
+import authUtil from "../../utils/authUtil";
+import { setUser } from "../../redux/actions";
 
 function Cart() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const matches = useMediaQuery(theme.breakpoints.up("lg"));
     const user = useSelector((state) => state.data.user);
     const [loading, setLoading] = useState(false);
     const [carts, setCarts] = useState([]);
+    const [productListChecked, setProductListChecked] = useState([]);
 
-    const userReLoaded = async () => {
-        setLoading(true);
-        try {
-            const res = await authApi.verifyToken();
-            setCarts(res.user.carts);
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
-            setLoading(false);
-        }
-    };
+    // const userReLoaded = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const res = await authApi.verifyToken();
+    //         setCarts(res.user.carts);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         console.log(error);
+    //         setLoading(false);
+    //     }
+    // };
 
     useEffect(() => {
-        if (user) {
-            userReLoaded();
+        if (Object.entries(user).length !== 0) {
+            // setCarts(user?.carts);
+            const checkAuth = async () => {
+                setLoading(true);
+                const user = await authUtil.isAuthenticated();
+                if (user) {
+                    dispatch(setUser(user));
+                    setCarts(user?.carts);
+                }
+                setLoading(false);
+            };
+            checkAuth();
+        } else {
+            navigate("/dang-nhap");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
@@ -96,11 +112,19 @@ function Cart() {
         setCarts(newCarts);
     };
 
+    const handleSelectedProduct = (isChecked, product) => {
+        if (isChecked) {
+            setProductListChecked([...productListChecked, product]);
+        } else {
+            setProductListChecked(productListChecked.filter((item) => item._id !== product._id));
+        }
+    };
+
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }} maxWidth={"lg"}>
             {loading ? (
                 <Loading />
-            ) : carts.length <= 0 ? (
+            ) : carts?.length <= 0 ? (
                 <NoCart />
             ) : (
                 <Fragment>
@@ -123,10 +147,11 @@ function Cart() {
                             removeCartItem={handleRemoveCartItem}
                             increment={handleIncrement}
                             decrement={handleDecrement}
+                            productSelected={handleSelectedProduct}
                         />
                     </Box>
 
-                    <CartFooter matches={matches} totalPrice={totalPrice()} totalAmount={totalAmount()} />
+                    <CartFooter matches={matches} totalPrice={totalPrice()} totalAmount={totalAmount()} listProductPayment={productListChecked} />
                 </Fragment>
             )}
         </Container>

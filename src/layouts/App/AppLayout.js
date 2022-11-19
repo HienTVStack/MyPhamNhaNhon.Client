@@ -36,11 +36,31 @@ function AppLayout() {
     const token = query.get("login");
 
     const checkAuth = async () => {
-        if (token) {
-            localStorage.setItem("token", token);
+        // const user = await authUtil.isAuthenticated();
+        // if (!user) {
+        //     navigate("/dang-nhap");
+        // } else {
+        //     dispatch(setUser(user));
+        //     setLoading(false);
+        // }
+
+        // if (token) {
+        //     console.log(token);
+        //     const user = await authUtil.isAuthenticated();
+        //     if (Object.entries(user).length !== 0) {
+        //         dispatch(setUser(user));
+        //     }
+        // }
+        const isToken = localStorage.getItem("token");
+        // setLoading(true);
+        if (isToken) {
+            console.log(token);
+            const user = await authUtil.isAuthenticated();
+            if (Object.entries(user).length !== 0) {
+                dispatch(setUser(user));
+            }
         }
-        const user = await authUtil.isAuthenticated();
-        dispatch(setUser(user));
+        // setLoading(false);
     };
 
     const WebsiteLoaded = async () => {
@@ -49,6 +69,7 @@ function AppLayout() {
             const productLoaded = await productApi.getAll();
             const categoryLoaded = await categoryApi.getAll();
             const blogLoaded = await blogApi.getAll();
+
             if (productLoaded.success) {
                 dispatch(productListLoaded(productLoaded.products));
             }
@@ -65,60 +86,11 @@ function AppLayout() {
         }
     };
 
-    // const categoryLoaded = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await categoryApi.getAll();
-    //         if (res.message === "OK") {
-    //             dispatch(getCategories(res.categories));
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setLoading(false);
-    // };
-
-    // const productLoaded = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await productApi.getAll();
-    //         if (res const res = await blogApi.getAll();
-    // if (res.success) {
-    //     dispatch(blogListLoaded(res.blogs));
-    // }.success) {
-    //             dispatch(productListLoaded(res.products));
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setLoading(false);
-    // };
-
-    // const blogLoaded = async () => {
-    //     setLoading(true);
-    //     try {
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setLoading(false);
-    // };
-
     useEffect(() => {
-        // if (Object.entries(user).length === 0) {
         checkAuth();
         if (categories?.length === 0 || productList?.length === 0 || blogList?.length === 0) {
             WebsiteLoaded();
         }
-        // }
-        // if (categories.length === 0) {
-        //     categoryLoaded();
-        // }
-        // if (productList.length === 0) {
-        //     productLoaded();
-        // }
-        // if (blogList.length === 0) {
-        //     blogLoaded();
-        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
 

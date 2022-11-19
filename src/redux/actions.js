@@ -17,3 +17,7 @@ export const blogListLoaded = (data) => ({
     type: "BLOG_LOADED",
     payload: data,
 });
+export const setProductPayment = (data) => ({
+    type: "SET_PRODUCT_PAYMENT",
+    payload: data,
+});

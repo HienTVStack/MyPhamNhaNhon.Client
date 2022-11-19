@@ -8,10 +8,10 @@ export const BlogItemWrapper = styled(Card)(({ theme }) => ({
     // height: "150px",
     flexDirection: "column",
     textDecoration: "none",
-
+    margin: "20px 0",
     [theme.breakpoints.up("md")]: {
         flexDirection: "row",
-        height: "150px",
+        height: "180px",
     },
 }));
 

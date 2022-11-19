@@ -26,7 +26,7 @@ function Login() {
     const [passwordErr, setPasswordErr] = useState("");
 
     useEffect(() => {
-        if (user) {
+        if (Object.entries(user).length !== 0) {
             navigate("/");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,7 +84,6 @@ function Login() {
                         Authorization: `Bearer ${res.access_token}`,
                     },
                 });
-                console.log(data.data);
                 try {
                     const res = await authApi.loginGoogle(data.data);
                     localStorage.setItem("token", res.token);

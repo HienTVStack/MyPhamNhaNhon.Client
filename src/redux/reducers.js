@@ -3,6 +3,7 @@ const initialState = {
     categories: [],
     productList: [],
     blogList: [],
+    productPayment: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -29,6 +30,12 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 blogList: action.payload,
+            };
+        }
+        case "SET_PRODUCT_PAYMENT": {
+            return {
+                ...state,
+                productPayment: action.payload,
             };
         }
         default:

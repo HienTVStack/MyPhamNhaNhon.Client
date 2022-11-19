@@ -40,9 +40,10 @@ import ProductContent from "./ProductContent";
 import ProductReview from "./ProductReview";
 import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cartApi from "../../api/cartApi";
 import authApi from "../../api/authApi";
+import { setProductPayment } from "../../redux/actions";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -64,6 +65,7 @@ function a11yProps(index) {
 function ProductDetail() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const productList = useSelector((state) => state.data.productList || []);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const user = useSelector((state) => state.data.user);
@@ -182,6 +184,23 @@ function ProductDetail() {
         setTypeProductSelected(typeProduct[index]);
     };
 
+    const handlePayment = (product, typeProduct) => {
+        // console.log(idProduct);
+        // console.log(idType);
+
+        const _product = {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            idType: typeProduct._id,
+            nameType: typeProduct.nameType,
+            price: typeProduct.price,
+            quantity: quantity,
+        };
+        dispatch(setProductPayment([_product]));
+        navigate("/thanh-toan");
+    };
+
     return loading ? (
         <Loading fullHeight />
     ) : (
@@ -264,7 +283,12 @@ function ProductDetail() {
                                     >
                                         Thêm vào giỏ hàng
                                     </Button>
-                                    <Button variant="contained" disabled={typeProductSelected.quantityStock <= 0} size={matches ? "large" : "medium"}>
+                                    <Button
+                                        variant="contained"
+                                        disabled={typeProductSelected.quantityStock <= 0}
+                                        size={matches ? "large" : "medium"}
+                                        onClick={() => handlePayment(product, typeProductSelected)}
+                                    >
                                         Mua ngay
                                     </Button>
                                 </ProductInfoItem>

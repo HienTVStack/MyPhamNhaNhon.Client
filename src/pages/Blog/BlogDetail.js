@@ -2,7 +2,7 @@ import { Avatar, Box, Container, Grid, Stack, Typography, useMediaQuery } from "
 import { useTheme } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import blogApi from "../../api/blogApi";
+// import blogApi from "../../api/blogApi";
 import Loading from "../../components/Loading";
 import Image from "../../components/Image";
 import { BlogDetailName } from "../../styles/Blog";

@@ -2,7 +2,7 @@ import { Container, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import blogApi from "../../api/blogApi";
+// import blogApi from "../../api/blogApi";
 import Loading from "../../components/Loading";
 import BlogItem from "./BlogItem";
 import Pagination from "../../components/Pagination";
@@ -14,7 +14,7 @@ function Blog() {
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const location = useLocation();
     const [loading, setLoading] = useState(false);
-    const [blogs, setBlogs] = useState([]);
+    // const [blogs, setBlogs] = useState([]);
     const [pageCount, setPageCount] = useState(Number);
 
     const query = new URLSearchParams(location.search);
