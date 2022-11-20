@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 // React slick
-// import Slider from "react-slick";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // React router dom
@@ -39,7 +39,8 @@ import ProductInfoOrder from "./ProductInfoOrder";
 import ProductContent from "./ProductContent";
 import ProductReview from "./ProductReview";
 import ProductItem from "../../components/ProductItem";
-import Slider from "react-slick";
+// import Slider from "react-slick";
+// import Slider from "../../components/SliderMUI";
 import { useDispatch, useSelector } from "react-redux";
 import cartApi from "../../api/cartApi";
 import authApi from "../../api/authApi";
@@ -313,12 +314,25 @@ function ProductDetail() {
                 </ProductDetailWrapper>
             </Grid>
 
-            <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll />
-            <Slider dots={true} infinite={true} autoplaySpeed={1000} slidesToShow={3} slidesToScroll={3}>
-                {productIntroduce.map((product) => (
-                    <ProductItem key={product._id} product={product} />
-                ))}
-            </Slider>
+            <HeadingContent title={"Sản phẩm cùng loại"} urlViewAll={"/san-pham"} />
+            {matches ? (
+                <Stack spacing={2}>
+                    <Slider autoplay={true} dots={true} infinite={true} autoplaySpeed={3000} slidesToShow={4} slidesToScroll={1}>
+                        {productIntroduce?.map((product) => (
+                            <ProductItem key={product._id} product={product} />
+                        ))}
+                    </Slider>
+                </Stack>
+            ) : (
+                <Stack spacing={2}>
+                    <Slider autoplay={true} dots={true} infinite={true} autoplaySpeed={3000} slidesToShow={1} slidesToScroll={1}>
+                        {productIntroduce?.map((product) => (
+                            <ProductItem key={product._id} product={product} />
+                        ))}
+                    </Slider>
+                </Stack>
+            )}
+
             <Snackbar
                 open={toastMessage.open}
                 anchorOrigin={{

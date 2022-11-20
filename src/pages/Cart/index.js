@@ -22,18 +22,6 @@ function Cart() {
     const [carts, setCarts] = useState([]);
     const [productListChecked, setProductListChecked] = useState([]);
 
-    // const userReLoaded = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await authApi.verifyToken();
-    //         setCarts(res.user.carts);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.log(error);
-    //         setLoading(false);
-    //     }
-    // };
-
     useEffect(() => {
         if (Object.entries(user).length !== 0) {
             // setCarts(user?.carts);

@@ -54,7 +54,7 @@ function AppLayout() {
         const isToken = localStorage.getItem("token");
         // setLoading(true);
         if (isToken) {
-            console.log(token);
+            // console.log(token);
             const user = await authUtil.isAuthenticated();
             if (Object.entries(user).length !== 0) {
                 dispatch(setUser(user));
@@ -66,19 +66,27 @@ function AppLayout() {
     const WebsiteLoaded = async () => {
         setLoading(true);
         try {
-            const productLoaded = await productApi.getAll();
-            const categoryLoaded = await categoryApi.getAll();
-            const blogLoaded = await blogApi.getAll();
+            const productLoaded = productApi.getAll();
+            const categoryLoaded = categoryApi.getAll();
+            const blogLoaded = blogApi.getAll();
 
-            if (productLoaded.success) {
-                dispatch(productListLoaded(productLoaded.products));
-            }
-            if (categoryLoaded.message === "OK") {
-                dispatch(getCategories(categoryLoaded.categories));
-            }
-            if (blogLoaded.success) {
-                dispatch(blogListLoaded(blogLoaded.blogs));
-            }
+            await Promise.all([productLoaded, categoryLoaded, blogLoaded])
+                .then((value) => {
+                    dispatch(productListLoaded(value[0].products));
+                    dispatch(getCategories(value[1].categories));
+                    dispatch(blogListLoaded(value[2].blogs));
+                })
+                .catch((err) => console.log(err));
+
+            // if (productLoaded.success) {
+            //     dispatch(productListLoaded(productLoaded.products));
+            // }
+            // if (categoryLoaded.message === "OK") {
+            //     dispatch(getCategories(categoryLoaded.categories));
+            // }
+            // if (blogLoaded.success) {
+            //     dispatch(blogListLoaded(blogLoaded.blogs));
+            // }
             setLoading(false);
         } catch (error) {
             console.log(error);

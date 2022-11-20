@@ -19,13 +19,13 @@ function Product() {
 
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }}>
-            <Grid container maxWidth={"lg"} spacing={1} justifyContent={"center"}>
+            <Grid container maxWidth={"lg"} spacing={1}>
                 {loading ? (
                     <Loading fullHeight />
                 ) : (
                     <Fragment>
                         {productList.map((product) => (
-                            <Grid key={product._id} item xs={6} sm={6} md={4} lg={4}>
+                            <Grid key={product._id} item xs={12} sm={12} md={4} lg={3}>
                                 <ProductItem product={product} />
                             </Grid>
                         ))}

@@ -9,12 +9,12 @@ import Image from "../Image";
 function ProductItem({ product, ...other }) {
     return (
         <ProductWrapper {...other}>
-            <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "300px" }}>
+            <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "220px" }}>
                 <Image src={product.image} alt={product.name} />
             </CardMedia>
             <CardContent
                 component={Link}
-                to={`/san-pham/${product.slug}/detail`}
+                to={`/san-pham/${product.slug}/detail` || "#"}
                 sx={{
                     padding: "16px",
                     display: "block",
@@ -35,13 +35,13 @@ function ProductItem({ product, ...other }) {
                     <Stack direction={"row"} alignItems="center">
                         {product.type.length - 1 !== 0 && (
                             <>
-                                <Typography variant={"body2"} component={"h2"} fontSize={"18px"} color={"#252525"} fontWeight={700}>
+                                <Typography variant={"body2"} component={"h2"} fontSize={"14px"} color={"#252525"} fontWeight={700}>
                                     <FormatNumber number={product.type[0].price} />
                                 </Typography>
                                 <Typography sx={{ margin: "0 12px" }}> - </Typography>
                             </>
                         )}
-                        <Typography variant={"body2"} component={"h2"} fontSize={"18px"} color={"#252525"} fontWeight={700}>
+                        <Typography variant={"body2"} component={"h2"} fontSize={"14px"} color={"#252525"} fontWeight={700}>
                             <FormatNumber number={product.type[product.type.length - 1].price} />
                         </Typography>
                     </Stack>

@@ -13,7 +13,7 @@ export const ProductName = styled(Typography)(({ theme }) => ({
     display: "block",
     fontSize: "16px",
     color: "#252525",
-    height: "50px",
+    // height: "50px",
     overflow: "hidden",
 }));
 
