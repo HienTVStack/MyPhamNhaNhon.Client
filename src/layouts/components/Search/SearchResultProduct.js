@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 
 import Image from "../../../components/Image";
 import { SearchResultItem } from "../../../styles/Search";
+import { fNumber } from "../../../utils/formatNumber";
 
 function SearchItem({ product }) {
     return (
-        <SearchResultItem component={Link} to={`/san-pham/${product.nameNoTones}`}>
+        <SearchResultItem component={Link} to={`/san-pham/${product.slug}`}>
             <Box width={"60px"} height={"60px"}>
                 <Image src={product.image} alt={product.name} />
             </Box>
@@ -15,7 +16,7 @@ function SearchItem({ product }) {
                     {product.name}
                 </Typography>
                 <Typography variant="body1" color={"rgba(22, 24, 35, 0.5)"} mt={1}>
-                    {product.price}
+                    {`${fNumber(product.price)} đ`}
                 </Typography>
             </Stack>
         </SearchResultItem>

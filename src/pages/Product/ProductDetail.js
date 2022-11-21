@@ -139,7 +139,7 @@ function ProductDetail() {
     };
 
     const handleAddProductToCart = async (product) => {
-        if (!user) {
+        if (Object.entries(user).length === 0) {
             setToastMessage({ open: true, type: "warning", message: "Vui lòng đăng nhập để tiếp tục" });
             return;
         }
@@ -161,7 +161,6 @@ function ProductDetail() {
             type: typeProductSelected.nameType,
         };
 
-        console.log(_product);
         try {
             const res = await authApi.addCart(user.id, _product);
 

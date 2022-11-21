@@ -69,7 +69,7 @@ function Contact() {
                                     Liên hệ Facebook
                                 </Typography>
                                 <Typography variant="body2" fontSize="16px" color="#666666" fontWeight={"400"} p={1}>
-                                    /tiemmyphamtanthoi
+                                    /myphamnhanhon
                                 </Typography>
                             </ContactContentWrapper>
                         </Grid>
