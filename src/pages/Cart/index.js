@@ -77,8 +77,9 @@ function Cart() {
     };
 
     const handleIncrement = (cartItem) => {
+        console.log(cartItem);
         const index = carts.findIndex((item) => {
-            return item.id === cartItem.id;
+            return item._id === cartItem._id;
         });
 
         const newCarts = [...carts];

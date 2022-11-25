@@ -9,12 +9,12 @@ import Image from "../Image";
 function ProductItem({ product, ...other }) {
     return (
         <ProductWrapper {...other}>
-            <CardMedia component={Link} to={`/san-pham/${product.slug}/detail`} sx={{ height: "220px" }}>
+            <CardMedia component={Link} to={`/san-pham/${product.slug}/chi-tiet`} sx={{ height: "220px" }}>
                 <Image src={product.image} alt={product.name} />
             </CardMedia>
             <CardContent
                 component={Link}
-                to={`/san-pham/${product.slug}/detail` || "#"}
+                to={`/san-pham/${product.slug}/chi-tiet` || "#"}
                 sx={{
                     padding: "16px",
                     display: "block",

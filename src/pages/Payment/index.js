@@ -34,6 +34,7 @@ import invoiceApi from "../../api/invoiceApi";
 import ResultPayment from "./ResultPayment";
 import ProductItem from "../../components/ProductItem";
 import authApi from "../../api/authApi";
+import discountApi from "../../api/discountApi";
 
 const steps = ["Giỏ hàng", "Thanh toán", "Kết quả"];
 
@@ -43,6 +44,10 @@ const totalInvoice = (list) => {
         total += Number(item.quantity * item.price);
     }
     return total;
+};
+
+const priceDiscount = (total, value) => {
+    return total - total * (value / 100);
 };
 
 const style = {
@@ -70,8 +75,8 @@ function Payment() {
     const [paymentSelectedErr, setPaymentSelectedErr] = useState("");
     const [productListPayment, setProductListPayment] = useState([]);
     const [infoDelivery, setInfoDelivery] = useState({});
-    const [discountText, setDiscountText] = useState("");
-    const [discountPrice, setDiscountPrice] = useState(0);
+    const [discountValue, setDiscountValue] = useState(0);
+    const [codeDiscount, setCodeDiscount] = useState("");
     const [activeStep, setActiveStep] = useState(1);
     const [skipped, setSkipped] = useState(new Set());
     const [toastMessage, setToastMessage] = useState({
@@ -79,11 +84,13 @@ function Payment() {
         type: "error",
         message: "ERR",
     });
-
-    // Modal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    useEffect(() => {
+        // if()
+    }, []);
 
     const paymentOptionLoaded = async () => {
         setLoading(true);
@@ -209,7 +216,10 @@ function Payment() {
             },
             products: productPayment,
             total: totalInvoice(productPayment),
-            discountText: discountText,
+            discount: {
+                code: codeDiscount,
+                discountValue: discountValue,
+            },
             priceDelivery: 0,
             paymentOption: paymentOptionSelected,
         };
@@ -224,6 +234,32 @@ function Payment() {
             console.log(error);
         }
         setLoading(false);
+    };
+
+    const handleDiscountApply = async () => {
+        try {
+            const res = await discountApi.checkCodeByCustomer({ code: codeDiscount, idUser: user.id });
+
+            if (res.success && res.isCheck) {
+                const voucher = res?.voucher;
+                if (voucher?.invoiceMin >= totalInvoice(productListPayment)) {
+                    setToastMessage({ open: true, message: "Hóa đơn không đủ điều kiện", type: "warning" });
+                    return;
+                }
+                const reducerPrice = totalInvoice(productListPayment) - totalInvoice(productListPayment) * (Number(voucher?.discountValue) / 100);
+                console.log(reducerPrice);
+                console.log(voucher?.discountValueMax);
+                setDiscountValue(reducerPrice <= voucher?.discountValueMax ? reducerPrice : Number(voucher?.discountValueMax));
+                setToastMessage({ open: true, message: "Áp dụng voucher thành công", type: "success" });
+            } else {
+                setToastMessage({ open: true, message: "Không tìm thấy voucher cho bạn", type: "warning" });
+                setCodeDiscount("");
+                setDiscountValue(0);
+            }
+        } catch (error) {
+            console.log(error);
+            setToastMessage({ open: true, message: "Áp dụng voucher thất bại", type: "error" });
+        }
     };
 
     const renderStep = (step) => {
@@ -405,7 +441,7 @@ function Payment() {
                                                             Giảm giá
                                                         </Typography>
                                                         <Typography variant={"body2"} fontSize={"18px"} lineHeight={"30px"}>
-                                                            {`${fNumber(discountPrice)} đ`}
+                                                            {`${fNumber(discountValue)} đ `}
                                                         </Typography>
                                                     </Stack>
                                                     <Stack direction={"row"} justifyContent={"space-between"}>
@@ -422,7 +458,7 @@ function Payment() {
                                                             <b>Thanh toán</b>
                                                         </Typography>
                                                         <Typography variant={"body2"} fontSize={"18px"} lineHeight={"30px"}>
-                                                            {`${fNumber(totalInvoice(productListPayment) + discountPrice)} đ`}
+                                                            {`${fNumber(totalInvoice(productListPayment) - discountValue)} `}
                                                         </Typography>
                                                     </Stack>
                                                     <Stack
@@ -430,12 +466,12 @@ function Payment() {
                                                         sx={{ border: "1px solid #ccc", borderRadius: "8px", padding: "8px 12px" }}
                                                     >
                                                         <InputBase
+                                                            value={codeDiscount}
                                                             sx={{ flex: 1 }}
-                                                            value={discountText}
-                                                            onChange={(e) => setDiscountText(e.target.value)}
+                                                            onChange={(e) => setCodeDiscount(e.target.value)}
                                                             placeholder={"Mã giảm giá"}
                                                         />
-                                                        <Button>Áp dụng</Button>
+                                                        <Button onClick={handleDiscountApply}>Áp dụng</Button>
                                                     </Stack>
                                                 </Stack>
                                             </Paper>

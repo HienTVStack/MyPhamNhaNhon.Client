@@ -14,8 +14,6 @@ import GoogleIcon from "@mui/icons-material/Google";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 
 function Login() {
-    console.log(process.env.REACT_APP_API);
-
     const user = useSelector((state) => state.data.user);
     const theme = useTheme();
     const navigate = useNavigate();
@@ -133,7 +131,7 @@ function Login() {
                             sx={{ color: "#DF3E30", width: "50%" }}
                         ></Button>
                         <FacebookLogin
-                            appId="430008532603669"
+                            appId={"430008532603669"}
                             onSuccess={(response) => {
                                 console.log("Login Success!", response);
                             }}

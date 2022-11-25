@@ -27,7 +27,7 @@ const Router = () => {
                 { path: "/quen-mat-khau", element: <CheckEmail /> },
                 { path: "/thay-doi-mat-khau", element: <ForgotPassword /> },
                 { path: "/san-pham", element: <Product /> },
-                { path: "/san-pham/:slug/detail", element: <ProductDetail /> },
+                { path: "/san-pham/:slug/chi-tiet", element: <ProductDetail /> },
                 { path: "/san-pham/the-loai/:slug", element: <Category /> },
                 { path: "/bai-viet", element: <Blog /> },
                 { path: "/bai-viet/:slug", element: <BlogDetail /> },
