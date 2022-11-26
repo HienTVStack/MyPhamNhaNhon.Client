@@ -36,21 +36,6 @@ function AppLayout() {
     const token = query.get("login");
 
     const checkAuth = async () => {
-        // const user = await authUtil.isAuthenticated();
-        // if (!user) {
-        //     navigate("/dang-nhap");
-        // } else {
-        //     dispatch(setUser(user));
-        //     setLoading(false);
-        // }
-
-        // if (token) {
-        //     console.log(token);
-        //     const user = await authUtil.isAuthenticated();
-        //     if (Object.entries(user).length !== 0) {
-        //         dispatch(setUser(user));
-        //     }
-        // }
         const isToken = localStorage.getItem("token");
         // setLoading(true);
         if (isToken) {
@@ -78,15 +63,6 @@ function AppLayout() {
                 })
                 .catch((err) => console.log(err));
 
-            // if (productLoaded.success) {
-            //     dispatch(productListLoaded(productLoaded.products));
-            // }
-            // if (categoryLoaded.message === "OK") {
-            //     dispatch(getCategories(categoryLoaded.categories));
-            // }
-            // if (blogLoaded.success) {
-            //     dispatch(blogListLoaded(blogLoaded.blogs));
-            // }
             setLoading(false);
         } catch (error) {
             console.log(error);

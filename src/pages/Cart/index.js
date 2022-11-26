@@ -24,7 +24,6 @@ function Cart() {
 
     useEffect(() => {
         if (Object.entries(user).length !== 0) {
-            // setCarts(user?.carts);
             const checkAuth = async () => {
                 setLoading(true);
                 const user = await authUtil.isAuthenticated();
@@ -69,7 +68,6 @@ function Cart() {
                     }
                 });
                 setCarts(newCarts);
-                console.log(res);
             }
         } catch (error) {
             console.log(error);
@@ -77,7 +75,6 @@ function Cart() {
     };
 
     const handleIncrement = (cartItem) => {
-        console.log(cartItem);
         const index = carts.findIndex((item) => {
             return item._id === cartItem._id;
         });

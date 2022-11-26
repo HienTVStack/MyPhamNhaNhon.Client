@@ -42,7 +42,6 @@ import ProductItem from "../../components/ProductItem";
 // import Slider from "react-slick";
 // import Slider from "../../components/SliderMUI";
 import { useDispatch, useSelector } from "react-redux";
-import cartApi from "../../api/cartApi";
 import authApi from "../../api/authApi";
 import { setProductPayment } from "../../redux/actions";
 
@@ -88,35 +87,6 @@ function ProductDetail() {
 
     let { slug } = useParams();
 
-    // const productItemLoaded = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await productApi.getBySlug(slug);
-
-    //         setProductImage(res.product.imageList);
-    //         setTypeProduct(res.product.type);
-    //         setTypeProductSelected(res.product.type[0]);
-    //         setProduct(res.product);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setLoading(false);
-    // };
-
-    // const productIntroduceLoader = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await productApi.getProductIntroduce();
-    //         if (res.message === "OK") {
-    //             setProductIntroduce(res.products);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setLoading(false);
-    // };
-
     useEffect(() => {
         // productItemLoaded();
         // productIntroduceLoader();
@@ -127,10 +97,7 @@ function ProductDetail() {
         setProduct(item[0]);
 
         setProductIntroduce(productList.slice(0, 6));
-        // console.log(item);
-        // if (item && item[0]) {
 
-        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
@@ -179,15 +146,11 @@ function ProductDetail() {
     };
 
     const handleSelectTypeProduct = (index) => {
-        // setPrice(typeProduct[index].price);
         setIsSelected(true);
         setTypeProductSelected(typeProduct[index]);
     };
 
     const handlePayment = (product, typeProduct) => {
-        // console.log(idProduct);
-        // console.log(idType);
-
         const _product = {
             id: product.id,
             name: product.name,

@@ -35,6 +35,7 @@ import ResultPayment from "./ResultPayment";
 import ProductItem from "../../components/ProductItem";
 import authApi from "../../api/authApi";
 import discountApi from "../../api/discountApi";
+import { useNavigate } from "react-router-dom";
 
 const steps = ["Giỏ hàng", "Thanh toán", "Kết quả"];
 
@@ -46,9 +47,9 @@ const totalInvoice = (list) => {
     return total;
 };
 
-const priceDiscount = (total, value) => {
-    return total - total * (value / 100);
-};
+// const priceDiscount = (total, value) => {
+//     return total - total * (value / 100);
+// };
 
 const style = {
     position: "absolute",
@@ -57,7 +58,6 @@ const style = {
     transform: "translate(-50%, -50%)",
     width: 400,
     bgcolor: "background.paper",
-    // border: "2px solid #000",
     borderRadius: "12px",
     boxShadow: 24,
     p: 4,
@@ -65,6 +65,7 @@ const style = {
 
 function Payment() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const matches = useMediaQuery(theme.breakpoints.up("lg"));
     const user = useSelector((state) => state.data.user);
     const productList = useSelector((state) => state.data.productList || []);
@@ -77,6 +78,7 @@ function Payment() {
     const [infoDelivery, setInfoDelivery] = useState({});
     const [discountValue, setDiscountValue] = useState(0);
     const [codeDiscount, setCodeDiscount] = useState("");
+    const [discountTotalInvoice, setDiscountTotalInvoice] = useState(0);
     const [activeStep, setActiveStep] = useState(1);
     const [skipped, setSkipped] = useState(new Set());
     const [toastMessage, setToastMessage] = useState({
@@ -88,34 +90,47 @@ function Payment() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    useEffect(() => {
-        // if()
-    }, []);
-
-    const paymentOptionLoaded = async () => {
-        setLoading(true);
-        try {
-            const res = await paymentOptionApi.getAll();
-            if (res.success) {
-                setPaymentOptionList(res.paymentOptions);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    };
-
     const productPaymentLoaded = async () => {
         setProductListPayment(productPayment);
     };
 
+    const fetch = async () => {
+        const fetchPaymentOptionGetAll = paymentOptionApi.getAll();
+        const checkTotalInvoiceVerifyDiscount = discountApi.checkTotalInvoiceVerifyDiscount({ totalInvoice: totalInvoice(productPayment) });
+
+        await Promise.all([fetchPaymentOptionGetAll, checkTotalInvoiceVerifyDiscount])
+            .then(([paymentOption, checkTotalInvoiceVerifyDiscount]) => {
+                if (paymentOption.success) {
+                    setPaymentOptionList(paymentOption?.paymentOptions);
+                }
+                if (checkTotalInvoiceVerifyDiscount.success) {
+                    console.log(checkTotalInvoiceVerifyDiscount.discount);
+                    if (checkTotalInvoiceVerifyDiscount?.discount?.invoiceMin <= totalInvoice(productPayment)) {
+                        const discountValue = checkTotalInvoiceVerifyDiscount?.discount?.discountValue;
+                        const priceDiscount = totalInvoice(productPayment) * (discountValue / 100);
+                        const discountValueMax = checkTotalInvoiceVerifyDiscount?.discount?.discountValueMax;
+
+                        setDiscountTotalInvoice(priceDiscount <= discountValueMax ? priceDiscount : discountValueMax);
+                    } else {
+                        setDiscountTotalInvoice(0);
+                    }
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
     useEffect(() => {
+        if (Object.entries(user).length === 0) {
+            navigate("/");
+        }
         if (productPayment?.length > 0) {
+            fetch();
             productPaymentLoaded();
             setActiveStep(1);
+        } else {
+            navigate("/trang-chu");
         }
         setInfoDelivery({ name: user?.fullName, address: user?.address, phone: user?.phone });
-        paymentOptionLoaded();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -177,7 +192,6 @@ function Payment() {
         let isReplaceAddress = false;
 
         if (data.get("isReplaceAddress")) {
-            console.log(`Vaoooooooooooooo`);
             isReplaceAddress = true;
             try {
                 const res = await authApi.updateInfo(user.id, { address, phone });
@@ -215,7 +229,8 @@ function Payment() {
                 phone: user.phone,
             },
             products: productPayment,
-            total: totalInvoice(productPayment),
+            total: totalInvoice(productListPayment) - discountValue - discountTotalInvoice,
+            priceDiscount: discountValue + discountTotalInvoice,
             discount: {
                 code: codeDiscount,
                 discountValue: discountValue,
@@ -247,8 +262,7 @@ function Payment() {
                     return;
                 }
                 const reducerPrice = totalInvoice(productListPayment) - totalInvoice(productListPayment) * (Number(voucher?.discountValue) / 100);
-                console.log(reducerPrice);
-                console.log(voucher?.discountValueMax);
+
                 setDiscountValue(reducerPrice <= voucher?.discountValueMax ? reducerPrice : Number(voucher?.discountValueMax));
                 setToastMessage({ open: true, message: "Áp dụng voucher thành công", type: "success" });
             } else {
@@ -444,6 +458,17 @@ function Payment() {
                                                             {`${fNumber(discountValue)} đ `}
                                                         </Typography>
                                                     </Stack>
+                                                    {discountTotalInvoice > 0 && (
+                                                        <Stack direction={"row"} justifyContent={"space-between"}>
+                                                            <Typography variant={"body2"} fontSize={"18px"} lineHeight={"30px"}>
+                                                                Giảm giá hóa đơn
+                                                            </Typography>
+                                                            <Typography variant={"body2"} fontSize={"18px"} lineHeight={"30px"}>
+                                                                {`${fNumber(discountTotalInvoice)} đ `}
+                                                            </Typography>
+                                                        </Stack>
+                                                    )}
+
                                                     <Stack direction={"row"} justifyContent={"space-between"}>
                                                         <Typography variant={"body2"} fontSize={"18px"} lineHeight={"30px"}>
                                                             Phí vận chuyển
@@ -458,7 +483,7 @@ function Payment() {
                                                             <b>Thanh toán</b>
                                                         </Typography>
                                                         <Typography variant={"body2"} fontSize={"18px"} lineHeight={"30px"}>
-                                                            {`${fNumber(totalInvoice(productListPayment) - discountValue)} `}
+                                                            {`${fNumber(totalInvoice(productListPayment) - discountValue - discountTotalInvoice)} `}
                                                         </Typography>
                                                     </Stack>
                                                     <Stack

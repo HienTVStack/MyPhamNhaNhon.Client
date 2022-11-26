@@ -80,9 +80,9 @@ function Signup() {
             setConfirmPPasswordErr(`Nhập lại mật khẩu không chính xác`);
         }
 
-        if (!checkReCaptcha) {
-            err = true;
-        }
+        // if (!checkReCaptcha) {
+        //     err = true;
+        // }
 
         setLoading(false);
         if (err) return;
