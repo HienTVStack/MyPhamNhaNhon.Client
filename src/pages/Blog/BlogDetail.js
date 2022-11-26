@@ -7,6 +7,7 @@ import Loading from "../../components/Loading";
 import Image from "../../components/Image";
 import { BlogDetailName } from "../../styles/Blog";
 import { useSelector } from "react-redux";
+import { fDateTime } from "../../utils/formatTime";
 
 function BlogDetail() {
     const theme = useTheme();
@@ -40,10 +41,10 @@ function BlogDetail() {
                             <Avatar src={blog.image} sx={{ height: "40px", width: "40px" }} alt={blog.name} />
                             <Stack justifyContent={"space-between"} ml={2}>
                                 <Typography variant="body2">
-                                    {blog.author ? `${blog?.author?.name || ""}` : "Bài viết được đăng bởi Admin"}
+                                    {blog?.author ? `${blog?.author?.name || "Nhà Nhơn <3"}` : "Bài viết được đăng bởi Admin"}
                                 </Typography>
                                 <Typography variant="body2" mt={1}>
-                                    {blog.updatedAt}
+                                    {fDateTime(blog?.updatedAt || new Date())}
                                 </Typography>
                             </Stack>
                         </Box>

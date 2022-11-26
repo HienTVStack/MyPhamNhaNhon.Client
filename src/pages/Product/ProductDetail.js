@@ -26,7 +26,6 @@ import "slick-carousel/slick/slick-theme.css";
 // React router dom
 import { useNavigate, useParams } from "react-router-dom";
 // API
-import productApi from "../../api/productApi";
 // Components
 import Image from "../../components/Image";
 import Loading from "../../components/Loading";
@@ -88,16 +87,15 @@ function ProductDetail() {
     let { slug } = useParams();
 
     useEffect(() => {
-        // productItemLoaded();
-        // productIntroduceLoader();
+        setLoading(true);
         const item = productList.filter((item) => item.slug === slug);
-        setProductImage(item[0].imageList);
-        setTypeProduct(item[0].type);
-        setTypeProductSelected(item[0].type[0]);
+        setProductImage(item[0]?.imageList);
+        setTypeProduct(item[0]?.type);
+        setTypeProductSelected(item[0]?.type[0]);
         setProduct(item[0]);
 
         setProductIntroduce(productList.slice(0, 6));
-
+        setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
@@ -182,10 +180,10 @@ function ProductDetail() {
                             <Image src={productImage[indexImageShow]} alt={product.name} />
                         </Box>
                         <Grid container spacing={2} sx={{ overflowX: "auto" }} padding={"0 16px"}>
-                            {productImage.map((img, index) => (
+                            {productImage?.map((img, index) => (
                                 <Grid key={index} item xs={3} sm={3} md={3} lg={3}>
                                     <ProductImageItem onClick={() => setIndexImageShow(index)}>
-                                        <Image src={img} key={index} alt={`${product.name} ${index}`} />
+                                        <Image src={img} key={index} alt={product?.name} />
                                     </ProductImageItem>
                                 </Grid>
                             ))}
@@ -197,13 +195,13 @@ function ProductDetail() {
                         <CardContent>
                             <Box>
                                 <Typography variant="body2" component="h1" fontWeight={700} fontSize={"20px"} lineHeight={"20px"}>
-                                    {product.name}
+                                    {product?.name}
                                 </Typography>
                                 <Box display={"flex"} alignItems={"center"}>
-                                    <Rating disabled value={product.rating} />
+                                    <Rating disabled value={product?.rating || 0} />
                                     <Divider orientation="vertical" flexItem sx={{ margin: "0 8px" }} />
                                     <Typography variant="body2" mt={"5px"}>
-                                        {product.numReviews} đánh giá
+                                        {product?.reviews?.length} đánh giá
                                     </Typography>
                                 </Box>
                             </Box>
@@ -219,12 +217,17 @@ function ProductDetail() {
                                 <Typography variant="body1" color="gray">
                                     Loại hàng:
                                 </Typography>
-                                {typeProduct.map((item, index) => (
+                                {typeProduct?.map((item, index) => (
                                     <Button
                                         key={index}
                                         variant="outlined"
                                         onClick={() => handleSelectTypeProduct(index)}
-                                        sx={{ margin: "0 8px", "&:focus": { backgroundColor: "#229A16" } }}
+                                        sx={{
+                                            margin: "0 8px",
+                                            "&:focus": { backgroundColor: "#229A16" },
+                                            "&:active": { backgroundColor: "#229A16" },
+                                            "&:hover": { backgroundColor: "#229A16" },
+                                        }}
                                     >
                                         {item.nameType}
                                     </Button>

@@ -13,6 +13,7 @@ import ConfirmEmail from "../pages/Signup/ConfirmEmail";
 import CheckEmail from "../pages/ForgotPassword/CheckEmail";
 import ForgotPassword from "../pages/ForgotPassword";
 import Payment from "../pages/Payment";
+import Account from "../pages/Account";
 
 const Router = () => {
     return useRoutes([
@@ -33,6 +34,7 @@ const Router = () => {
                 { path: "/bai-viet/:slug", element: <BlogDetail /> },
                 { path: "/gio-hang", element: <Cart /> },
                 { path: "/thanh-toan", element: <Payment /> },
+                { path: "/tai-khoan", element: <Account /> },
             ],
         },
         // {
