@@ -76,7 +76,7 @@ function ProductDetail() {
     const [value, setValue] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [typeProduct, setTypeProduct] = useState([]);
-    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", price: 0, quantityStock: 0 });
+    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", price: 0, quantityStock: 0, _id: "" });
     const [isSelected, setIsSelected] = useState(false);
     const [toastMessage, setToastMessage] = useState({
         open: false,
@@ -116,6 +116,7 @@ function ProductDetail() {
             setToastMessage({ open: true, type: "warning", message: "Sản phẩm đã hết hàng" });
             return;
         }
+
         const _product = {
             id: product.id,
             name: product.name,
@@ -123,7 +124,8 @@ function ProductDetail() {
             quantity: quantity,
             slug: product.slug,
             image: product.image,
-            type: typeProductSelected.nameType,
+            nameType: typeProductSelected.nameType,
+            idType: typeProductSelected._id,
         };
 
         try {
@@ -131,7 +133,6 @@ function ProductDetail() {
 
             if (res.success) {
                 setToastMessage({ open: true, type: "success", message: "Thêm thành công" });
-                console.log(res);
             }
         } catch (error) {
             console.log(error);

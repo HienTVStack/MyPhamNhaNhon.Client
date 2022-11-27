@@ -40,6 +40,7 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement, product
     };
 
     const handleSelected = (isChecked, product) => {
+        console.log(product);
         productSelected(isChecked, product);
     };
     return (
@@ -63,7 +64,7 @@ function CartItem({ matches, cart, removeCartItem, increment, decrement, product
                     </CartItemName>
                     <CartItemCategoryWrapper>
                         <Typography variant="body2" fontSize={"12px"}>
-                            Phân loại hàng: {cart.type}
+                            Phân loại hàng: {cart.nameType}
                         </Typography>
                     </CartItemCategoryWrapper>
                     <CartActionsQuantity display={"flex"} alignItems={"center"}>

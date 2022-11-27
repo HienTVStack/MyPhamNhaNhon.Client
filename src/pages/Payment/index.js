@@ -104,7 +104,6 @@ function Payment() {
                     setPaymentOptionList(paymentOption?.paymentOptions);
                 }
                 if (checkTotalInvoiceVerifyDiscount.success) {
-                    console.log(checkTotalInvoiceVerifyDiscount.discount);
                     if (checkTotalInvoiceVerifyDiscount?.discount?.invoiceMin <= totalInvoice(productPayment)) {
                         const discountValue = checkTotalInvoiceVerifyDiscount?.discount?.discountValue;
                         const priceDiscount = totalInvoice(productPayment) * (discountValue / 100);
@@ -124,11 +123,12 @@ function Payment() {
             navigate("/");
         }
         if (productPayment?.length > 0) {
+            console.log(productPayment);
             fetch();
             productPaymentLoaded();
             setActiveStep(1);
         } else {
-            navigate("/trang-chu");
+            navigate("/");
         }
         setInfoDelivery({ name: user?.fullName, address: user?.address, phone: user?.phone });
         // eslint-disable-next-line react-hooks/exhaustive-deps

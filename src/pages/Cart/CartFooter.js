@@ -12,7 +12,6 @@ function CartFooter({ matches, totalPrice, totalAmount, listProductPayment }) {
     const dispatch = useDispatch();
 
     const onPayment = () => {
-        console.log(listProductPayment);
         dispatch(setProductPayment(listProductPayment));
         navigate("/thanh-toan");
     };

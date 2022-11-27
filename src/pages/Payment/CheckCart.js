@@ -75,7 +75,7 @@ function CheckCart({ carts, matches }) {
                             </Typography>
                             <Stack direction={"row"} spacing={2}>
                                 <b>Phân loại</b>
-                                <Typography variant="body1">{item.type}</Typography>
+                                <Typography variant="body1">{item.nameType}</Typography>
                             </Stack>
                             <Stack direction={"row"} spacing={2}>
                                 <b>Số lượng</b>

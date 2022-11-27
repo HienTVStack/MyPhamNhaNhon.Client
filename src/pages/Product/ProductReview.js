@@ -1,4 +1,4 @@
-import { Typography, Box, Stack, Button, TextField } from "@mui/material";
+import { Typography, Box, Stack, Button, TextField, Avatar } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import productApi from "../../api/productApi";
@@ -29,12 +29,14 @@ function ProductReview({ id, reviews }) {
         const _reviews = {
             author: user.fullName,
             content: reviewText,
+            createdAt: new Date(),
         };
 
         try {
             const res = await productApi.addReview({ id: id, user, reviews: _reviews });
             if (res.message === "OK") {
-                setReviewList(res.product.reviews);
+                setReviewList([...reviewList, _reviews]);
+                setReviewText("");
             }
         } catch (error) {
             console.log(error);
@@ -88,18 +90,14 @@ function ProductReview({ id, reviews }) {
                     .reverse()
                     .map((r, index) => (
                         <Box key={index} display={"flex"} alignItems={"center"} py={2} sx={{ borderBottom: "1px solid #ccc" }}>
-                            <img
-                                src={r.authorAvt || "https://api-prod-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg"}
-                                alt=""
-                                style={{ borderRadius: "50%", height: "48px", width: "48px", marginRight: "20px" }}
-                            />
+                            <Avatar src={r.authorAvt} alt={r.author} style={{ height: "48px", width: "48px", marginRight: "20px" }} />
                             <Box flex={1}>
                                 <Typography variant="body2">{r.author}</Typography>
                                 <Typography
                                     variant="body2"
                                     sx={{ color: "rgb(145, 158, 171)", lineHight: "1.5", fontSize: "0.75rem", fontWeight: "400" }}
                                 >
-                                    {fDateTimeSuffix(r.createdAt)}
+                                    {fDateTimeSuffix(r?.createdAt)}
                                 </Typography>
                                 <Typography variant="body2">{r.content}</Typography>
                             </Box>

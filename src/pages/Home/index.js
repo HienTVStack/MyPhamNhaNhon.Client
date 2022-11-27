@@ -24,20 +24,6 @@ function Home() {
     const blogList = useSelector((state) => state.data.blogList);
     const [loadingBlog, setLoadingBlog] = useState(false);
     const [loadingProduct, setLoadingProduct] = useState(false);
-    // const [blogList, setBlogList] = useState([]);
-
-    // const blogLoaded = async () => {
-    //     setLoadingBlog(true);
-    //     try {
-    //         const res = await blogApi.getAll();
-    //         if (res.message === "OK") {
-    //             setBlogList(res.blogs);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setLoadingBlog(false);
-    // };
 
     useEffect(() => {
         // blogLoaded();
