@@ -1,6 +1,18 @@
 import { Avatar, Button, Grid, Paper, Stack, TextField } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/actions";
 
 function General({ avatar, fullName, email, phone, address }) {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        dispatch(setUser({}));
+        navigate("/dang-nhap");
+    };
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -31,8 +43,11 @@ function General({ avatar, fullName, email, phone, address }) {
 
                     <Grid container mt={4}>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Stack alignItems={"center"}>
+                            <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
                                 <Button variant="contained">Lưu thay đổi</Button>
+                                <Button variant="outlined" startIcon={<LogoutIcon />} onClick={handleLogout} color={"error"}>
+                                    Đăng xuất
+                                </Button>
                             </Stack>
                         </Grid>
                     </Grid>
