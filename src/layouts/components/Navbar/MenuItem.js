@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 // Material UI
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -13,7 +13,7 @@ function MenuItem({ icon, title, slug, categories, children }) {
     const [open, setOpen] = useState(false);
 
     return (
-        <Fragment>
+        <>
             <ListItemButton
                 component={!!children ? "li" : Link}
                 to={`/${slug}`}
@@ -53,7 +53,7 @@ function MenuItem({ icon, title, slug, categories, children }) {
                     </List>
                 </Collapse>
             )}
-        </Fragment>
+        </>
     );
 }
 

@@ -6,6 +6,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import MailIcon from "@mui/icons-material/Mail";
 // React router dom
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ICONS = [
     { icon: <FacebookIcon />, to: "/facebook" },
@@ -14,6 +15,7 @@ const ICONS = [
 ];
 
 function AppBarHeaderDesktop() {
+    const setting = useSelector((state) => state.data.settings);
     return (
         <AppBar enableColorOnDark={true}>
             <Toolbar variant="dense" sx={{ backgroundColor: "#382F2B" }}>
@@ -29,12 +31,28 @@ function AppBarHeaderDesktop() {
                                 fontSize="15px"
                                 sx={{ textDecoration: "none" }}
                             >
-                                Tiệm mỹ phẩm nhà Nhơn
+                                {setting?.shoName || "Mỹ phẩm nhà Nhơn"}
                             </Typography>
                             <Stack direction={"row"} alignItems={"center"}>
-                                {ICONS.map((icon, index) => (
-                                    <IconButton key={index} href={icon.to} children={icon.icon} sx={{ color: "#fff" }} size={"large"} />
-                                ))}
+                                {setting?.socials && (
+                                    <Stack direction={"row"}>
+                                        {setting?.socials?.facebook && (
+                                            <IconButton href={setting?.socials?.facebook} sx={{ color: "#fff" }} size={"large"}>
+                                                <FacebookIcon />
+                                            </IconButton>
+                                        )}
+                                        {setting?.socials?.instagram && (
+                                            <IconButton href={setting?.socials?.instagram} sx={{ color: "#fff" }} size={"large"}>
+                                                <InstagramIcon />
+                                            </IconButton>
+                                        )}
+                                        {setting?.socials?.email && (
+                                            <IconButton href={setting?.socials?.email} sx={{ color: "#fff" }} size={"large"}>
+                                                <MailIcon />
+                                            </IconButton>
+                                        )}
+                                    </Stack>
+                                )}
                             </Stack>
                         </Stack>
                     </Grid>

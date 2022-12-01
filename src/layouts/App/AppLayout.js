@@ -14,12 +14,13 @@ import AppBarHeader from "../components/AppBarHeader";
 import Header from "../components/Header";
 import NavbarButtonDesktop from "../components/NavbarButtonDesktop";
 //
-import { blogListLoaded, getCategories, productListLoaded, setUser } from "../../redux/actions";
+import { blogListLoaded, getCategories, productListLoaded, setSettings, setUser } from "../../redux/actions";
 // Utils
 import authUtil from "../../utils/authUtil";
 import categoryApi from "../../api/categoryApi";
 import productApi from "../../api/productApi";
 import blogApi from "../../api/blogApi";
+import settingAPi from "../../api/settingApi";
 // -----------------------------------------
 
 function AppLayout() {
@@ -54,12 +55,14 @@ function AppLayout() {
             const productLoaded = productApi.getAll();
             const categoryLoaded = categoryApi.getAll();
             const blogLoaded = blogApi.getAll();
+            const settingLoaded = settingAPi.get();
 
-            await Promise.all([productLoaded, categoryLoaded, blogLoaded])
+            await Promise.all([productLoaded, categoryLoaded, blogLoaded, settingLoaded])
                 .then((value) => {
                     dispatch(productListLoaded(value[0].products));
                     dispatch(getCategories(value[1].categories));
                     dispatch(blogListLoaded(value[2].blogs));
+                    dispatch(setSettings(value[3].setting));
                 })
                 .catch((err) => console.log(err));
 

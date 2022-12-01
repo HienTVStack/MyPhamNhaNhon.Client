@@ -4,6 +4,7 @@ const initialState = {
     productList: [],
     blogList: [],
     productPayment: [],
+    settings: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -36,6 +37,12 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productPayment: action.payload,
+            };
+        }
+        case "SET_SETTING": {
+            return {
+                ...state,
+                settings: action.payload,
             };
         }
         default:

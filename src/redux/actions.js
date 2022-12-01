@@ -21,3 +21,7 @@ export const setProductPayment = (data) => ({
     type: "SET_PRODUCT_PAYMENT",
     payload: data,
 });
+export const setSettings = (data) => ({
+    type: "SET_SETTING",
+    payload: data,
+});

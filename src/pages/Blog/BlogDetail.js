@@ -1,6 +1,6 @@
 import { Avatar, Box, Container, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 // import blogApi from "../../api/blogApi";
 import Loading from "../../components/Loading";

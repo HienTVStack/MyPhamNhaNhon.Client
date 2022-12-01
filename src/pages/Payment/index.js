@@ -1,4 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
     Alert,
     Checkbox,
@@ -16,17 +17,18 @@ import {
     Stack,
     TextField,
     useMediaQuery,
+    Box,
+    Stepper,
+    Step,
+    StepLabel,
+    Button,
+    Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { useNavigate } from "react-router-dom";
+import { PayPalScriptProvider, PayPalButtons, BraintreePayPalButtons } from "@paypal/react-paypal-js";
 import CheckCart from "./CheckCart";
-import { useSelector } from "react-redux";
 import paymentOptionApi from "../../api/paymentOptionApi";
 import Loading from "../../components/Loading";
 import { fNumber } from "../../utils/formatNumber";
@@ -35,7 +37,6 @@ import ResultPayment from "./ResultPayment";
 import ProductItem from "../../components/ProductItem";
 import authApi from "../../api/authApi";
 import discountApi from "../../api/discountApi";
-import { useNavigate } from "react-router-dom";
 
 const steps = ["Giỏ hàng", "Thanh toán", "Kết quả"];
 
@@ -46,10 +47,6 @@ const totalInvoice = (list) => {
     }
     return total;
 };
-
-// const priceDiscount = (total, value) => {
-//     return total - total * (value / 100);
-// };
 
 const style = {
     position: "absolute",
@@ -81,14 +78,18 @@ function Payment() {
     const [discountTotalInvoice, setDiscountTotalInvoice] = useState(0);
     const [activeStep, setActiveStep] = useState(1);
     const [skipped, setSkipped] = useState(new Set());
+    const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+    // const [discountTotal, setDiscountTotal] = useState(0);
     const [toastMessage, setToastMessage] = useState({
         open: false,
         type: "error",
         message: "ERR",
     });
+    const discountTotal = totalInvoice(productListPayment) - discountValue - discountTotalInvoice;
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const handleClosePaymentOption = () => setShowPaymentOptions(false);
 
     const productPaymentLoaded = async () => {
         setProductListPayment(productPayment);
@@ -123,7 +124,6 @@ function Payment() {
             navigate("/");
         }
         if (productPayment?.length > 0) {
-            console.log(productPayment);
             fetch();
             productPaymentLoaded();
             setActiveStep(1);
@@ -208,25 +208,33 @@ function Payment() {
         setOpen(!open);
     };
 
-    const handlePayment = async () => {
+    const handleShowPaymentOptions = () => {
         let err = false;
-        if (paymentOptionSelected === "") {
-            err = true;
-            setPaymentSelectedErr(`Chọn hình thức thanh toán`);
-        }
-        if (productPayment.length === 0) {
+
+        if (!(user.fullName && user.address && user.phone)) {
+            alert(`Vui lòng cung cấp đầy đủ thông tin giao hàng`);
             err = true;
         }
 
         if (err) return;
-        setLoading(true);
+        setShowPaymentOptions(true);
+    };
 
+    const handlePayment = async (paymentName) => {
+        let isPayment = false;
+        if (paymentName !== "Thanh toán trực tiếp") {
+            isPayment = true;
+        }
+
+        setShowPaymentOptions(false);
+        setLoading(true);
         const invoice = {
             auth: {
                 id: user.id,
                 name: user.fullName,
                 address: user.address,
                 phone: user.phone,
+                email: user.email || user.emailGoogle || user.emailFacebook,
             },
             products: productPayment,
             total: totalInvoice(productListPayment) - discountValue - discountTotalInvoice,
@@ -236,9 +244,9 @@ function Payment() {
                 discountValue: discountValue,
             },
             priceDelivery: 0,
-            paymentOption: paymentOptionSelected,
+            paymentOption: paymentName,
+            isPayment,
         };
-
         try {
             const res = await invoiceApi.create(invoice);
             if (res.success) {
@@ -249,6 +257,37 @@ function Payment() {
             console.log(error);
         }
         setLoading(false);
+    };
+
+    const createdOrder = async (data, actions) => {
+        return actions.order
+            .create({
+                purchase_units: [
+                    {
+                        amount: {
+                            currency_code: "USD",
+                            value: discountTotal,
+                        },
+                    },
+                ],
+                application_context: {
+                    shipping_preference: "NO_SHIPPING",
+                },
+            })
+            .then((orderId) => {
+                return orderId;
+            });
+    };
+
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then((details) => {
+            const { payer } = details;
+            handlePayment("Thanh toán với paypal");
+        });
+    };
+
+    const onError = (data, actions) => {
+        setToastMessage({ open: true, message: "Hiện tại chưa thể thanh toán với paypal", type: "error" });
     };
 
     const handleDiscountApply = async () => {
@@ -361,18 +400,18 @@ function Payment() {
                                     {renderStep(activeStep)}
                                     {/* <Paper elevation={1}>{renderStep(activeStep)}</Paper> */}
                                     {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                                    <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                                        Back
-                                    </Button>
-                                    <Box sx={{ flex: "1 1 auto" }} />
-                                    {isStepOptional(activeStep) && (
-                                        <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                            Skip
+                                        <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+                                            Back
                                         </Button>
-                                    )}
+                                        <Box sx={{ flex: "1 1 auto" }} />
+                                        {isStepOptional(activeStep) && (
+                                            <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                                                Skip
+                                            </Button>
+                                        )}
 
-                                    <Button onClick={handleNext}>{activeStep === steps.length - 1 ? "Finish" : "Next"}</Button>
-                                </Box> */}
+                                        <Button onClick={handleNext}>{activeStep === steps.length - 1 ? "Finish" : "Next"}</Button>
+                                    </Box> */}
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                                     {activeStep === 2 ? (
@@ -388,7 +427,8 @@ function Payment() {
                                         </Stack>
                                     ) : (
                                         <Fragment>
-                                            <Paper elevation={1} sx={{ marginBottom: "20px", padding: 2 }}>
+                                            <div>
+                                                {/* <Paper elevation={1} sx={{ marginBottom: "20px", padding: 2 }}>
                                                 <Stack direction={"row"} justifyContent={"space-between"} mb={2}>
                                                     <Typography variant="body2" fontSize={"24px"} lineHeight={"30px"} fontWeight={600}>
                                                         Lựa chọn thanh toán
@@ -430,7 +470,9 @@ function Payment() {
                                                         </Typography>
                                                     )}
                                                 </RadioGroup>
-                                            </Paper>
+                                            </Paper> */}
+                                            </div>
+
                                             <Paper elevation={1}>
                                                 <Typography
                                                     variant="body2"
@@ -500,8 +542,8 @@ function Payment() {
                                                     </Stack>
                                                 </Stack>
                                             </Paper>
-                                            <Box mt={3}>
-                                                <Button variant="contained" size="large" fullWidth onClick={handlePayment}>
+                                            <Box mt={3} mb={8}>
+                                                <Button variant="contained" size="large" fullWidth onClick={handleShowPaymentOptions}>
                                                     Thanh toán
                                                 </Button>
                                             </Box>
@@ -573,6 +615,34 @@ function Payment() {
                         <Button variant="contained" type="submit" size="large" sx={{ mt: 4 }}>
                             Xác nhận
                         </Button>
+                    </Stack>
+                </Box>
+            </Modal>
+            {/* Modal payment options */}
+            <Modal open={showPaymentOptions} onClose={handleClosePaymentOption} disableAutoFocus disableEscapeKeyDown>
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Lựa chọn hình thức thanh toán
+                    </Typography>
+                    <Stack spacing={2}>
+                        {paymentOptionList.map((item, index) => (
+                            <Stack key={index} spacing={2}>
+                                {item.name === "Thanh toán với Paypal" && (
+                                    <PayPalScriptProvider
+                                        options={{
+                                            "client-id": "AVtjVD9kRahAkIBXi6UJglT_W4VdLB5vo6-4y2JLL3wzPUQUAvDKgozaBEYI4VIJaocOL-w28R8611Ev",
+                                        }}
+                                    >
+                                        <PayPalButtons createOrder={createdOrder} onApprove={onApprove} onError={onError} />
+                                    </PayPalScriptProvider>
+                                )}
+                                {item.name === "Thanh toán trực tiếp" && (
+                                    <Button variant="contained" size={"large"} onClick={() => handlePayment(item.name)}>
+                                        Thanh toán trực tiếp
+                                    </Button>
+                                )}
+                            </Stack>
+                        ))}
                     </Stack>
                 </Box>
             </Modal>

@@ -285,7 +285,9 @@ function ProductDetail() {
                 <Stack spacing={2}>
                     <Slider autoplay={true} dots={true} infinite={true} autoplaySpeed={3000} slidesToShow={4} slidesToScroll={1}>
                         {productIntroduce?.map((product) => (
-                            <ProductItem key={product._id} product={product} />
+                            <Box key={product._id}>
+                                <ProductItem product={product} />
+                            </Box>
                         ))}
                     </Slider>
                 </Stack>
@@ -293,7 +295,9 @@ function ProductDetail() {
                 <Stack spacing={2}>
                     <Slider autoplay={true} dots={true} infinite={true} autoplaySpeed={3000} slidesToShow={1} slidesToScroll={1}>
                         {productIntroduce?.map((product) => (
-                            <ProductItem key={product._id} product={product} />
+                            <Box key={product._id}>
+                                <ProductItem product={product} />
+                            </Box>
                         ))}
                     </Slider>
                 </Stack>

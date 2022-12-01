@@ -1,14 +1,22 @@
 import { Grid } from "@mui/material";
 import BlogItem from "../Blog/BlogItem";
-import Slider from "../../components/SliderMUI";
+// import Slider from "../../components/SliderMUI";
+import Slider from "react-slick";
+
+var settings = {
+    dots: true,
+    infinite: true,
+    speed: 2000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+};
 
 function BlogHome({ blogs, props }) {
     return (
-        <Slider {...props}>
+        <Slider {...settings}>
             {blogs.map((blog, index) => (
-                <Grid key={index} item xs={12} md={12} sm={12} lg={12}>
-                    <BlogItem blog={blog} />
-                </Grid>
+                <BlogItem key={index} blog={blog} />
             ))}
         </Slider>
     );
