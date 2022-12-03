@@ -35,9 +35,14 @@ export const BlogItemName = styled(Typography)(({ theme }) => ({
 export const BlogItemSub = styled(Typography)(({ theme }) => ({
     fontWeight: 400,
     fontSize: "14px",
-    lineHeight: "16px",
+    lineHeight: "22px",
     marginTop: "20px",
     overflow: "hidden",
+    height: "50px",
+    // whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    "-webkit-line-clamp": 2,
+    "-webkit-box-orient": "vertical",
 }));
 
 export const BlogDetailName = styled(Typography)(({ theme }) => ({

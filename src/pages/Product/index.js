@@ -12,10 +12,14 @@ function Product() {
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const productList = useSelector((state) => state.data.productList || []);
     const [loading, setLoading] = useState(false);
-    const [pageCount, setPageCount] = useState(Number);
-
+    const [productShow, setProductShow] = useState([]);
     const query = new URLSearchParams(location.search);
     const page = query.get("page");
+
+    useEffect(() => {
+        setProductShow(productList?.slice(0 + 10 * (page - 1 < 0 ? page : page - 1), 9 + 10 * (page - 1 < 0 ? page : page - 1)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
 
     return (
         <Container sx={{ marginTop: matches ? "180px" : "200px" }}>
@@ -24,7 +28,7 @@ function Product() {
                     <Loading fullHeight />
                 ) : (
                     <Fragment>
-                        {productList.map((product) => (
+                        {productShow.map((product) => (
                             <Grid key={product._id} item xs={12} sm={12} md={4} lg={3}>
                                 <ProductItem product={product} />
                             </Grid>
@@ -34,7 +38,7 @@ function Product() {
             </Grid>
 
             <Grid container alignItems={"center"} justifyContent={"center"} mt={3} mb={3}>
-                <Pagination pageCount={parseInt(pageCount)} url={"san-pham"} />
+                <Pagination pageCount={parseInt(productList?.length / 10)} url={"san-pham"} />
             </Grid>
         </Container>
     );

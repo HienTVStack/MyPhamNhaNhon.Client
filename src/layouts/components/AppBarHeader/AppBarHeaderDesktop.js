@@ -8,12 +8,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const ICONS = [
-    { icon: <FacebookIcon />, to: "/facebook" },
-    { icon: <InstagramIcon />, to: "/facebook" },
-    { icon: <MailIcon />, to: "/facebook" },
-];
-
 function AppBarHeaderDesktop() {
     const setting = useSelector((state) => state.data.settings);
     return (
