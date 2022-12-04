@@ -10,6 +10,7 @@ const authApi = {
     loginFacebook: (params) => axiosClient.post(`${DEFAULT_URL}/login-facebook`, params),
     forgotPassword: (params) => axiosClient.post(`${DEFAULT_URL}/forgot-password`, params),
     updatePassword: (params) => axiosClient.post(`${DEFAULT_URL}/update-password`, params),
+    changePassword: (id, data) => axiosClient.post(`${DEFAULT_URL}/${id}/change-password`, data),
     updateInfo: (id, params) => axiosClient.put(`${DEFAULT_URL}/${id}/updateInfo`, params),
     // Cart
     addCart: (id, data) => axiosClient.put(`${DEFAULT_URL}/${id}/addCart`, data),
