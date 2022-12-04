@@ -23,9 +23,10 @@ import { useTheme } from "@mui/material/styles";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ShareIcon from "@mui/icons-material/Share";
 // React router dom
-import { useNavigate, useParams } from "react-router-dom";
-// API
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { FacebookShareButton } from "react-share";
 // Components
 import Image from "../../components/Image";
 import Loading from "../../components/Loading";
@@ -64,6 +65,7 @@ function a11yProps(index) {
 function ProductDetail() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.data.productList || []);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -76,7 +78,7 @@ function ProductDetail() {
     const [value, setValue] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [typeProduct, setTypeProduct] = useState([]);
-    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", price: 0, quantityStock: 0, _id: "" });
+    const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", salePrice: 0, quantityStock: 0, _id: "" });
     const [isSelected, setIsSelected] = useState(false);
     const [toastMessage, setToastMessage] = useState({
         open: false,
@@ -120,7 +122,7 @@ function ProductDetail() {
         const _product = {
             id: product.id,
             name: product.name,
-            price: typeProductSelected.price,
+            price: typeProductSelected.salePrice,
             quantity: quantity,
             slug: product.slug,
             image: product.image,
@@ -156,7 +158,7 @@ function ProductDetail() {
             image: product.image,
             idType: typeProduct._id,
             nameType: typeProduct.nameType,
-            price: typeProduct.price,
+            price: typeProduct.salePrice,
             quantity: quantity,
         };
         dispatch(setProductPayment([_product]));
@@ -199,11 +201,19 @@ function ProductDetail() {
                                     {product?.name}
                                 </Typography>
                                 <Box display={"flex"} alignItems={"center"}>
-                                    <Rating disabled value={product?.rating || 0} />
+                                    <Rating disabled value={product?.rating || 5} />
                                     <Divider orientation="vertical" flexItem sx={{ margin: "0 8px" }} />
                                     <Typography variant="body2" mt={"5px"}>
                                         {product?.reviews?.length} đánh giá
                                     </Typography>
+                                    <FacebookShareButton
+                                        url={`https://myphamnhanhon-ui.vercel.app${location.pathname}`}
+                                        hashtag="#nhanhon"
+                                        quote="Mỹ phẩm nhà Nhơn uy tín và chất lượng"
+                                        style={{ marginLeft: "12px", display: "flex", flexDirection: "column", alignItems: "center" }}
+                                    >
+                                        <ShareIcon color="primary" />
+                                    </FacebookShareButton>
                                 </Box>
                             </Box>
 
@@ -236,7 +246,7 @@ function ProductDetail() {
                             </Stack>
 
                             <ProductInfoOrder
-                                price={Number(typeProductSelected.price)}
+                                price={Number(typeProductSelected?.salePrice)}
                                 countInStock={typeProductSelected.quantityStock}
                                 setQuantityBuy={handleSetQuantityBuy}
                             />

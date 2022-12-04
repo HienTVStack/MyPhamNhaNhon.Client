@@ -42,9 +42,9 @@ function MenuItem({ icon, title, slug, categories, children }) {
                         </ListItemButton>
                         {categories.map((item, index) => (
                             <ListItemButton
-                                component={Link}
-                                to={`/san-pham/the-loai/${item.nameUrl}`}
                                 key={index}
+                                component={Link}
+                                to={`/san-pham/${item?.slug}`}
                                 sx={{ pl: 4, borderBottom: "1px solid #fff" }}
                             >
                                 <ListItemText primary={item.name} />

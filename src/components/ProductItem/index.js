@@ -25,10 +25,10 @@ function ProductItem({ product, ...other }) {
 
                 <Stack direction={"row"} alignItems={"center"} mt={2}>
                     <Box>
-                        <Rating name="read-only" value={product.rating} readOnly />
+                        <Rating name="read-only" value={product.rating || 5} readOnly />
                     </Box>
                     <Typography variant={"body2"} fontSize={"16px"} color={"#666"} ml={2}>
-                        {product.numberViews} đánh giá
+                        {product?.reviews?.length} đánh giá
                     </Typography>
                 </Stack>
                 <Stack direction={"row"} justifyContent={"space-between"} alignItems="center" mt={2}>
@@ -36,13 +36,13 @@ function ProductItem({ product, ...other }) {
                         {product.type.length - 1 !== 0 && (
                             <>
                                 <Typography variant={"body2"} component={"h2"} fontSize={"14px"} color={"#252525"} fontWeight={700}>
-                                    <FormatNumber number={product.type[0].price} />
+                                    <FormatNumber number={product.type[0].salePrice} />
                                 </Typography>
                                 <Typography sx={{ margin: "0 12px" }}> - </Typography>
                             </>
                         )}
                         <Typography variant={"body2"} component={"h2"} fontSize={"14px"} color={"#252525"} fontWeight={700}>
-                            <FormatNumber number={product.type[product.type.length - 1].price} />
+                            <FormatNumber number={product.type[product.type.length - 1].salePrice} />
                         </Typography>
                     </Stack>
                     <Typography variant="body2" color="gray">

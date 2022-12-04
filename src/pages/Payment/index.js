@@ -543,9 +543,16 @@ function Payment() {
                                                 </Stack>
                                             </Paper>
                                             <Box mt={3} mb={8}>
-                                                <Button variant="contained" size="large" fullWidth onClick={handleShowPaymentOptions}>
-                                                    Thanh toán
-                                                </Button>
+                                                <PayPalScriptProvider
+                                                    options={{
+                                                        "client-id":
+                                                            "AVtjVD9kRahAkIBXi6UJglT_W4VdLB5vo6-4y2JLL3wzPUQUAvDKgozaBEYI4VIJaocOL-w28R8611Ev",
+                                                    }}
+                                                >
+                                                    <Button variant="contained" size="large" fullWidth onClick={handleShowPaymentOptions}>
+                                                        Thanh toán
+                                                    </Button>
+                                                </PayPalScriptProvider>
                                             </Box>
                                         </Fragment>
                                     )}

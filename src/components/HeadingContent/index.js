@@ -40,7 +40,7 @@ function HeadingContent({ title, viewList, urlViewAll }) {
                                 Tất cả
                             </MenuItem>
                             {viewList.map((item, index) => (
-                                <MenuItem key={index} component={Link} to={`/san-pham/${item.namUrl}`}>
+                                <MenuItem key={index} component={Link} to={`/san-pham/${item.slug}`}>
                                     {item.name}
                                 </MenuItem>
                             ))}

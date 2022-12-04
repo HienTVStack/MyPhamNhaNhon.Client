@@ -11,8 +11,8 @@ const productApi = {
     getById: (params) => axiosClient.get(`${DEFAULT_URL}/${params}/detail`),
     getBySlug: (params) => axiosClient.get(`${DEFAULT_URL}/${params}/detail`),
     addReview: (params) => axiosClient.put(`${DEFAULT_URL}/addReview`, params),
-    getProductByCategory: (params) => axiosClient.get(`${DEFAULT_URL}/category/${params}`),
     getProductIntroduce: () => axiosClient.get(`${DEFAULT_URL}/introduce`),
+    getProductByCategory: (slugCategory) => axiosClient.get(`${DEFAULT_URL}/${slugCategory}`),
 };
 
 export default productApi;
