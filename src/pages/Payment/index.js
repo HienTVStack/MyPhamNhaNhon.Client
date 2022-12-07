@@ -69,8 +69,8 @@ function Payment() {
     const productPayment = useSelector((state) => state.data.productPayment);
     const [loading, setLoading] = useState(false);
     const [paymentOptionList, setPaymentOptionList] = useState([]);
-    const [paymentOptionSelected, setPaymentOptionSelected] = useState("");
-    const [paymentSelectedErr, setPaymentSelectedErr] = useState("");
+    //   const [paymentOptionSelected, setPaymentOptionSelected] = useState("");
+    // const [paymentSelectedErr, setPaymentSelectedErr] = useState("");
     const [productListPayment, setProductListPayment] = useState([]);
     const [infoDelivery, setInfoDelivery] = useState({});
     const [discountValue, setDiscountValue] = useState(0);
@@ -121,7 +121,7 @@ function Payment() {
 
     useEffect(() => {
         if (Object.entries(user).length === 0) {
-            navigate("/");
+            navigate("/dang-nhap");
         }
         if (productPayment?.length > 0) {
             fetch();
@@ -134,9 +134,9 @@ function Payment() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const isStepOptional = (step) => {
-        return step === 1;
-    };
+    //   const isStepOptional = (step) => {
+    //     return step === 1;
+    //   };
 
     const isStepSkipped = (step) => {
         return skipped.has(step);
@@ -176,10 +176,10 @@ function Payment() {
         setActiveStep(0);
     };
 
-    const handleSelectedOptionPayment = (value) => {
-        setPaymentOptionSelected(value);
-        // SettingsEthernet
-    };
+    // const handleSelectedOptionPayment = (value) => {
+    //     setPaymentOptionSelected(value);
+    //     // SettingsEthernet
+    // };
 
     const handleChangeInfoDelivery = async (e) => {
         e.preventDefault();
@@ -281,7 +281,7 @@ function Payment() {
 
     const onApprove = (data, actions) => {
         return actions.order.capture().then((details) => {
-            const { payer } = details;
+            //   const { payer } = details;
             handlePayment("Thanh toán với paypal");
         });
     };

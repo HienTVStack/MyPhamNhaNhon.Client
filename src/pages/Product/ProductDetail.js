@@ -134,6 +134,7 @@ function ProductDetail() {
             const res = await authApi.addCart(user.id, _product);
 
             if (res.success) {
+                console.log(res);
                 setToastMessage({ open: true, type: "success", message: "Thêm thành công" });
             }
         } catch (error) {
