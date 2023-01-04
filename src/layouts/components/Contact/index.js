@@ -1,6 +1,5 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Fragment } from "react";
 import CallIcon from "@mui/icons-material/Call";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
@@ -29,7 +28,7 @@ const ContactContentWrapper = styled(Stack)(() => ({
 
 function Contact() {
     return (
-        <Fragment>
+        <>
             <ContactWrapper>
                 <Container>
                     <Grid container maxWidth={"lg"} spacing={6}>
@@ -76,7 +75,7 @@ function Contact() {
                     </Grid>
                 </Container>
             </ContactWrapper>
-        </Fragment>
+        </>
     );
 }
 

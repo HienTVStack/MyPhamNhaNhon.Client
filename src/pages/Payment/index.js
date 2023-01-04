@@ -90,6 +90,7 @@ function Payment() {
   };
 
   const fetch = async () => {
+    setLoading(true);
     const fetchPaymentOptionGetAll = paymentOptionApi.getAll();
     const checkTotalInvoiceVerifyDiscount = discountApi.checkTotalInvoiceVerifyDiscount({ totalInvoice: totalInvoice(productPayment) });
     const getDeliveryPrice = deliveryApi.orderFee({
@@ -118,6 +119,7 @@ function Payment() {
         }
       })
       .catch((err) => console.log(err));
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -160,7 +162,6 @@ function Payment() {
 
   const handleChangeInfoDelivery = async (data) => {
     const { province, district, ward, addressDetail } = data;
-
     try {
       const res = await authApi.updateInfo(user._id, { province, district, ward, addressDetail });
 

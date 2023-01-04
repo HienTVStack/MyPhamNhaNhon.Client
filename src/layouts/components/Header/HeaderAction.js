@@ -6,7 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // React router dom
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Fragment, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function HeaderAction({ matches }) {
@@ -38,7 +38,7 @@ function HeaderAction({ matches }) {
         <Stack direction={"row"} alignItems={"center"}>
             <Stack>
                 {matches ? (
-                    <Fragment>
+                    <>
                         <IconButton mr={2} sx={{ color: theme.palette.primary.contrastText }} onClick={handleOpenMenu}>
                             <PersonIcon />
                             <ArrowDropDownIcon />
@@ -63,7 +63,7 @@ function HeaderAction({ matches }) {
                                 </>
                             )}
                         </Menu>
-                    </Fragment>
+                    </>
                 ) : (
                     <Button
                         mr={2}

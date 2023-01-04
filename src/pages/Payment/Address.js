@@ -8,7 +8,7 @@ function Address(props) {
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
 
-  const fetchProvices = async () => {
+  const fetchProvinces = async () => {
     try {
       const res = await deliveryApi.getProvince();
 
@@ -19,7 +19,7 @@ function Address(props) {
   };
 
   useEffect(() => {
-    fetchProvices();
+    fetchProvinces();
   }, []);
 
   const handleChangeProvince = async (value) => {
@@ -42,27 +42,25 @@ function Address(props) {
     }
   };
 
-  const handleChangeWard = async (value) => {};
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
 
     const fullName = data.get("fullName").trim();
     const phone = data.get("phone").trim();
-    const province = data.get("provice").trim();
+    const province = data.get("province").trim();
     const district = data.get("district").trim();
     const ward = data.get("ward").trim();
     const addressDetail = data.get("addressDetail").trim();
 
     const isReplaceAddress = data.get("isReplaceAddress");
-
     if (isReplaceAddress) {
-      changeAddressDefault(province, district, ward, addressDetail);
+      changeAddressDefault({ province, district, ward, addressDetail });
     }
 
     onSubmit({ province, district, ward, addressDetail, fullName, phone });
   };
+
   return (
     <>
       <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -106,8 +104,8 @@ function Address(props) {
             <TextField
               fullWidth
               margin="normal"
-              name="provice"
-              id="provice"
+              name="province"
+              id="province"
               required
               placeholder="Thành phố/ tỉnh"
               label="Thành phố/ tỉnh"
@@ -147,7 +145,6 @@ function Address(props) {
           getOptionLabel={(option) => option?.wardName || ""}
           isOptionEqualToValue={(option, value) => option?.wardName === value?.wardName}
           size="small"
-          onChange={(e, value) => handleChangeWard(value)}
           renderInput={(params) => (
             <TextField
               defaultValue={user.addressWard}
