@@ -125,6 +125,7 @@ function Payment() {
   useEffect(() => {
     if (Object.entries(user).length === 0) {
       navigate("/dang-nhap");
+      return;
     }
     if (productPayment?.length > 0) {
       fetch();
@@ -135,9 +136,10 @@ function Payment() {
     }
     setDeliveryInfo({
       name: user?.fullName,
-      address: `${user?.address} ${user?.addressWard} ${user?.addressDistrict} ${user?.addressProvice}`,
+      address: `${user?.address} ${user?.addressWard} ${user?.addressDistrict} ${user?.addressProvince}`,
       phone: user?.phone,
     });
+      console.log("🚀 ~ file: index.js:142 ~ useEffect ~ user", user)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

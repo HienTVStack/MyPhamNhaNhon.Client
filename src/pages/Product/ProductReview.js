@@ -11,7 +11,7 @@ function ProductReview({ id, reviews }) {
     const [reviewText, setReviewText] = useState("");
 
     useEffect(() => {
-        if (!user) {
+        if (Object.keys(user).length <= 0) {
             setReviewErr(`Vui lòng đăng nhập để bình luận`);
         }
         setReviewList(reviews);
@@ -43,13 +43,15 @@ function ProductReview({ id, reviews }) {
         }
     };
     return (
-        <Fragment>
+        <>
             <Box sx={{ width: "100%" }} noValidate py={2}>
                 <Typography variant="body2" sx={{ fontSize: "24px", lineHeight: "37px", fontWeight: "700" }}>
                     Bình luận
                 </Typography>
 
-                <TextField
+                {Object.keys(user).length <= 0 ? <Typography variant="subtitle1" color={'error'}>Vui lòng đăng nhập để bình luận*</Typography> : (
+                    <>
+                        <TextField
                     fullWidth
                     required
                     error={reviewErr !== ""}
@@ -81,6 +83,10 @@ function ProductReview({ id, reviews }) {
                         Đăng bình luận
                     </Button>
                 </Stack>
+                    </>
+                )}
+
+                
             </Box>
             {!reviews ? (
                 <Typography variant="body2">Chưa có bình luận nào</Typography>
@@ -104,7 +110,7 @@ function ProductReview({ id, reviews }) {
                         </Box>
                     ))
             )}
-        </Fragment>
+        </>
     );
 }
 

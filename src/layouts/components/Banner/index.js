@@ -19,12 +19,12 @@ function Banner() {
             <Grid container maxWidth={"lg"}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Slider {...settings}>
-                        {setting?.banners &&
+                        {setting?.banners ?
                             setting?.banners.map((item, index) => (
                                 <a key={index} href={item.href}>
                                     <img src={item.imageUrl} alt="banner" style={{ width: "100%", maxHeight: "500px", objectFit: "cover" }} />
                                 </a>
-                            ))}
+                            )) : <img src={'https://tiemmyphamtanthoi.vn/static/media/ads-1.3119130d1a00088eeb88.png'} alt="banner" style={{ width: "100%", maxHeight: "500px", objectFit: "cover" }} />}
                     </Slider>
                 </Grid>
             </Grid>

@@ -8,7 +8,7 @@ import HeadingContent from "../../components/HeadingContent";
 import Slogan from "../../layouts/components/Slogan";
 import Loading from "../../components/Loading";
 // Api
-import productApi from "../../api/productApi";
+// import productApi from "../../api/productApi";
 import Subscribe from "../../layouts/components/Subscribe";
 import Contact from "../../layouts/components/Contact";
 import Footer from "../../layouts/components/Footer";
@@ -16,7 +16,7 @@ import BlogHome from "./BlogHome";
 import ProductHome from "./ProductHome";
 import ViewMore from "../../components/ButtonViewMore";
 import { useSelector } from "react-redux";
-import blogApi from "../../api/blogApi";
+// import blogApi from "../../api/blogApi";
 
 function Home() {
     const categories = useSelector((state) => state.data.categories);
@@ -25,12 +25,8 @@ function Home() {
     const [loadingBlog, setLoadingBlog] = useState(false);
     const [loadingProduct, setLoadingProduct] = useState(false);
 
-    useEffect(() => {
-        // blogLoaded();
-    }, []);
-
     return (
-        <Fragment>
+        <>
             <Slogan />
             <Banner />
             {/* Products */}
@@ -66,7 +62,7 @@ function Home() {
             <Subscribe />
             <Contact />
             <Footer />
-        </Fragment>
+        </>
     );
 }
 

@@ -304,7 +304,7 @@ function ProductDetail() {
                 </Stack>
             ) : (
                 <Stack spacing={2}>
-                    <Slider autoplay={true} dots={true} infinite={true} autoplaySpeed={3000} slidesToShow={1} slidesToScroll={1}>
+                    <Slider autoplay={true} dots={true} infinite={true} autoplaySpeed={2500} slidesToShow={1} slidesToScroll={1}>
                         {productIntroduce?.map((product) => (
                             <Box key={product._id}>
                                 <ProductItem product={product} />

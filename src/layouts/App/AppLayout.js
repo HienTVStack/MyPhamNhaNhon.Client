@@ -88,7 +88,7 @@ function AppLayout() {
             <AppBarHeader />
             <Header />
             <NavbarButtonDesktop />
-            <Box mt={matches ? "120px" : "184px"}>
+            <Box mt={matches ? "150px" : "184px"}>
                 <Outlet />
             </Box>
         </Box>
