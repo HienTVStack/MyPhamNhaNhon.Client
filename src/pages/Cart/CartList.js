@@ -19,7 +19,7 @@ function CartList({ matches, carts, removeCartItem, increment, decrement, produc
         return render;
     };
 
-    return <Fragment>{renderCartItem()}</Fragment>;
+    return <>{renderCartItem()}</>;
 }
 
 export default CartList;

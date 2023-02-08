@@ -9,6 +9,7 @@ const authUtil = {
             const res = await authApi.verifyToken();
             return res.user;
         } catch {
+            localStorage.removeItem("token")
             return false;
         }
     },

@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Alert,
@@ -17,6 +17,7 @@ import {
   StepLabel,
   Button,
   Typography,
+  AlertTitle,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -104,15 +105,19 @@ function Payment() {
           setPaymentOptionList(paymentOption?.paymentOptions);
         }
         if (checkTotalInvoiceVerifyDiscount.success) {
-          if (checkTotalInvoiceVerifyDiscount?.discount?.invoiceMin <= totalInvoice(productPayment)) {
-            const discountValue = checkTotalInvoiceVerifyDiscount?.discount?.discountValue;
-            const priceDiscount = totalInvoice(productPayment) * (discountValue / 100);
-            const discountValueMax = checkTotalInvoiceVerifyDiscount?.discount?.discountValueMax;
+          // if (checkTotalInvoiceVerifyDiscount?.discount?.invoiceMin <= totalInvoice(productPayment)) {
+          //   const discountValue = checkTotalInvoiceVerifyDiscount?.discount?.discountValue;
+          //   const priceDiscount = totalInvoice(productPayment) * (discountValue / 100);
+          //   const discountValueMax = checkTotalInvoiceVerifyDiscount?.discount?.discountValueMax;
 
-            setDiscountTotalInvoice(priceDiscount <= discountValueMax ? priceDiscount : discountValueMax);
-          } else {
-            setDiscountTotalInvoice(0);
-          }
+          //   setDiscountTotalInvoice(priceDiscount <= discountValueMax ? priceDiscount : discountValueMax);
+          // } else {
+          //   setDiscountTotalInvoice(0);
+          // }
+          if (!checkTotalInvoiceVerifyDiscount.valueDiscount) return;
+          const { valueDiscount, valueDiscountMax } = checkTotalInvoiceVerifyDiscount;
+          const priceDiscount = totalInvoice(productPayment) * (valueDiscount / 100);
+          setDiscountTotalInvoice(priceDiscount <= valueDiscountMax ? priceDiscount : valueDiscountMax);
         }
         if (deliveryPrice.data.code === 200) {
           setDeliveryPrice(deliveryPrice.data.data.total);
@@ -139,7 +144,6 @@ function Payment() {
       address: `${user?.address} ${user?.addressWard} ${user?.addressDistrict} ${user?.addressProvince}`,
       phone: user?.phone,
     });
-      console.log("🚀 ~ file: index.js:142 ~ useEffect ~ user", user)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -260,21 +264,22 @@ function Payment() {
     try {
       const res = await discountApi.checkCodeByCustomer({ code: codeDiscount, idUser: user.id });
 
-      if (res.success && res.isCheck) {
-        const voucher = res?.voucher;
-        if (voucher?.invoiceMin >= totalInvoice(productListPayment)) {
-          setToastMessage({ open: true, message: "Hóa đơn không đủ điều kiện", type: "warning" });
-          return;
-        }
-        const reducerPrice = totalInvoice(productListPayment) - totalInvoice(productListPayment) * (Number(voucher?.discountValue) / 100);
-
-        setDiscountValue(reducerPrice <= voucher?.discountValueMax ? reducerPrice : Number(voucher?.discountValueMax));
-        setToastMessage({ open: true, message: "Áp dụng voucher thành công", type: "success" });
-      } else {
-        setToastMessage({ open: true, message: "Không tìm thấy voucher cho bạn", type: "warning" });
-        setCodeDiscount("");
-        setDiscountValue(0);
+      if (!res.success || !res.isCheck) {
+        return setToastMessage({ open: true, message: "Không tìm thấy voucher cho bạn", type: "warning" });
       }
+
+      const { voucher } = res;
+      const { valueList } = voucher;
+      const { discountValue, discountValueMax, invoiceMin } = valueList;
+      const total = productListPayment.reduce((acc, item) => acc + item.price, 0);
+
+      if (total < invoiceMin) {
+        return setToastMessage({ open: true, message: "Hóa đơn không đủ điều kiện", type: "warning" });
+      }
+
+      const reducedPrice = total - total * (Number(discountValue) / 100);
+      setDiscountValue(reducedPrice <= discountValueMax ? reducedPrice : discountValueMax);
+      setToastMessage({ open: true, message: "Áp dụng voucher thành công", type: "success" });
     } catch (error) {
       console.log(error);
       setToastMessage({ open: true, message: "Áp dụng voucher thất bại", type: "error" });
@@ -402,7 +407,7 @@ function Payment() {
                       </Stack>
                     </Stack>
                   ) : (
-                    <Fragment>
+                    <>
                       <Paper elevation={1}>
                         <Typography variant="body2" fontSize={"24px"} lineHeight={"30px"} fontWeight={600} sx={{ padding: "24px 16px 0px" }}>
                           Tổng tiền
@@ -474,7 +479,7 @@ function Payment() {
                           </Button>
                         </PayPalScriptProvider>
                       </Box>
-                    </Fragment>
+                    </>
                   )}
                 </Grid>
               </Grid>
@@ -492,6 +497,7 @@ function Payment() {
         onClose={() => setToastMessage({ open: false })}
       >
         <Alert variant="filled" hidden={3000} severity={toastMessage.type} x={{ minWidth: "200px" }}>
+          <AlertTitle>Thông báo</AlertTitle>
           {toastMessage.message}
         </Alert>
       </Snackbar>

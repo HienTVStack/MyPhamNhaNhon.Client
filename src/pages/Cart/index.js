@@ -113,7 +113,7 @@ function Cart() {
             ) : carts?.length <= 0 ? (
                 <NoCart />
             ) : (
-                <Fragment>
+                <>
                     <Typography
                         variant="body2"
                         component={"h1"}
@@ -138,7 +138,7 @@ function Cart() {
                     </Box>
 
                     <CartFooter matches={matches} totalPrice={totalPrice()} totalAmount={totalAmount()} listProductPayment={productListChecked} />
-                </Fragment>
+                </>
             )}
         </Container>
     );

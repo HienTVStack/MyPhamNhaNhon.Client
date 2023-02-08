@@ -27,14 +27,13 @@ function AppLayout() {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.data.user);
+    // const user = useSelector((state) => state.data.user);
     const categories = useSelector((state) => state.data.categories || []);
     const productList = useSelector((state) => state.data.productList || []);
     const blogList = useSelector((state) => state.data.blogList || []);
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [loading, setLoading] = useState(true);
-    const query = new URLSearchParams(useLocation().search);
-    const token = query.get("login");
+    // const query = new URLSearchParams(useLocation().search);
 
     const checkAuth = async () => {
         const isToken = localStorage.getItem("token");
