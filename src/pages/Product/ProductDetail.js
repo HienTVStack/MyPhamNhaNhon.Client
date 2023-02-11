@@ -44,7 +44,7 @@ import ProductItem from "../../components/ProductItem";
 // import Slider from "../../components/SliderMUI";
 import { useDispatch, useSelector } from "react-redux";
 import authApi from "../../api/authApi";
-import { setProductPayment } from "../../redux/actions";
+import { setProductPayment, setUser } from "../../redux/actions";
 import productApi from "../../api/productApi";
 
 function TabPanel(props) {
@@ -81,7 +81,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [typeProduct, setTypeProduct] = useState([]);
   const [typeProductSelected, setTypeProductSelected] = useState({ nameType: "", salePrice: 0, quantityStock: 0, _id: "" });
-  const [isSelected, setIsSelected] = useState(false);
+  const [isSelected, setIsSelected] = useState({ isCheck: true, index: 0 });
   const [toastMessage, setToastMessage] = useState({
     open: false,
     type: "error",
@@ -124,7 +124,7 @@ function ProductDetail() {
       setToastMessage({ open: true, type: "warning", message: "Vui lòng đăng nhập để tiếp tục" });
       return;
     }
-    if (!isSelected) {
+    if (!isSelected.isCheck && product.type.length > 1) {
       setToastMessage({ open: true, type: "warning", message: "Chọn loại sản phẩm" });
       return;
     }
@@ -146,13 +146,14 @@ function ProductDetail() {
 
     try {
       const res = await authApi.addCart(user.id, _product);
+      const { success, data } = res;
 
-      if (res.success) {
-        console.log(res);
-        setToastMessage({ open: true, type: "success", message: "Thêm thành công" });
+      if (success) {
+        setToastMessage({ open: true, type: "success", message: data.message || "Thêm thành công" });
+        dispatch(setUser(data.user));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setToastMessage({ open: true, type: "error", message: "Có lỗi khi thêm sản phẩm vào giỏ hàng" });
     }
   };
@@ -162,7 +163,7 @@ function ProductDetail() {
   };
 
   const handleSelectTypeProduct = (index) => {
-    setIsSelected(true);
+    setIsSelected({ isCheck: true, index });
     setTypeProductSelected(typeProduct[index]);
   };
 
@@ -250,9 +251,10 @@ function ProductDetail() {
                     onClick={() => handleSelectTypeProduct(index)}
                     sx={{
                       margin: "0 8px",
-                      "&:focus": { backgroundColor: "#229A16" },
-                      "&:active": { backgroundColor: "#229A16" },
-                      "&:hover": { backgroundColor: "#229A16" },
+                      backgroundColor: index === isSelected.index && "#229A16",
+                      //   "&:focus": { backgroundColor: "#229A16" },
+                      //   "&:active": { backgroundColor: "#229A16" },
+                      //   "&:hover": { backgroundColor: "#229A16" },
                     }}
                   >
                     {item.nameType}
@@ -338,7 +340,7 @@ function ProductDetail() {
         onClose={() => setToastMessage({ open: false })}
       >
         <Alert variant="filled" hidden={3000} severity={toastMessage.type} x={{ minWidth: "200px" }}>
-            <AlertTitle>Thông báo</AlertTitle>
+          <AlertTitle>Thông báo</AlertTitle>
           {toastMessage.message}
         </Alert>
       </Snackbar>
