@@ -90,41 +90,65 @@ function Payment() {
     setProductListPayment(productPayment);
   };
 
-  const fetch = async () => {
-    setLoading(true);
-    const fetchPaymentOptionGetAll = paymentOptionApi.getAll();
-    const checkTotalInvoiceVerifyDiscount = discountApi.checkTotalInvoiceVerifyDiscount({ totalInvoice: totalInvoice(productPayment) });
-    const getDeliveryPrice = deliveryApi.orderFee({
-      toProvince: user?.addressProvince,
-      toDistrict: user?.addressDistrict,
-      toWard: user?.addressWard,
-    });
-    await Promise.all([fetchPaymentOptionGetAll, checkTotalInvoiceVerifyDiscount, getDeliveryPrice])
-      .then(([paymentOption, checkTotalInvoiceVerifyDiscount, deliveryPrice]) => {
-        if (paymentOption.success) {
-          setPaymentOptionList(paymentOption?.paymentOptions);
-        }
-        if (checkTotalInvoiceVerifyDiscount.success) {
-          // if (checkTotalInvoiceVerifyDiscount?.discount?.invoiceMin <= totalInvoice(productPayment)) {
-          //   const discountValue = checkTotalInvoiceVerifyDiscount?.discount?.discountValue;
-          //   const priceDiscount = totalInvoice(productPayment) * (discountValue / 100);
-          //   const discountValueMax = checkTotalInvoiceVerifyDiscount?.discount?.discountValueMax;
+  // const fetch = async () => {
+  //   setLoading(true);
+  //   const fetchPaymentOptionGetAll = paymentOptionApi.getAll();
+  //   const checkTotalInvoiceVerifyDiscount = discountApi.checkTotalInvoiceVerifyDiscount({ totalInvoice: totalInvoice(productPayment) });
+  //   const getDeliveryPrice = deliveryApi.orderFee({
+  //     toProvince: user?.addressProvince,
+  //     toDistrict: user?.addressDistrict,
+  //     toWard: user?.addressWard,
+  //   });
+  //   await Promise.all([fetchPaymentOptionGetAll, checkTotalInvoiceVerifyDiscount, getDeliveryPrice])
+  //     .then(([paymentOption, checkTotalInvoiceVerifyDiscount, deliveryPrice]) => {
+  //       if (paymentOption.success) {
+  //         setPaymentOptionList(paymentOption?.paymentOptions);
+  //       }
+  //       if (checkTotalInvoiceVerifyDiscount.success) {
+  //         if (!checkTotalInvoiceVerifyDiscount.valueDiscount) return;
+  //         const { valueDiscount, valueDiscountMax } = checkTotalInvoiceVerifyDiscount;
+  //         const priceDiscount = totalInvoice(productPayment) * (valueDiscount / 100);
+  //         setDiscountTotalInvoice(priceDiscount <= valueDiscountMax ? priceDiscount : valueDiscountMax);
+  //       }
+  //       if (deliveryPrice.data.code === 200) {
+  //         setDeliveryPrice(deliveryPrice.data.data.total);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  //   setLoading(false);
+  // };
 
-          //   setDiscountTotalInvoice(priceDiscount <= discountValueMax ? priceDiscount : discountValueMax);
-          // } else {
-          //   setDiscountTotalInvoice(0);
-          // }
-          if (!checkTotalInvoiceVerifyDiscount.valueDiscount) return;
-          const { valueDiscount, valueDiscountMax } = checkTotalInvoiceVerifyDiscount;
-          const priceDiscount = totalInvoice(productPayment) * (valueDiscount / 100);
-          setDiscountTotalInvoice(priceDiscount <= valueDiscountMax ? priceDiscount : valueDiscountMax);
-        }
-        if (deliveryPrice.data.code === 200) {
-          setDeliveryPrice(deliveryPrice.data.data.total);
-        }
-      })
-      .catch((err) => console.log(err));
-    setLoading(false);
+  const fetch = async () => {
+    try {
+      setLoading(true);
+
+      const [paymentOption, checkTotalInvoiceVerifyDiscount, deliveryPrice] = await Promise.all([
+        paymentOptionApi.getAll(),
+        discountApi.checkTotalInvoiceVerifyDiscount({ totalInvoice: totalInvoice(productPayment) }),
+        deliveryApi.orderFee({
+          toProvince: user?.addressProvince,
+          toDistrict: user?.addressDistrict,
+          toWard: user?.addressWard,
+        }),
+      ]);
+
+      if (paymentOption.success) {
+        setPaymentOptionList(paymentOption?.paymentOptions);
+      }
+      if (checkTotalInvoiceVerifyDiscount.success) {
+        const { valueDiscount, valueDiscountMax } = checkTotalInvoiceVerifyDiscount;
+        if (!valueDiscount) return;
+        const priceDiscount = totalInvoice(productPayment) * (valueDiscount / 100);
+        setDiscountTotalInvoice(Math.min(priceDiscount, valueDiscountMax));
+      }
+      if (deliveryPrice.data.code === 200) {
+        setDeliveryPrice(deliveryPrice.data.data.total);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -191,14 +215,51 @@ function Payment() {
     setShowPaymentOptions(true);
   };
 
-  const handlePayment = async (paymentName) => {
-    let isPayment = false;
-    if (paymentName !== "Thanh toán trực tiếp") {
-      isPayment = true;
-    }
+  // const handlePayment = async (paymentName) => {
+  //   let isPayment = false;
+  //   if (paymentName !== "Thanh toán trực tiếp") {
+  //     isPayment = true;
+  //   }
 
-    setShowPaymentOptions(false);
+  //   setShowPaymentOptions(false);
+  //   setLoading(true);
+  //   const invoice = {
+  //     auth: {
+  //       id: user.id,
+  //       name: user.fullName,
+  //       address: user.address,
+  //       phone: user.phone,
+  //       email: user.email || user.emailGoogle || user.emailFacebook,
+  //     },
+  //     products: productPayment,
+  //     total: totalInvoice(productListPayment) - discountValue - discountTotalInvoice,
+  //     priceDiscount: discountValue + discountTotalInvoice,
+  //     discount: {
+  //       code: codeDiscount,
+  //       discountValue: discountValue,
+  //     },
+  //     priceDelivery: 0,
+  //     paymentOption: paymentName,
+  //     isPayment,
+  //   };
+  //   try {
+  //     const res = await invoiceApi.create(invoice);
+  //     if (res.success) {
+  //       handleNext();
+  //       setToastMessage({ open: true, type: "success", message: "Mua hàng thành công" });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   setLoading(false);
+  // };
+
+  const handlePayment = async (paymentName) => {
     setLoading(true);
+
+    const isPayment = paymentName !== "Thanh toán trực tiếp";
+    setShowPaymentOptions(false);
+
     const invoice = {
       auth: {
         id: user.id,
@@ -208,25 +269,30 @@ function Payment() {
         email: user.email || user.emailGoogle || user.emailFacebook,
       },
       products: productPayment,
-      total: totalInvoice(productListPayment) - discountValue - discountTotalInvoice,
+      total: totalInvoice(productListPayment) - (discountValue + discountTotalInvoice),
       priceDiscount: discountValue + discountTotalInvoice,
       discount: {
         code: codeDiscount,
         discountValue: discountValue,
       },
-      priceDelivery: 0,
+      priceDelivery: deliveryPrice,
       paymentOption: paymentName,
       isPayment,
     };
+
     try {
-      const res = await invoiceApi.create(invoice);
-      if (res.success) {
+      const { success, data } = await invoiceApi.create(invoice);
+      if (success) {
         handleNext();
-        setToastMessage({ open: true, type: "success", message: "Mua hàng thành công" });
+        setToastMessage({ open: true, type: "success", message: data.message || "Mua hàng thành công" });
+      } else {
+        setToastMessage({ open: true, type: "error", message: data.message || "Có lỗi xảy ra" });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      setToastMessage({ open: true, type: "error", message: "Có lỗi xảy ra" });
     }
+
     setLoading(false);
   };
 
@@ -325,7 +391,7 @@ function Payment() {
             <Paper elevation={1} sx={{ marginBottom: "20px", padding: 2, mt: 2 }}>
               <Stack direction={"row"} justifyContent={"space-between"} mb={2}>
                 <Typography variant="body2" fontSize={"24px"} lineHeight={"30px"} fontWeight={600}>
-                  Địa chỉ giao hàng
+                  Thông tin giao hàng
                 </Typography>
                 <Button startIcon={<ModeEditIcon />} onClick={handleOpen}>
                   Thay đổi
@@ -333,13 +399,13 @@ function Payment() {
               </Stack>
               <Stack spacing={2}>
                 <Typography variant="body1">
-                  <b>Người nhận</b> {deliveryInfo.name}
+                  <b>Người nhận:</b> {deliveryInfo.name}
                 </Typography>
                 <Typography variant="body1">
-                  <b>Địa chỉ</b> {deliveryInfo.address}
+                  <b>Địa chỉ:</b> {deliveryInfo.address}
                 </Typography>
                 <Typography variant="body1">
-                  <b>Số điện thoại</b> {`+ 84 ${fNumber(Number(deliveryInfo.phone))}`}
+                  <b>Số điện thoại:</b> {`+ 84 ${fNumber(Number(deliveryInfo.phone))}`}
                 </Typography>
               </Stack>
             </Paper>
