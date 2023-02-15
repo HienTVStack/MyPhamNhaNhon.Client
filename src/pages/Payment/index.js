@@ -131,9 +131,11 @@ function Payment() {
           toWard: user?.addressWard,
         }),
       ]);
-
       if (paymentOption.success) {
         setPaymentOptionList(paymentOption?.paymentOptions);
+      }
+      if (deliveryPrice.data.code === 200) {
+        setDeliveryPrice(deliveryPrice.data.data.total);
       }
       if (checkTotalInvoiceVerifyDiscount.success) {
         const { valueDiscount, valueDiscountMax } = checkTotalInvoiceVerifyDiscount;
@@ -141,9 +143,7 @@ function Payment() {
         const priceDiscount = totalInvoice(productPayment) * (valueDiscount / 100);
         setDiscountTotalInvoice(Math.min(priceDiscount, valueDiscountMax));
       }
-      if (deliveryPrice.data.code === 200) {
-        setDeliveryPrice(deliveryPrice.data.data.total);
-      }
+     
     } catch (err) {
       console.error(err);
     } finally {
@@ -290,7 +290,7 @@ function Payment() {
       }
     } catch (error) {
       console.error(error);
-      setToastMessage({ open: true, type: "error", message: "Có lỗi xảy ra" });
+      setToastMessage({ open: true, type: "error", message: error.data?.message || "Có lỗi xảy ra" });
     }
 
     setLoading(false);
