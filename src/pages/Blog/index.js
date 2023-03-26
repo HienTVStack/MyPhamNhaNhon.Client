@@ -11,6 +11,7 @@ import Subscribe from "../../layouts/components/Subscribe";
 import Contact from "../../layouts/components/Contact";
 import BlogItemRight from "./BlogItemRight";
 import BlogItemBox from "./BlogItemBox";
+import tagApi from "../../api/tagsApi";
 
 function Blog() {
   const theme = useTheme();
@@ -20,21 +21,35 @@ function Blog() {
   const [loading, setLoading] = useState(false);
   // const [blogs, setBlogs] = useState([]);
   const [pageCount, setPageCount] = useState(Number);
+  const [tagList, setTagList] = useState([]);
 
   // const query = new URLSearchParams(location.search);
   // const page = parseInt(query.get("page"));
 
-  const fetchData = async () => {
+  // const fetchData = async () => {
+  //   try {
+  //     const res = await blogApi.getAll();
+  //     console.log("🚀 ~ file: index.js:28 ~ fetchDataa ~ res:", res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const fetchTagData = async () => {
     try {
-      const res = await blogApi.getAll();
-      console.log("🚀 ~ file: index.js:28 ~ fetchDataa ~ res:", res);
+      const res = await tagApi.getAll();
+      const { success, message, tags } = res;
+      if(success) {
+        setTagList(tags);
+      } 
+      
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData();
+    fetchTagData();
   }, []);
 
   return (
@@ -59,7 +74,7 @@ function Blog() {
                 ))}
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                <BlogItemRight />
+                <BlogItemRight tagList={tagList} />
               </Grid>
             </Grid>
             <Grid

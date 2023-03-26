@@ -6,7 +6,6 @@ import { fDateTime } from "../../utils/formatTime";
 
 function BlogItemBox(props) {
   const { blog } = props;
-  console.log("🚀 ~ file: BlogItemBox.js:8 ~ BlogItemBox ~ blog:", blog);
   return (
     <div
       style={{

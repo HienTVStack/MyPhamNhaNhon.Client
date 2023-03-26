@@ -2,12 +2,14 @@ import React from "react";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 
-function BlogItemRight() {
+function BlogItemRight(props) {
+  const { tagList } = props;
   return (
     <div>
       <h4 color='#757575'>Các đề xuất gợi ý</h4>
       <Box display={"block"} padding='10px'>
-        <Box
+        {tagList.slice(0,5).map(tagItem => (
+          <Box
           borderRadius={"15px"}
           alignItems='center'
           color='#333'
@@ -18,10 +20,12 @@ function BlogItemRight() {
           }}
         >
           <Typography type='tag' align='center'>
-            Font-end / Mobile app
+            {tagItem.name}
           </Typography>
         </Box>
-        <Box
+        )) }
+        
+        {/* <Box
           borderRadius={"15px"}
           alignItems='center'
           color='#333'
@@ -62,7 +66,7 @@ function BlogItemRight() {
           <Typography type='tag' align='center'>
             Others
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
       <Box alignItems={"center"}>
         <img
